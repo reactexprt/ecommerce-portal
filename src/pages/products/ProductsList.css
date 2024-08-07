@@ -1,0 +1,100 @@
+/* src/pages/ProductsList.css */
+
+.products-list {
+  margin-top: 60px;
+  font-family: 'Open Sans', sans-serif;
+  padding: 20px;
+  background: linear-gradient(to bottom, #fefefe, #e9e9e9);
+  color: #333;
+}
+
+.products-list h1 {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem; /* Larger for more impact */
+  margin-bottom: 40px; /* More space for a luxurious feel */
+  color: #2c3e50; 
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px; /* Increased gap for a more spacious layout */
+  padding: 0 30px; 
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: 15px; /* Softer, more luxurious corners */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* More pronounced shadow */
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* For layering elements */
+}
+
+.product-card:hover {
+  transform: translateY(-10px); /* Higher lift for more drama */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  cursor: pointer;
+}
+
+.product-image {
+  width: 100%;
+  height: 250px; /* Consistent height for a uniform look */
+  object-fit: cover; /* Ensures image covers the area */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1); /* Slightly more zoom for emphasis */
+  opacity: 0.9; /* Slight opacity change for depth effect */
+}
+
+.product-info {
+  padding: 20px;
+  text-align: center;
+  background-color: #fefefe; /* Subtle background for contrast */
+  border-top: 1px solid #ddd; /* Refined border separation */
+}
+
+.product-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; /* Slightly larger for emphasis */
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.product-price {
+  font-size: 1.4rem; /* Larger for prominence */
+  color: #16a085; /* Elegant, muted green for pricing */
+  font-weight: 600;
+}
+
+.loading, .error {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  color: #c0392b; /* Rich, deep red for errors */
+}
+
+.loading {
+  color: #2980b9; /* Rich, deep blue for loading state */
+}
+
+/* Additional rich elements */
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1));
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.product-card:hover::before {
+  opacity: 1; /* Subtle gradient overlay on hover */
+}
+

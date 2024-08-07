@@ -1,0 +1,161 @@
+/* src/components/Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  padding: 20px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modal-thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.modal-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.modal-details {
+  text-align: center;
+}
+
+.modal-details h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.modal-details p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.modal-price {
+  font-size: 1.5rem;
+  color: #16a085;
+  margin-bottom: 20px;
+}
+
+.add-to-cart-button {
+  background: #16a085;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+  background: #138f75;
+}
+
+/* Lightbox CSS */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-close-button {
+  position: fixed; /* Changed to fixed positioning */
+  top: 30px; /* Position at the top of the viewport */
+  right: 100px; /* Position at the right of the viewport */
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  /* z-index: 1200; Ensure it appears above other elements */
+}
+
+.lightbox-image {
+  width: 200%;
+  max-width: 80vw; /* Adjusted to take up 80% of the viewport width */
+  max-height: 80vh; /* Adjusted to take up 80% of the viewport height */
+  border-radius: 10px;
+  object-fit: contain; /* Ensure the image maintains its aspect ratio */
+}
+  
+  /* .modal-details {
+    width: 100%;
+  } */
+  
+  /* .modal-price {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 20px 0;
+  } */
+  
+  /* .add-to-cart-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  } */
+  
+  /* .add-to-cart-button:hover {
+    background-color: #218838;
+  } */
+  
