@@ -10,7 +10,7 @@ const ImageSlider = ({ images }) => {
     if (hovering) {
       slideInterval.current = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-      }, 1000); // Change image every 3 seconds
+      }, 2000); // Change image every 3 seconds
     }
 
     return () => {
