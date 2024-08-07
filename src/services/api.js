@@ -22,7 +22,8 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   response => response,
   error => {
-    if (error.response && error.response.status === 401) {
+    if (error.response 
+      && (error.response.status === 401 || error.response.status === 400)) {
       // Redirect to login page on session timeout
       alert('Session has timed out, please log in again.');
       localStorage.removeItem('token');
