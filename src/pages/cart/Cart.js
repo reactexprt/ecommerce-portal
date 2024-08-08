@@ -44,7 +44,7 @@ const Cart = () => {
                 <div className="cart-item-details">
                   <div className="cart-item-info">
                     <h3>{item.productId.name}</h3>
-                    <p>${(item.productId.price * item.quantity).toFixed(2)}</p> {/* Display the total price for this item */}
+                    <p>₹{(item.productId.price * item.quantity).toFixed(2)}</p> {/* Display the total price for this item */}
                   </div>
                   <div className="cart-item-controls">
                     <button
@@ -65,7 +65,7 @@ const Cart = () => {
         ))}
       </div>
       <div className="cart-total">
-        <h3>Total Amount: ${(totalAmount).toFixed(2)}</h3> {/* Display total amount correctly */}
+        <h3>Total Amount: ₹{(totalAmount).toFixed(2)}</h3> {/* Display total amount correctly */}
         <button className="buy-button" onClick={() => navigate('/payment', { state: { totalAmount } })}>Click to Buy</button>
       </div>
     </div>
