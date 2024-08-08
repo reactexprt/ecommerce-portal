@@ -17,11 +17,16 @@ class ErrorBoundary extends Component {
     console.error("ErrorBoundary caught an error", error, errorInfo);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.hasError && !prevState.hasError) {
+      // Navigate to the Technical Error page
+      this.props.navigate('/technical-error');
+    }
+  }
+
   render() {
     if (this.state.hasError) {
-      // Redirect to the Technical Error page
-      this.props.navigate('/technical-error');
-      return null;
+      return null; // Return null to prevent rendering of the broken UI
     }
 
     return this.props.children;

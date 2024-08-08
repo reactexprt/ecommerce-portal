@@ -1,47 +1,66 @@
-/* src/pages/TechnicalErrorPage.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
 .error-container {
-    margin-top: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: linear-gradient(135deg, #e09, #d0e);
+    background: #666;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .error-content {
-    text-align: center;
-    background: white;
-    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    background: #ebb47c;
+    /* padding: 40px; */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
+    /* max-width: 500px; */
     width: 100%;
+    height: 100%;
+    animation: fadeIn 0.5s ease-in-out;
   }
   
   .error-content h1 {
+    margin: 0;
     font-size: 2.5em;
-    margin-bottom: 20px;
     color: #333;
   }
   
   .error-content p {
+    margin: 0;
     font-size: 1.2em;
     color: #666;
-    margin-bottom: 30px;
   }
   
   .error-button {
-    background-color: #007bff;
-    color: white;
+    padding: 12px 30px;
+    background-color: #333;
+    color: #ebb47c;
     border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 5px;
+    border-radius: 50px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
   }
   
   .error-button:hover {
-    background-color: #0056b3;
+    background-color: #666;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   }
   
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
