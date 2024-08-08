@@ -1,4 +1,3 @@
-// src/services/api.js
 import axios from 'axios';
 import history from './history';
 
@@ -22,12 +21,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   response => response,
   error => {
-    if (error.response 
-      && (error.response.status === 401 || error.response.status === 400)) {
-      // Redirect to login page on session timeout
-      alert('Session has timed out, please log in again.');
-      localStorage.removeItem('token');
-      history.push('/login');
+    if (error.response) {
+      if (error.response.status === 401 || error.response.status === 400) {
+        localStorage.removeItem('token');
+        history.push('/timeout');
+        window.location.reload(); // Reload to ensure the redirection works
+      }
+    } else {
+      // If no response (e.g., server is down), navigate to the technical error page
+      history.push('/technical-error');
       window.location.reload(); // Reload to ensure the redirection works
     }
     return Promise.reject(error);
@@ -35,4 +37,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-
