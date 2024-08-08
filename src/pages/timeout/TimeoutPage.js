@@ -19,7 +19,7 @@ const TimeoutPage = () => {
         <div className="timeout-body">
           <p>For your security, you have been logged out. Please log in again to continue.</p>
         </div>
-        <button className="timeout-button" onClick={handleBackToLogin}>Back to Login</button>
+        <button className="timeout-button" onClick={handleBackToLogin}>BACK TO LOGIN</button>
       </div>
     </div>
   );

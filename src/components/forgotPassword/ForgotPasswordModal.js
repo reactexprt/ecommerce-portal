@@ -62,14 +62,14 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         <div>
-          <h2>Reset Password</h2>
+          <h2>RESET PASSWORD</h2>
         </div>
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
         {!otpSent ? (
           <form onSubmit={handleRequestOtp}>
             <div className="form-group">
-              <label>Email</label>
+              <label>EMAIL</label>
               <input
                 type="email"
                 value={email}
@@ -78,7 +78,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
               />
             </div>
             <button type="submit" disabled={loading}>
-              {loading ? 'Sending OTP...' : 'Request OTP'}
+              {loading ? 'SENDING OTP...' : 'REQUEST OTP'}
             </button>
           </form>
         ) : (
@@ -93,7 +93,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
               />
             </div>
             <div className="form-group">
-              <label>New Password</label>
+              <label>NEW PASSWORD</label>
               <input
                 type="password"
                 value={newPassword}
@@ -102,7 +102,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
               />
             </div>
             <div className="form-group">
-              <label>Confirm Password</label>
+              <label>CONFIRM PASSWORD</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -110,7 +110,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
                 required
               />
             </div>
-            <button type="submit">Reset Password</button>
+            <button type="submit">RESET PASSWORD</button>
           </form>
         )}
       </div>

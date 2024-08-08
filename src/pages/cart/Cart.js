@@ -1,20 +1,21 @@
-// src/pages/Cart.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import api from '../../services/api';
 import { fetchCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions';
+import AddressManager from '../../components/addressManager/AddressManager';
 import './Cart.css';
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cart.cartItems) || [];
   const navigate = useNavigate();
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  // Calculate the total amount correctly
   const totalAmount = cartItems.reduce((sum, item) => {
     if (item.productId && item.productId.price) {
       return sum + item.productId.price * item.quantity;
@@ -22,10 +23,23 @@ const Cart = () => {
     return sum;
   }, 0);
 
+  const handleOrderConfirm = async () => {
+    try {
+      await api.post('/orders/order', {
+        shippingAddress: selectedAddress,
+        cartItems,
+        totalAmount
+      });
+      navigate('/payment', { state: { totalAmount } })
+    } catch (error) {
+      console.error('Error placing order:', error);
+    }
+  };
+
   if (cartItems.length === 0) {
     return (
       <div className="cart-empty">
-        <h2>Your Cart is Empty</h2>
+        <h2>YOUR CART IS EMPTY</h2>
         <p>Looks like you haven't added anything to your cart yet.</p>
         <Link to="/products" className="btn btn-shop">Go Shopping</Link>
       </div>
@@ -34,7 +48,7 @@ const Cart = () => {
 
   return (
     <div className="cart-page">
-      <h2>Your Shopping Cart</h2>
+      <h2>YOUR SHOPPING CART</h2>
       <div className="cart-items">
         {cartItems.map((item, index) => (
           <div className="cart-item" key={index}>
@@ -44,7 +58,7 @@ const Cart = () => {
                 <div className="cart-item-details">
                   <div className="cart-item-info">
                     <h3>{item.productId.name}</h3>
-                    <p>₹{(item.productId.price * item.quantity).toFixed(2)}</p> {/* Display the total price for this item */}
+                    <p>₹{(item.productId.price * item.quantity).toFixed(2)}</p>
                   </div>
                   <div className="cart-item-controls">
                     <button
@@ -65,9 +79,18 @@ const Cart = () => {
         ))}
       </div>
       <div className="cart-total">
-        <h3>Total Amount: ₹{(totalAmount).toFixed(2)}</h3> {/* Display total amount correctly */}
-        <button className="buy-button" onClick={() => navigate('/payment', { state: { totalAmount } })}>Click to Buy</button>
+        <h3>TOTAL AMOUNT: ₹{(totalAmount).toFixed(2)}</h3>
+        {/* <button className="buy-button" onClick={() => navigate('/payment', { state: { totalAmount } })}>Click to Buy</button> */}
       </div>
+      <AddressManager onSelectAddress={setSelectedAddress} />
+      <button 
+        className={`buy-button ${!selectedAddress ? 'disabled' : ''}`} 
+        onClick={handleOrderConfirm} 
+        disabled={!selectedAddress}
+        title={!selectedAddress ? 'Please add and select an address before proceeding' : ''}
+      >
+        BUY NOW
+      </button>
     </div>
   );
 };

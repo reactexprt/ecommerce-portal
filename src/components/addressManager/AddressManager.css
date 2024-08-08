@@ -1,0 +1,126 @@
+/* src/components/addressManager/AddressManager.css */
+
+.address-manager {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.address-manager h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #333;
+}
+  
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .address-form input[type="text"],
+  .address-form button {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .address-form input[type="text"] {
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  .address-form button {
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .address-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .address-form button[type="submit"] {
+    background-color: #28a745;
+  }
+  
+  .address-form button[type="submit"]:hover {
+    background-color: #218838;
+  }
+  
+  .address-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .address-list li {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .address-list li.selected {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  }
+  
+  .address-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .address-actions button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .address-actions button:hover {
+    background-color: #5a6268;
+  }
+  
+  .address-actions button:nth-child(1) {
+    background-color: #ffc107;
+  }
+  
+  .address-actions button:nth-child(1):hover {
+    background-color: #e0a800;
+  }
+  
+  .address-actions button:nth-child(2) {
+    background-color: #dc3545;
+  }
+  
+  .address-actions button:nth-child(2):hover {
+    background-color: #c82333;
+  }
+  
+  .address-actions button:nth-child(3) {
+    background-color: #007bff;
+  }
+  
+  .address-actions button:nth-child(3):hover {
+    background-color: #0056b3;
+  }
+  

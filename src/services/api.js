@@ -24,8 +24,8 @@ api.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401 || error.response.status === 400) {
         localStorage.removeItem('token');
-        history.push('/timeout');
-        window.location.reload(); // Reload to ensure the redirection works
+        history.push('/technical-error');
+        window.location.reload();// Reload to ensure the redirection works
       }
     } else {
       // If no response (e.g., server is down), navigate to the technical error page

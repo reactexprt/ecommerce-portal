@@ -15,7 +15,7 @@ const TechnicalErrorPage = () => {
       <div className="error-content">
         <h1>Oops! Something Went Wrong</h1>
         <p>We're sorry, but something went wrong on our end. Please try again later.</p>
-        <button className="error-button" onClick={handleBackToHome}>Back to Home</button>
+        <button className="error-button" onClick={handleBackToHome}>BACK TO HOME</button>
       </div>
     </div>
   );

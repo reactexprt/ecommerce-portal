@@ -40,11 +40,11 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <h2>Login</h2>
+      <h2>LOGIN</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
-          <label>Email</label>
+          <label>EMAIL</label>
           <input
             type="email"
             value={email}
@@ -53,7 +53,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <label>Password</label>
+          <label>PASSWORD</label>
           <input
             type="password"
             value={password}
@@ -61,14 +61,14 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">LOGIN</button>
       </form>
       <div className="login-footer">
         <button className="btn-link forgot-password" onClick={handleForgotPasswordClick}>
-          Forgot Password?
+          FORGOT PASSWORD?
         </button>
         <button className="btn-link new-user" onClick={() => navigate('/register')}>
-          New User? Register
+          NEW USER? REGISTER
         </button>
       </div>
       {isModalOpen 

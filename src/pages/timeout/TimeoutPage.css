@@ -6,7 +6,7 @@
   justify-content: center;
   height: 100vh;
   /* background: linear-gradient(135deg, #c5b1b1 25%, #c5b1b1 100%); */
-  font-family: 'Montserrat', sans-serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .timeout-content {
@@ -36,34 +36,35 @@
 .timeout-header h1 {
   margin: 0;
   font-size: 2.5rem;
-  color: #343a40;
+  color: #8b4513;
 }
 
 .timeout-header p {
   margin: 0;
   font-size: 1.2rem;
-  color: #6c757d;
+  color: #8b4513;
 }
 
 .timeout-body p {
   font-size: 1rem;
-  color: #495057;
+  color: #8b4513;
   margin: 0;
 }
 
 .timeout-button {
   padding: 12px 30px;
-  background-color: #333;
+  background-color: #8b4513;
   color: #ebb47c;
   border: none;
   border-radius: 50px;
   font-size: 1rem;
   cursor: pointer;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 
 .timeout-button:hover {
-  background-color: #666;
+  background-color: #b7520b;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }

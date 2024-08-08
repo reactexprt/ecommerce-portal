@@ -22,7 +22,7 @@ const Home = () => {
           <li>Can be used as a natural hair conditioner, adding shine and softness.</li>
         </ul>
         <p>Discover the natural goodness of apricot oil and enhance your beauty routine with our premium product. Perfect for daily use and suitable for all skin types.</p>
-        <Link to="/products" className="btn btn-primary">Shop Now</Link> {/* Use Link for navigation */}
+        <Link to="/products" className="btn btn-primary">SHOP NOW</Link> {/* Use Link for navigation */}
       </div>
     </div>
   );

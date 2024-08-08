@@ -22,35 +22,35 @@ const Modal = ({ product, closeModal }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="close-button" onClick={closeModal}>X</button>
-        <div className="modal-body">
-          <div className="modal-images">
+    <div className="custom-modal-overlay">
+      <div className="custom-modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="custom-close-button" onClick={closeModal}>X</button>
+        <div className="custom-modal-body">
+          <div className="custom-modal-images">
             {product.images.map((image, index) => (
               <img
                 key={index}
                 src={image}
                 alt={`${product.name} ${index + 1}`}
-                className="modal-thumbnail"
+                className="custom-modal-thumbnail"
                 onClick={() => handleImageClick(image)}
               />
             ))}
           </div>
-          <div className="modal-details">
+          <div className="custom-modal-details">
             <h2>{product.name}</h2>
             <p>{product.description}</p>
-            <p className="modal-price">₹{product.price}</p>
-            <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
+            <p className="custom-modal-price">₹{product.price}</p>
+            <button className="custom-add-to-cart-button" onClick={handleAddToCart}>ADD TO CART</button>
           </div>
         </div>
       </div>
 
       {selectedImage && (
-        <div className="lightbox-overlay" onClick={closeLightbox}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close-button" onClick={closeLightbox}>X</button>
-            <img src={selectedImage} alt="Selected" className="lightbox-image" />
+        <div className="custom-lightbox-overlay" onClick={closeLightbox}>
+          <div className="custom-lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="custom-lightbox-close-button" onClick={closeLightbox}>X</button>
+            <img src={selectedImage} alt="Selected" className="custom-lightbox-image" />
           </div>
         </div>
       )}

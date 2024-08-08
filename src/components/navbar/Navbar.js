@@ -20,18 +20,18 @@ const Navbar = () => {
     <nav className="navbar">
       <h1>E-commerce Platform</h1>
       <div className="nav-buttons">
-        <Link to="/" className="btn btn-home">Home</Link>
+        <Link to="/" className="btn btn-home">HOME</Link>
         {isAuthenticated ? (
           <>
             <Link to="/cart" className="btn btn-cart">
-              Cart <span className="cart-count">{cartItems.length}</span>
+              CART <span className="cart-count">{cartItems.length}</span>
             </Link>
-            <button onClick={handleLogout} className="btn btn-logout">Logout</button>
+            <button onClick={handleLogout} className="btn btn-logout">LOGOUT</button>
           </>
         ) : (
           <>
-            <Link to="/login" className="btn btn-primary">Login</Link>
-            <Link to="/register" className="btn btn-secondary">Register</Link>
+            <Link to="/login" className="btn nav-btn-primary">LOGIN</Link>
+            <Link to="/register" className="btn btn-secondary">REGISTER</Link>
           </>
         )}
       </div>

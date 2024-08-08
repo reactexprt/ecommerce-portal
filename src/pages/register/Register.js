@@ -29,11 +29,11 @@ const Register = () => {
 
   return (
     <div className="register-page">
-      <h2>Create an Account</h2>
+      <h2>REGISTER</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleRegister}>
-        <div>
-          <label>Username</label>
+        <div className='inputDiv'>
+          <label>USERNAME</label>
           <input
             type="text"
             value={username}
@@ -43,8 +43,8 @@ const Register = () => {
             maxLength="20"
           />
         </div>
-        <div>
-          <label>Email</label>
+        <div className='inputDiv'>
+          <label>EMAIL</label>
           <input
             type="email"
             value={email}
@@ -52,8 +52,8 @@ const Register = () => {
             required
           />
         </div>
-        <div>
-          <label>Password</label>
+        <div className='inputDiv'>
+          <label>PASSWORD</label>
           <input
             type="password"
             value={password}
@@ -62,8 +62,8 @@ const Register = () => {
             minLength="6"
           />
         </div>
-        <div>
-          <label>Confirm Password</label>
+        <div className='inputDiv'>
+          <label>CONFIRM PASSWORD</label>
           <input
             type="password"
             value={confirmPassword}
@@ -71,7 +71,7 @@ const Register = () => {
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">CREATE NEW ACCOUNT</button>
       </form>
     </div>
   );
