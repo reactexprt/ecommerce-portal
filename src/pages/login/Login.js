@@ -6,6 +6,7 @@ import api from '../../services/api';
 import ForgotPasswordModal from '../../components/forgotPassword/ForgotPasswordModal'; // Import the modal
 import './Login.css';
 import { login } from '../../redux/actions/authActions';
+import GoogleSignIn from '../../components/GoogleSignIn';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -20,9 +21,7 @@ const Login = () => {
     try {
       const response = await api.post('/users/login', { email, password });
       dispatch({ type: 'LOGIN_SUCCESS', payload: { user: response.data.user, token: response.data.token } });
-      dispatch(login(email, password)); 
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      dispatch(login(response.data.user, response.data.token));
       navigate('/products');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Invalid email or password. Please try again.';
@@ -63,6 +62,12 @@ const Login = () => {
         </div>
         <button type="submit">LOGIN</button>
       </form>
+
+      {/* Google Sign-In Button */}
+      <div className="google-signin-container">
+        <GoogleSignIn />
+      </div>
+
       <div className="login-footer">
         <button className="btn-link forgot-password" onClick={handleForgotPasswordClick}>
           FORGOT PASSWORD?

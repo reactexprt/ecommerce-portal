@@ -13,18 +13,14 @@ export const logout = () => {
   };
 };
 
-export const login = (email, password) => async dispatch => {
+export const login = (user, token) => async dispatch => {
   try {
-    // TODO - we are already calling it from Login.js
-    const response = await api.post('/users/login', { email, password });
-    dispatch({ type: 'LOGIN_SUCCESS', payload: { user: response.data.user, token: response.data.token } });
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify(response.data.user));
-
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     // Fetch user cart after successful login
     const cartResponse = await api.get('/cart', {
       headers: {
-        Authorization: `Bearer ${response.data.token}`,
+        Authorization: `Bearer ${token}`,
       }
     });
     const cartItems = cartResponse.data;
