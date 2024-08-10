@@ -22,11 +22,14 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response) {
-      if (error.response.status === 401 || error.response.status === 400) {
-        localStorage.removeItem('token');
-        history.push('/technical-error');
-        window.location.reload();// Reload to ensure the redirection works
-      }
+      // if (error.response.status === 401 || error.response.status === 400) {
+      //   localStorage.removeItem('token');
+      //   history.push('/technical-error');
+      //   window.location.reload();// Reload to ensure the redirection works
+      // }
+      // localStorage.removeItem('token');
+      // history.push('/technical-error');
+      // window.location.reload();
     } else {
       // If no response (e.g., server is down), navigate to the technical error page
       history.push('/technical-error');

@@ -10,8 +10,6 @@ export const loginSuccess = (user, token) => ({
 export const logout = () => {
   return (dispatch) => {
     dispatch({ type: 'LOGOUT' });
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
   };
 };
 

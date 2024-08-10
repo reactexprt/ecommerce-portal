@@ -10,7 +10,7 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Cart from './pages/cart/Cart';
 import Payment from './pages/payment/Payment';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import setupInactivityTimeout from './utils/inactivityTimeout';
 import history from './services/history';
 
@@ -20,9 +20,10 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
+  const dispatch = useDispatch();
   useEffect(() => {
-    setupInactivityTimeout();
-  }, []);
+    setupInactivityTimeout(dispatch);
+  }, [dispatch]);
 
   return (
     <Router history={history}>
