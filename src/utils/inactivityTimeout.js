@@ -4,23 +4,22 @@ const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
 let timeout;
 
-const resetTimeout = (dispatch) => {
+const resetTimeout = () => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
-    // Dispatch LOGOUT action to update isAuthenticated state
-    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('token');
     history.push('/timeout');
     window.location.reload(); // Reload to ensure the redirection works
   }, INACTIVITY_TIMEOUT);
 };
 
-const setupInactivityTimeout = (dispatch) => {
-  window.addEventListener('mousemove', resetTimeout(dispatch));
-  window.addEventListener('keydown', resetTimeout(dispatch));
-  window.addEventListener('scroll', resetTimeout(dispatch));
-  window.addEventListener('click', resetTimeout(dispatch));
+const setupInactivityTimeout = () => {
+  window.addEventListener('mousemove', resetTimeout);
+  window.addEventListener('keydown', resetTimeout);
+  window.addEventListener('scroll', resetTimeout);
+  window.addEventListener('click', resetTimeout);
 
-  resetTimeout(dispatch);
+  resetTimeout();
 };
 
 export default setupInactivityTimeout;

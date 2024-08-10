@@ -111,3 +111,8 @@
 .login-footer .new-user:hover {
   color: #ebb47c;
 }
+
+.google-signin-container {
+  text-align: center;
+  margin: 20px 0;
+}
