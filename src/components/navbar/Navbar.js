@@ -1,7 +1,8 @@
-// src/components/Navbar.js
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faShoppingCart, faSignInAlt, faUserPlus, faSignOutAlt, faBoxOpen, faTags } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
 
@@ -10,34 +11,44 @@ const Navbar = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [tooltip, setTooltip] = useState(null);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');
   };
 
+  const buttons = [
+    { icon: faHome, tooltip: 'Home', onClick: () => navigate('/home') },
+    { icon: faBoxOpen, tooltip: 'Products', onClick: () => navigate('/products') },
+    { icon: faShoppingCart, tooltip: 'Cart', onClick: () => navigate('/cart'), visible: isAuthenticated },
+    { icon: faSignInAlt, tooltip: 'Login', onClick: () => navigate('/login'), visible: !isAuthenticated },
+    { icon: faUserPlus, tooltip: 'Register', onClick: () => navigate('/register'), visible: !isAuthenticated, className: "register" },
+    { icon: faSignOutAlt, tooltip: 'Logout', onClick: handleLogout, visible: isAuthenticated, className: "logout-icon-container" },
+  ];
+
   return (
     <nav className="navbar">
       <h1>E-commerce Platform</h1>
       <div className="nav-buttons">
-        <Link to="/" className="btn btn-home">HOME</Link>
-        {isAuthenticated ? (
-          <>
-            <Link to="/cart" className="btn btn-cart">
-              CART <span className="cart-count">{cartItems.length}</span>
-            </Link>
-            <button onClick={handleLogout} className="btn btn-logout">LOGOUT</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="btn nav-btn-primary">LOGIN</Link>
-            <Link to="/register" className="btn btn-secondary">REGISTER</Link>
-          </>
-        )}
+        {buttons.filter(button => button.visible !== false).map((button, index) => (
+          <div
+            key={index}
+            className={`icon-button ${button.className || ''}`}
+            onClick={button.onClick}
+            onMouseEnter={() => setTooltip(button.tooltip)}
+            onMouseLeave={() => setTooltip(null)}
+          >
+            <FontAwesomeIcon icon={button.icon} />
+            {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
+            {button.tooltip === 'Cart' && cartItems.length > 0 && (
+              <span className="cart-count">{cartItems.length}</span>
+            )}
+          </div>
+        ))}
       </div>
     </nav>
   );
 };
 
 export default Navbar;
-

@@ -12,7 +12,7 @@
   text-align: center;
   margin-bottom: 24px;
   font-size: 2rem;
-  color: #333;
+  color: #8b4513;
 }
 
 .address-form {
@@ -27,11 +27,12 @@
 }
 
 .address-form input[type="text"],
-.address-form .phone-input-container {
+.address-form .phone-input-container .form-control {
   padding: 12px;
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
+  background-color: #e9d9c9; /* Set the background color for all input fields */
   width: 100%;
 }
 
@@ -47,12 +48,24 @@
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
+  background-color: #e9d9c9;
 }
 
 .address-form .phone-input-container .flag-dropdown {
-  background-color: #fff;
+  background-color: #e9d9c9;
   border-radius: 8px;
   border: 1px solid #ccc;
+}
+
+.address-form .phone-input-container .flag-dropdown:hover {
+  background-color: #d0b8a3;
+}
+
+.address-form .phone-input-container .country-list {
+  background-color: #e9d9c9;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .address-form .checkbox-label {
@@ -60,6 +73,37 @@
   align-items: center;
   font-size: 1rem;
   margin-bottom: 15px;
+  color: #8b4513;
+}
+
+.address-form input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  background-color: #e9d9c9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.address-form input[type="checkbox"]:hover {
+  background-color: #d0b8a3;
+  border-color: #b38b6d;
+}
+
+.address-form input[type="checkbox"]:checked::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 6px;
+  height: 10px;
+  border: solid #8b4513;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .address-form .location-button,
@@ -97,7 +141,7 @@
 }
 
 .address-list li {
-  background-color: #fff;
+  background-color: #e9d9c9;
   border: 1px solid #ccc;
   padding: 15px;
   margin-bottom: 15px;
