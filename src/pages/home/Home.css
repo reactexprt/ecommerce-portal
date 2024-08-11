@@ -103,7 +103,7 @@
 /* Media Queries for Responsiveness */
 
 /* Tablets */
-@media (max-width: 1024px) {
+@media (max-width: 780px) {
   .home-page {
     margin-top: 0;
   }
