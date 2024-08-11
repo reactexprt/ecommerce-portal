@@ -1,0 +1,31 @@
+/* src/styles/variables.css */
+
+/* Common Constants */
+:root {
+    --primary-bg-color: #8b4513;
+    --secondary-bg-color: #ebb47c;
+    --input-bg-color: #e9d9c9;
+    --primary-text-color: #ebb47c;
+    --secondary-text-color: #8b4513;
+    --button-hover-bg-color: #b7520b;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --font-family-primary: Georgia, 'Times New Roman', Times, serif;
+    --font-family-secondary: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    --border-radius: 10px;
+    --max-width: 400px;
+  
+    /* Navbar specific constants */
+    --navbar-height: 60px;
+    --navbar-bg-color: #333;
+    --navbar-icon-color: #ebb47c;
+    --navbar-icon-hover-color: #ee9843;
+    --tooltip-bg-color: #333;
+    --tooltip-text-color: #ee9843;
+    --cart-count-bg-color: red;
+    --font-size-large: 1.8rem;
+    --icon-size: 24px;
+    --icon-button-padding: 8px;
+    --icon-margin-right: 50px;
+    --gap-between-buttons: 15px;
+  }
+  

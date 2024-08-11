@@ -1,32 +1,36 @@
+/* src/components/Navbar.css */
+
+@import '../../styles/variables.css'; /* Import shared variables */
+
 .navbar {
   display: flex;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 60px;
+  height: var(--navbar-height);
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background-color: #333;
-  color: #ebb47c;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--navbar-bg-color);
+  color: var(--primary-text-color);
+  box-shadow: var(--box-shadow);
   z-index: 1000;
 }
 
 .navbar h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: var(--font-size-large);
   letter-spacing: 1px;
 }
 
 .nav-buttons {
   display: flex;
-  gap: 15px;
+  gap: var(--gap-between-buttons);
 }
 
 .icon-button {
   display: inline-block;
-  padding: 8px;
+  padding: var(--icon-button-padding);
   cursor: pointer;
   position: relative;
   transition: transform 0.2s;
@@ -37,17 +41,17 @@
 }
 
 .icon-button svg {
-  fill: #ebb47c; /* Default icon color */
-  width: 24px;
-  height: 24px;
+  fill: var(--navbar-icon-color); /* Default icon color */
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
 .icon-button:hover svg {
-  fill: #ee9843; /* Icon color on hover */
+  fill: var(--navbar-icon-hover-color); /* Icon color on hover */
 }
 
 .icon-button.register, .icon-button.logout-icon-container {
-  margin-right: 50px;
+  margin-right: var(--icon-margin-right);
 }
 
 /* Tooltip styling */
@@ -56,11 +60,11 @@
   top: 30px; /* Adjust the position of the tooltip */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #ee9843;
+  background-color: var(--tooltip-bg-color);
+  color: var(--tooltip-text-color);
   padding: 5px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--tooltip-font-size);
   white-space: nowrap;
   opacity: 0.9;
   pointer-events: none;
@@ -75,11 +79,50 @@
   position: absolute;
   top: -5px;
   right: -10px;
-  background-color: red;
+  background-color: var(--cart-count-bg-color);
   border-radius: 50%;
   padding: 2px 8px;
   color: white;
   font-size: 0.8rem;
   font-weight: bold;
   line-height: 1;
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .navbar h1 {
+    font-size: 1.5rem;
+  }
+
+  .icon-button.register,
+  .icon-button.logout-icon-container {
+    margin-right: 30px;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .navbar h1 {
+    font-size: 1.2rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px;
+  }
+
+  .nav-buttons {
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: flex-start;
+  }
+
+  .icon-button.register,
+  .icon-button.logout-icon-container {
+    margin-right: 20px;
+  }
 }
