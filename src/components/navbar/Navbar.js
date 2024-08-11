@@ -39,7 +39,7 @@ const Navbar = () => {
             onMouseEnter={() => setTooltip(button.tooltip)}
             onMouseLeave={() => setTooltip(null)}
           >
-            <FontAwesomeIcon icon={button.icon} />
+            <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
             {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
             {button.tooltip === 'Cart' && cartItems.length > 0 && (
               <span className="cart-count">{cartItems.length}</span>

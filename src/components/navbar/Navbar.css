@@ -40,14 +40,16 @@
   transform: scale(1.1);
 }
 
-.icon-button svg {
-  fill: var(--navbar-icon-color); /* Default icon color */
+.icon-button .awesome-icon {
+  fill: var(--navbar-icon-color);
   width: var(--icon-size);
   height: var(--icon-size);
+  color: var(--navbar-icon-color);;
 }
 
-.icon-button:hover svg {
-  fill: var(--navbar-icon-hover-color); /* Icon color on hover */
+.icon-button:hover .awesome-icon {
+  fill: var(--navbar-icon-hover-color);
+  color: var(--navbar-icon-hover-color);
 }
 
 .icon-button.register, .icon-button.logout-icon-container {
@@ -57,7 +59,7 @@
 /* Tooltip styling */
 .tooltip {
   position: absolute;
-  top: 30px; /* Adjust the position of the tooltip */
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--tooltip-bg-color);
