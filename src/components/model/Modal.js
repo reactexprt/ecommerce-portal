@@ -10,7 +10,7 @@ const Modal = ({ product, closeModal }) => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
-    closeModal(); // Close the modal after adding to cart
+    closeModal();
   };
 
   const handleImageClick = (image) => {

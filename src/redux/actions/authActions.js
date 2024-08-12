@@ -2,9 +2,9 @@
 import api from '../../services/api'
 import { updateCart } from './cartActions';
 
-export const loginSuccess = (user, token) => ({
+export const loginSuccess = (token) => ({
   type: 'LOGIN_SUCCESS',
-  payload: { user, token },
+  payload: { token }
 });
 
 export const logout = () => {
@@ -13,10 +13,9 @@ export const logout = () => {
   };
 };
 
-export const login = (user, token) => async dispatch => {
+export const login = (token) => async dispatch => {
   try {
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
     // Fetch user cart after successful login
     const cartResponse = await api.get('/cart', {
       headers: {

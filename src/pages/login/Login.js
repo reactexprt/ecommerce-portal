@@ -20,8 +20,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post('/users/login', { email, password });
-      dispatch({ type: 'LOGIN_SUCCESS', payload: { user: response.data.user, token: response.data.token } });
-      dispatch(login(response.data.user, response.data.token));
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { token: response.data.token } });
+      dispatch(login(response.data.token));
       navigate('/products');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Invalid email or password. Please try again.';
