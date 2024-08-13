@@ -1,5 +1,5 @@
 const initialState = {
-  isAuthenticated: !!localStorage.getItem('token'),
+  isAuthenticated: !!localStorage.getItem('token') || false,
   token: localStorage.getItem('token') || null
 };
 

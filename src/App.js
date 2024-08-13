@@ -13,6 +13,7 @@ import Payment from './pages/payment/Payment';
 import { useSelector } from 'react-redux';
 import setupInactivityTimeout from './utils/inactivityTimeout';
 import history from './services/history';
+import './App.css';
 
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);

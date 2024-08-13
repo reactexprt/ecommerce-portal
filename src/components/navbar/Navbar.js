@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faShoppingCart, faSignInAlt, faUserPlus, faSignOutAlt, faBoxOpen, faTags } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
+import  { fetchCart } from '../../redux/actions/cartActions';
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -12,6 +13,12 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [tooltip, setTooltip] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, isAuthenticated]);
 
   const handleLogout = () => {
     dispatch(logout());

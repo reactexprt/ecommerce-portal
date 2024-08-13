@@ -2,7 +2,6 @@
 
 /* Cart Page Container */
 .cart-page {
-  margin-top: 80px;
   padding: 20px;
   background-color: var(--primary-bg-color);
   font-family: var(--font-family-primary);
