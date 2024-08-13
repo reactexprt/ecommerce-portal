@@ -26,13 +26,12 @@ api.interceptors.response.use(
     if (error.response) {
       
       const errorMessage = error.response.data?.message || error.response.statusText;
-      // Check if the error message is "Invalid token"
-      // if (errorMessage === "Invalid token") {
-      //   store.dispatch(logout());
-      //   history.push('/timeout');
-      //   history.go(0);
-      //   // window.location.reload();
-      // }
+      if (errorMessage === "Invalid token") {
+        store.dispatch(logout());
+        history.push('/login');
+        // history.go(0);
+        // window.location.reload();
+      }
 
       // if (error.response.status === 401 || error.response.status === 400) {
       //   localStorage.removeItem('token');
