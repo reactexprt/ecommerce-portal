@@ -1,29 +1,19 @@
-import history from '../services/history'; // Ensure you have a custom history object
-import store from '../redux/store'; // import your redux store
+import history from '../services/history';
+import store from '../redux/store';
 import { logout } from '../redux/actions/authActions';
 
-const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+const TOKEN_TIMEOUT = 45 * 60 * 1000;
 
-let timeout;
-
-const resetTimeout = () => {
-  clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    // localStorage.removeItem('token');
-    store.dispatch(logout());
-    history.push('/timeout');
-    // window.location.reload(); // Reload to ensure the redirection works
-    history.go(0);
-  }, INACTIVITY_TIMEOUT);
+// Not matter if inactive or not we will time it out after 45 minutes once the page loads
+const handleTimeout = () => {
+  store.dispatch(logout());
+  history.push('/timeout');
+  history.go(0);
 };
 
 const setupInactivityTimeout = () => {
-  window.addEventListener('mousemove', resetTimeout);
-  window.addEventListener('keydown', resetTimeout);
-  window.addEventListener('scroll', resetTimeout);
-  window.addEventListener('click', resetTimeout);
-
-  resetTimeout();
+  setTimeout(handleTimeout, TOKEN_TIMEOUT);
 };
 
 export default setupInactivityTimeout;
+

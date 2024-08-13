@@ -15,12 +15,13 @@ import setupInactivityTimeout from './utils/inactivityTimeout';
 import history from './services/history';
 import './App.css';
 
-const PrivateRoute = ({ children }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-};
-
 function App() {
+  const authToken = localStorage.getItem('token');
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const PrivateRoute = ({ children }) => {
+    return !!authToken && isAuthenticated ? children : <Navigate to="/login" replace />;
+  };
+
   useEffect(() => {
     setupInactivityTimeout();
   }, []);
