@@ -16,15 +16,6 @@ export const logout = () => {
 export const login = (token) => async dispatch => {
   try {
     localStorage.setItem('token', token);
-    // Fetch user cart after successful login
-    const cartResponse = await api.get('/cart', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    const cartItems = cartResponse.data;
-    // Dispatch action to update cart in frontend
-    dispatch(updateCart(cartItems));
   } catch (error) {
     console.error('Login error:', error);
     // Handle error, maybe dispatch an error action
