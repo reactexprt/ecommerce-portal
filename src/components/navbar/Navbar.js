@@ -36,7 +36,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <h1>E-commerce Platform</h1>
+      <div className="navbar-logo-title">
+        <img src="/images/himalayanrasa.png" alt="Rasa Icon" className="navbar-icon" />
+        <h1>Himalayan Rasa</h1>
+      </div>
       <div className="nav-buttons">
         {buttons.filter(button => button.visible !== false).map((button, index) => (
           <div

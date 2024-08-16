@@ -6,7 +6,7 @@ import './Home.css'; // Import the CSS file for styling
 const Home = () => {
   return (
     <div className="home-page">
-      <h1>Welcome to Our E-commerce Platform</h1>
+      <h1>Welcome to Our Himalayan Rasa Platform</h1>
       <p>Your one-stop shop for all your needs.</p>
       <div className="product-highlight">
         <h2>Handmade Apricot Oil from the Himalayas</h2>
