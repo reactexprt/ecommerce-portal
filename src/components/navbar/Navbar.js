@@ -45,7 +45,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-logo-title">
         <img src="/images/himalayanrasa.png" alt="Rasa Icon" className="navbar-icon" />
-        <h1>Himalayan Rasa</h1>
+        <h1>Ħimalayan R̥asa</h1>
       </div>
       <div className="nav-buttons">
         {buttons.filter(button => button.visible !== false).map((button, index) => (
