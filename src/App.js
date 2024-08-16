@@ -10,6 +10,7 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Cart from './pages/cart/Cart';
 import Payment from './pages/payment/Payment';
+import PaymentSuccess from './pages/payment/PaymentSuccess';
 import { useSelector } from 'react-redux';
 import setupInactivityTimeout from './utils/inactivityTimeout';
 import history from './services/history';
@@ -61,6 +62,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundaryWrapper>

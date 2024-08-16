@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './ForgotPasswordModal.css';
 import api from '../../services/api'; // Adjust the path to your api file accordingly
 
@@ -14,7 +16,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
 
   const handleRequestOtp = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when starting the request
+    setLoading(true);
     try {
       await api.post('/users/request-reset-password', { email });
       setOtpSent(true);
@@ -25,7 +27,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
       setError(errorMessage);
       setSuccess(null);
     } finally {
-      setLoading(false); // Set loading to false when request is complete
+      setLoading(false);
     }
   };
 
@@ -78,7 +80,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
               />
             </div>
             <button type="submit" disabled={loading}>
-              {loading ? 'SENDING OTP...' : 'REQUEST OTP'}
+              {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'REQUEST OTP'}
             </button>
           </form>
         ) : (

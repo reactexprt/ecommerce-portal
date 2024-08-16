@@ -3,7 +3,8 @@ import {
   FETCH_CART,
   ADD_TO_CART,
   REMOVE_FROM_CART,
-  UPDATE_CART_ITEM
+  UPDATE_CART_ITEM,
+  CLEAR_CART
 } from '../actions/cartActions';
 
 const initialCartState = {
@@ -52,6 +53,11 @@ export default function cartReducer(state = initialCartState, action) {
       return {
         ...state,
         cartItems: action.payload,
+      };
+    case CLEAR_CART:
+      return {
+        ...state,
+        cartItems: []
       };
     default:
       return state;

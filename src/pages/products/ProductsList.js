@@ -1,6 +1,8 @@
 // src/pages/ProductsList.js
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
 import Modal from '../../components/model/Modal';
@@ -35,7 +37,15 @@ const ProductsList = () => {
     setSelectedProduct(null);
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+        <p>Loading products...</p>
+      </div>
+    );
+  }
+
   if (error) return <div className="error">{error}</div>;
 
   return (

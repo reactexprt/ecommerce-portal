@@ -24,17 +24,19 @@ const Cart = () => {
     return sum;
   }, 0);
 
-  const handleOrderConfirm = async () => {
-    try {
-      await api.post('/orders/order', {
-        shippingAddress: selectedAddress,
-        cartItems,
-        totalAmount
+  const handleOrderConfirm = () => {
+    if (selectedAddress) {
+      navigate('/payment', {
+        state: {
+          selectedAddress,
+          totalAmount,
+          cartItems
+        }
       });
-      navigate('/payment', { state: { totalAmount } })
-    } catch (error) {
-      console.error('Error placing order:', error);
+    } else {
+      alert('Please add and select a delivery address before proceeding to payment page.');
     }
+
   };
 
   if (cartItems.length === 0) {
@@ -94,9 +96,9 @@ const Cart = () => {
         </div>
         <AddressManager onSelectAddress={setSelectedAddress} />
         <button 
-          className={`buy-button ${!selectedAddress ? 'disabled' : ''}`} 
+          className='buy-button'  //${!selectedAddress ? 'disabled' : ''}
           onClick={handleOrderConfirm} 
-          disabled={!selectedAddress}
+          // disabled={!selectedAddress}
           title={!selectedAddress ? 'Please add and select an address before proceeding' : ''}
         >
           BUY NOW
