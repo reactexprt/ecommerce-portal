@@ -1,6 +1,7 @@
 // src/pages/Register.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import api from '../../services/api';
 import './Register.css';
 
@@ -28,52 +29,57 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
-      <h2>REGISTER</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleRegister}>
-        <div className='inputDiv'>
-          <label>USERNAME</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            minLength="3"
-            maxLength="20"
-          />
-        </div>
-        <div className='inputDiv'>
-          <label>EMAIL</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className='inputDiv'>
-          <label>PASSWORD</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength="6"
-          />
-        </div>
-        <div className='inputDiv'>
-          <label>CONFIRM PASSWORD</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">CREATE NEW ACCOUNT</button>
-      </form>
-    </div>
+    <>
+      <Helmet>
+        <title>R̥egister - Ħimalayan R̥asa</title>
+      </Helmet>
+      <div className="register-page">
+        <h2>REGISTER</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <form onSubmit={handleRegister}>
+          <div className='inputDiv'>
+            <label>USERNAME</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              minLength="3"
+              maxLength="20"
+            />
+          </div>
+          <div className='inputDiv'>
+            <label>EMAIL</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className='inputDiv'>
+            <label>PASSWORD</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength="6"
+            />
+          </div>
+          <div className='inputDiv'>
+            <label>CONFIRM PASSWORD</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">CREATE NEW ACCOUNT</button>
+        </form>
+      </div>
+    </>
   );
 };
 

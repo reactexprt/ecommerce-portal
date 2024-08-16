@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faShoppingCart, faSignInAlt, faUserPlus, faSignOutAlt, faBoxOpen, faTags } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faHome, 
+  faShoppingCart, 
+  faSignInAlt, 
+  faUserPlus, 
+  faSignOutAlt, 
+  faBoxOpen 
+} from '@fortawesome/free-solid-svg-icons'; // faTags
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
 import  { fetchCart } from '../../redux/actions/cartActions';

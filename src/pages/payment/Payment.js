@@ -4,6 +4,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useSelector } from 'react-redux';
 import { Elements } from '@stripe/react-stripe-js';
+import { Helmet } from 'react-helmet-async';
 import api from '../../services/api';
 import './Payment.css';
 
@@ -130,14 +131,19 @@ const PaymentForm = () => {
 
 const Payment = () => {
   return (
-    <Elements stripe={stripePromise}>
-      <div className="payment-page">
-        <div className="payment-container">
-          <h1>Checkout</h1>
-          <PaymentForm />
+    <>
+      <Helmet>
+        <title>Paymenʈ - Ħimalayan R̥asa</title>
+      </Helmet>
+      <Elements stripe={stripePromise}>
+        <div className="payment-page">
+          <div className="payment-container">
+            <h1>Checkout</h1>
+            <PaymentForm />
+          </div>
         </div>
-      </div>
-    </Elements>
+      </Elements>
+    </>
   );
 };
 

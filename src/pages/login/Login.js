@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import api from '../../services/api';
 import ForgotPasswordModal from '../../components/forgotPassword/ForgotPasswordModal'; // Import the modal
-import './Login.css';
 import { login } from '../../redux/actions/authActions';
 import GoogleSignIn from '../../components/GoogleSignIn';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -38,54 +39,59 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <h2>LOGIN</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>EMAIL</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>PASSWORD</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">LOGIN</button>
-      </form>
+    <>
+      <Helmet>
+        <title>L̥ogin - Ħimalayan R̥asa</title>
+      </Helmet>
+      <div className="login-page">
+        <h2>LOGIN</h2>
+        {error && <p className="error">{error}</p>}
+        <form onSubmit={handleLogin}>
+          <div>
+            <label>EMAIL</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>PASSWORD</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">LOGIN</button>
+        </form>
 
-      {/* Google Sign-In Button */}
-      <div className="google-signin-container">
-        <GoogleSignIn />
-      </div>
+        {/* Google Sign-In Button */}
+        <div className="google-signin-container">
+          <GoogleSignIn />
+        </div>
 
-      <div className="login-footer">
-        <button className="btn-link forgot-password" onClick={handleForgotPasswordClick}>
-          FORGOT PASSWORD?
-        </button>
-        <button className="btn-link new-user" onClick={() => navigate('/register')}>
-          NEW USER? REGISTER
-        </button>
+        <div className="login-footer">
+          <button className="btn-link forgot-password" onClick={handleForgotPasswordClick}>
+            FORGOT PASSWORD?
+          </button>
+          <button className="btn-link new-user" onClick={() => navigate('/register')}>
+            NEW USER? REGISTER
+          </button>
+        </div>
+        {isModalOpen 
+          && 
+          <ForgotPasswordModal 
+            isOpen={isModalOpen} 
+            onClose={handleCloseModal}
+            setLoginEmail={setEmail}
+            setLoginPassword={setPassword}
+          />
+        }
       </div>
-      {isModalOpen 
-        && 
-        <ForgotPasswordModal 
-          isOpen={isModalOpen} 
-          onClose={handleCloseModal}
-          setLoginEmail={setEmail}
-          setLoginPassword={setPassword}
-        />
-      }
-    </div>
+    </>
   );
 };
 
