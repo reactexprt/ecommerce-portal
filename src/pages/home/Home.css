@@ -100,10 +100,8 @@
 }
 
 /* Media Queries for Responsiveness */
-
 /* Tablets */
 @media (max-width: 780px) {
-
   .home-page h1 {
     font-size: 2rem;
   }
@@ -120,9 +118,9 @@
 
 /* Phones */
 @media (max-width: 480px) {
-
   .home-page h1 {
     font-size: 1.8rem;
+    margin-top: 40px;
   }
 
   .home-page p {

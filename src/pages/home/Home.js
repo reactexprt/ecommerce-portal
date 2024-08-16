@@ -10,7 +10,7 @@ const Home = () => {
         <title>Ħome - Ħimalayan R̥asa</title>
       </Helmet>
       <div className="home-page">
-        <h1>Welcome to Our Himalayan Rasa Platform</h1>
+        <h1>Welcome to Ħimalayan R̥asa</h1>
         <p>Your one-stop shop for all your needs.</p>
         <div className="product-highlight">
           <h2>Handmade Apricot Oil from the Himalayas</h2>
