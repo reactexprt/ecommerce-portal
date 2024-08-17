@@ -32,7 +32,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "react-scripts build",
     "start": "webpack serve --mode development --port 3000",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
