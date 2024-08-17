@@ -85,7 +85,6 @@ module.exports = {
     }),
     new DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         REACT_APP_CLIENT_ID: JSON.stringify(process.env.REACT_APP_CLIENT_ID),
         REACT_APP_RAZORPAY_KEY_ID: JSON.stringify(process.env.REACT_APP_RAZORPAY_KEY_ID),
         REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
