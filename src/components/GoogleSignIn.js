@@ -33,7 +33,7 @@ const GoogleSignIn = () => {
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}
-        redirectUri="http://localhost"
+        // redirectUri="http://localhost"
         scope="profile"
         // useOneTap
       />

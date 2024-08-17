@@ -13,7 +13,8 @@ const PaymentSuccess = () => {
         await api.post('/orders/order', {
           shippingAddress: address,
           cartItems,
-          totalAmount: amount
+          totalAmount: amount,
+          paymentStatus: 'Paid'
         });
       } catch (error) {
         console.error('Error sending order:', error);
