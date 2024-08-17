@@ -42,7 +42,7 @@ api.interceptors.response.use(
       // If no response (e.g., server is down), navigate to the technical error page
       history.push('/technical-error');
       // window.location.reload();
-      // history.go(0);
+      history.go(0);
     }
     return Promise.reject(error);
   }

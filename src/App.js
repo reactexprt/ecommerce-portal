@@ -41,7 +41,7 @@ function App() {
             <Routes>
               <Route path="/technical-error" element={<TechnicalErrorPage />} />
               <Route path="/timeout" element={<TimeoutPage />} />
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home />} exact />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route 

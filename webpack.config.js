@@ -5,7 +5,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 
-// require('dotenv').config();
+require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -41,6 +41,15 @@ module.exports = {
         },
       },
     },
+  },
+
+  devServer: {
+    historyApiFallback: true, // Fallback to index.html for Single Page Applications
+    static: {
+      directory: path.join(__dirname, 'dist'), // This replaces contentBase
+    },
+    compress: true, // Enable gzip compression for everything served
+    port: 3000, // Port to run the server on
   },
 
   // Module rules for loaders
