@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 
 // require('dotenv').config();
@@ -68,9 +69,9 @@ module.exports = {
   // Plugins to enhance Webpack functionality
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',  // Specify our HTML template
+      template: './public/index.html',  // Specify HTML template
       inject: 'body',  // Inject scripts into the body
-      minify: isProduction,  // Minify the output HTML
+      minify: isProduction,  // minify output HTML
     }),
     ...(isProduction ? [new BundleAnalyzerPlugin({
       analyzerMode: 'static',
@@ -83,12 +84,23 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8,
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'public',
+          to: '',
+          globOptions: {
+            ignore: ['**/index.html'],
+          },
+        },
+      ],
+    }),
     new DefinePlugin({
       'process.env': {
         REACT_APP_CLIENT_ID: JSON.stringify(process.env.REACT_APP_CLIENT_ID),
         REACT_APP_RAZORPAY_KEY_ID: JSON.stringify(process.env.REACT_APP_RAZORPAY_KEY_ID),
         REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
-  },
+      },
     }),
   ],
 
