@@ -17,7 +17,8 @@ const PaymentSuccess = () => {
           paymentStatus: 'Paid'
         });
       } catch (error) {
-        console.error('Error sending order:', error);
+        console.error('Error sending order');
+        navigate('/technicalError');
       }
     };
   

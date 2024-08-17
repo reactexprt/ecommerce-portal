@@ -29,18 +29,18 @@ api.interceptors.response.use(
       if (errorMessage === "Invalid token") {
         store.dispatch(logout());
         history.push('/login');
-        // history.go(0);
+        history.go(0);
         // window.location.reload();
       }
 
       // if (error.response.status === 401 || error.response.status === 400) {
       //   localStorage.removeItem('token');
-      //   history.push('/technical-error');
+      //   history.push('/technicalError');
       //   window.location.reload();// Reload to ensure the redirection works
       // }
     } else {
       // If no response (e.g., server is down), navigate to the technical error page
-      history.push('/technical-error');
+      history.push('/technicalError');
       // window.location.reload();
       history.go(0);
     }

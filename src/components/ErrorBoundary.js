@@ -20,7 +20,7 @@ class ErrorBoundary extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.hasError && !prevState.hasError) {
       // Navigate to the Technical Error page
-      this.props.navigate('/technical-error');
+      this.props.navigate('/technicalError');
     }
   }
 

@@ -39,7 +39,7 @@ function App() {
           <Navbar />
           <Suspense fallback={<div className="spinner-container"><FontAwesomeIcon icon={faSpinner} spin size="3x" /></div>}>
             <Routes>
-              <Route path="/technical-error" element={<TechnicalErrorPage />} />
+              <Route path="/technicalError" element={<TechnicalErrorPage />} />
               <Route path="/timeout" element={<TimeoutPage />} />
               <Route path="/" element={<Home />} exact />
               <Route path="/login" element={<Login />} />
