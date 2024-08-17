@@ -4,7 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CompressionPlugin = require('compression-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
