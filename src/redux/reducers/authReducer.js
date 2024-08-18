@@ -1,6 +1,7 @@
 const initialState = {
   isAuthenticated: !!localStorage.getItem('token') || false,
-  token: localStorage.getItem('token') || null
+  token: localStorage.getItem('token') || null,
+  userId: null
 };
 
 export default function authReducer(state = initialState, action) {
@@ -10,12 +11,15 @@ export default function authReducer(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         token: action.payload.token,
+        userId: action.payload.userId
       };
     case 'LOGOUT':
       localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
       return {
         isAuthenticated: false,
         token: null,
+        userId: null,
       };
     default:
       return state;

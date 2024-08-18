@@ -107,6 +107,10 @@
   margin: 20px 0;
 }
 
+.biometric-login-btn {
+  width: 31% !important;
+}
+
 /* Media Queries for Responsiveness */
 
 /* Tablets */

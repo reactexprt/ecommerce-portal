@@ -28,8 +28,8 @@ const Navbar = () => {
     }
   }, [dispatch, isAuthenticated]);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     navigate('/');
   };
 
