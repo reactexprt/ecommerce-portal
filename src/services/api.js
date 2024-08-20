@@ -47,7 +47,6 @@ api.interceptors.response.use(
         } catch (refreshError) {
           store.dispatch(logout());
           history.push('/login');
-          history.go(0);
         }
       }
 
