@@ -36,6 +36,7 @@ const PrivateRoute = ({ children }) => {
 const Spinner = () => (
   <div className="spinner-container">
     <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+    <p>Loading content, please wait...</p>
   </div>
 );
 
@@ -53,9 +54,31 @@ function App() {
             <Routes>
               <Route path="/technicalError" element={<TechnicalErrorPage />} />
               <Route path="/timeout" element={<TimeoutPage />} />
-              <Route path="/" element={<Home />} exact />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route 
+                path="/" 
+                element={
+                  <ErrorBoundaryWrapper>
+                    <Home />
+                  </ErrorBoundaryWrapper>
+                } 
+                exact 
+              />
+              <Route 
+                path="/login" 
+                element={
+                  <ErrorBoundaryWrapper>
+                    <Login />
+                  </ErrorBoundaryWrapper>
+                } 
+              />
+              <Route 
+                path="/register" 
+                element={
+                  <ErrorBoundaryWrapper>
+                    <Register />
+                  </ErrorBoundaryWrapper>
+                } 
+              />
               <Route
                 path="/cart"
                 element={
@@ -80,7 +103,9 @@ function App() {
                 path="/products"
                 element={
                   <PrivateRoute>
-                    <ProductsList />
+                    <ErrorBoundaryWrapper>
+                      <ProductsList />
+                    </ErrorBoundaryWrapper>
                   </PrivateRoute>
                 }
               />
