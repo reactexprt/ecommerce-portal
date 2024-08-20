@@ -23,7 +23,7 @@
   width: 100%;
   max-width: var(--max-width);
   background-color: var(--primary-text-color);
-  padding: 20px;
+  padding: 30px;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   box-sizing: border-box;
@@ -94,9 +94,9 @@
       margin-bottom: 10px;
   }
 
-  .register-page form {
+  /* .register-page form {
       padding: 10px;
-  }
+  } */
 
   .register-page input {
       padding: 8px;
