@@ -20,7 +20,7 @@ const PaymentSuccess = lazy(() => import('./pages/payment/PaymentSuccess'));
 
 // Import TimeoutPage and NotFound directly
 import TimeoutPage from './pages/timeout/TimeoutPage';
-import NotFound from './pages/notfound/NotFound';
+import NotFound from './pages/notFound/NotFound';
 
 const useAuth = () => {
   const authToken = localStorage.getItem('token');
