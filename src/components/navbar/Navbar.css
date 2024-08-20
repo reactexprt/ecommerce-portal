@@ -1,7 +1,6 @@
-/* src/components/Navbar.css */
-
 @import '../../styles/variables.css'; /* Import shared variables */
 
+/* Navbar Styles */
 .navbar {
   display: flex;
   position: fixed;
@@ -10,7 +9,7 @@
   height: var(--navbar-height);
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 15px 10px;
   background-color: var(--navbar-bg-color);
   color: var(--primary-text-color);
   box-shadow: var(--box-shadow);
@@ -55,7 +54,7 @@
   fill: var(--navbar-icon-color);
   width: var(--icon-size);
   height: var(--icon-size);
-  color: var(--navbar-icon-color);;
+  color: var(--navbar-icon-color);
 }
 
 .icon-button:hover .awesome-icon {
@@ -101,6 +100,11 @@
   line-height: 1;
 }
 
+/* Hide the bottom nav by default */
+.bottom-nav {
+  display: none;
+}
+
 /* Media Queries for Responsiveness */
 
 /* Tablets */
@@ -117,25 +121,44 @@
 
 /* Phones */
 @media (max-width: 480px) {
-  .navbar h1 {
-    font-size: 1.2rem;
-  }
-
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-    padding: 10px;
+    padding: 10px 0px;
   }
 
   .nav-buttons {
-    gap: 10px;
-    margin-top: 10px;
-    justify-content: flex-start;
+    display: none; /* Hide the top navbar buttons on mobile devices */
   }
 
-  .icon-button.register,
-  .icon-button.logout-icon-container {
-    margin-right: 20px;
+  .bottom-nav {
+    display: flex; /* Show the bottom navbar on mobile */
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--navbar-bg-color); /* Matching background color */
+    padding: 10px 0;
+    box-shadow: var(--box-shadow);
+    z-index: 1000;
+  }
+
+  .bottom-icon-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8rem;
+    padding: 5px;
+    color: var(--primary-text-color);
+  }
+
+  .bottom-icon-button .awesome-icon {
+    width: var(--icon-size); /* Consistent icon size */
+    height: var(--icon-size);
+  }
+
+  .bottom-icon-button span {
+    margin-top: 5px;
+    color: var(--primary-text-color); /* Text color matching the icon */
+    font-size: 0.7rem;
   }
 }

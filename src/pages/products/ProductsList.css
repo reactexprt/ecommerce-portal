@@ -1,31 +1,30 @@
-/* src/pages/ProductsList.css */
+@import '../../styles/variables.css'; /* Import shared variables */
 
 .products-list {
-  font-family: 'Open Sans', sans-serif;
-  padding: 20px;
-  background: linear-gradient(to bottom, #8b4513, #92450f);
-  color: #ebb47c;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: var(--font-family-primary);
+  padding: 80px 20px;
+  background: linear-gradient(to bottom, var(--primary-bg-color), #92450f);
+  color: var(--primary-text-color);
 }
 
 .products-list h1 {
   text-align: center;
   font-size: 3rem; /* Larger for more impact */
   margin-bottom: 40px; /* More space for a luxurious feel */
-  color: #ebb47c; 
+  color: var(--primary-text-color);
 }
 
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px; /* Increased gap for a more spacious layout */
-  padding: 0 30px; 
+  padding: 0 30px;
 }
 
 .product-card {
-  background: #ebb47c;
-  border-radius: 15px; /* Softer, more luxurious corners */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* More pronounced shadow */
+  background: var(--primary-text-color);
+  border-radius: var(--border-radius); /* Softer, more luxurious corners */
+  box-shadow: var(--box-shadow); /* More pronounced shadow */
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative; /* For layering elements */
@@ -52,20 +51,20 @@
 .product-info {
   padding: 20px;
   text-align: center;
-  background-color: #ebb47c; /* Subtle background for contrast */
+  background-color: var(--primary-text-color); /* Subtle background for contrast */
   border-top: 1px solid #ddd; /* Refined border separation */
 }
 
 .product-name {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-family-secondary);
   font-size: 1.6rem; /* Slightly larger for emphasis */
-  color: #8b4513;
+  color: var(--secondary-text-color);
   margin-bottom: 5px;
 }
 
 .product-price {
   font-size: 1.4rem; /* Larger for prominence */
-  color: #8b4513; /* Elegant, muted green for pricing */
+  color: var(--secondary-text-color); /* Elegant, muted green for pricing */
   font-weight: 600;
 }
 
@@ -80,7 +79,7 @@
   font-size: 1.5rem;
   text-align: center;
   padding: 50px;
-  color: #ebb47c;
+  color: var(--primary-text-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,3 +102,65 @@
   opacity: 1; /* Subtle gradient overlay on hover */
 }
 
+/* Responsive Styles */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .products-list h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+
+  .products-grid {
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .product-card {
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-info {
+    padding: 15px;
+  }
+
+  .product-name {
+    font-size: 1.4rem;
+  }
+
+  .product-price {
+    font-size: 1.2rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .products-list h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 0 15px;
+  }
+
+  .product-card {
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-info {
+    padding: 10px;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
+  }
+
+  .product-price {
+    font-size: 1rem;
+  }
+}

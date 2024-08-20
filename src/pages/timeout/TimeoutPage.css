@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import '../../styles/variables.css';
+
 
 .timeout-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  /* background: linear-gradient(135deg, #c5b1b1 25%, #c5b1b1 100%); */
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  background: var(--primary-bg-color);
+  font-family: var(--font-family-primary);
 }
 
 .timeout-content {
@@ -15,12 +17,11 @@
   align-items: center;
   justify-content: center;
   gap: 30px;
-  /* padding: 40px; */
-  border-radius: 15px;
-  background-color: #ebb47c;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  /* max-width: 500px; */
-  width: 100%;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-text-color);
+  box-shadow: var(--box-shadow);
+  min-width: 100%;
+  max-width: var(--max-width);
   height: 100%;
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -36,35 +37,35 @@
 .timeout-header h1 {
   margin: 0;
   font-size: 2.5rem;
-  color: #8b4513;
+  color: var(--primary-bg-color);
 }
 
 .timeout-header p {
   margin: 0;
   font-size: 1.2rem;
-  color: #8b4513;
+  color: var(--primary-bg-color);
 }
 
 .timeout-body p {
   font-size: 1rem;
-  color: #8b4513;
+  color: var(--primary-bg-color);
   margin: 0;
 }
 
 .timeout-button {
   padding: 12px 30px;
-  background-color: #8b4513;
-  color: #ebb47c;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
   border: none;
   border-radius: 50px;
   font-size: 1rem;
   cursor: pointer;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: var(--font-family-secondary);
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 
 .timeout-button:hover {
-  background-color: #b7520b;
+  background-color: var(--button-hover-bg-color);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
@@ -77,5 +78,58 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsive Design for Tablets and Mobile Devices */
+@media (max-width: 768px) {
+  .timeout-content {
+    gap: 20px;
+    padding: 20px;
+    max-width: 90%;
+    height: auto;
+  }
+
+  .timeout-header h1 {
+    font-size: 2rem;
+  }
+
+  .timeout-header p {
+    font-size: 1rem;
+  }
+
+  .timeout-body p {
+    font-size: 0.9rem;
+  }
+
+  .timeout-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeout-content {
+    gap: 15px;
+    padding: 15px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .timeout-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .timeout-header p {
+    font-size: 0.9rem;
+  }
+
+  .timeout-body p {
+    font-size: 0.8rem;
+  }
+
+  .timeout-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
   }
 }

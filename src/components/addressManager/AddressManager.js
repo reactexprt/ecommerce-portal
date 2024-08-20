@@ -145,6 +145,10 @@ const AddressManager = ({ onSelectAddress }) => {
     try {
       await api.delete(`/users/addresses/${id}`);
       setAddresses(addresses.filter((addr) => addr._id !== id));
+      if (selectedAddress?._id === id) {
+        setSelectedAddress(null); // Unselect if the selected address is deleted
+        onSelectAddress(null);
+      }
     } catch (error) {
       console.error('Error deleting address:', error);
     }
@@ -190,8 +194,13 @@ const AddressManager = ({ onSelectAddress }) => {
   };
 
   const handleSelectAddress = (addr) => {
-    setSelectedAddress(addr);
-    onSelectAddress(addr);
+    if (selectedAddress?._id === addr._id) {
+      setSelectedAddress(null); // Unselect if clicking the selected address
+      onSelectAddress(null);
+    } else {
+      setSelectedAddress(addr); // Select the clicked address
+      onSelectAddress(addr);
+    }
   };
 
   return (
@@ -199,6 +208,7 @@ const AddressManager = ({ onSelectAddress }) => {
       <h2>Manage Delivery Addresses</h2>
       <form onSubmit={handleSubmit} className="address-form">
 
+        {/* Form Fields */}
         <input
           type="text"
           name="label"
@@ -211,6 +221,7 @@ const AddressManager = ({ onSelectAddress }) => {
         />
         {errors.label && <span className="error-message">{errors.label}</span>}
 
+        {/* Remaining Input Fields... */}
         <input
           type="text"
           name="firstName"

@@ -144,6 +144,7 @@ const PaymentForm = () => {
           value={name}
           onChange={(e) => setName(e.target.value)} 
           required 
+          disabled
         />
       </div>
       <div className="form-group">
@@ -154,6 +155,7 @@ const PaymentForm = () => {
           value={email || ''}
           onChange={(e) => setEmail(e.target.value)} 
           required 
+          disabled
         />
       </div>
       <div className="form-group">
@@ -164,6 +166,7 @@ const PaymentForm = () => {
           value={contact || ''}
           onChange={(e) => setContact(e.target.value)} 
           required 
+          disabled
         />
       </div>
       <div className="form-group">
@@ -174,6 +177,7 @@ const PaymentForm = () => {
           onChange={(e) => setAddress(e.target.value)}
           required
           rows="3"
+          disabled
         />
       </div>
 

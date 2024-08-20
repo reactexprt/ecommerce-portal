@@ -1,4 +1,6 @@
 /* src/components/Modal.css */
+@import '../../styles/variables.css';
+
 .custom-modal-overlay {
   position: fixed;
   top: 0;
@@ -13,12 +15,13 @@
 }
 
 .custom-modal-content {
-  background: #ebb47c !important;
-  border-radius: 10px;
+  background: var(--primary-text-color) !important;
+  border-radius: var(--border-radius);
   max-width: 800px;
   width: 90%;
   padding: 20px;
   position: relative;
+  box-shadow: var(--box-shadow);
 }
 
 .custom-close-button {
@@ -26,7 +29,7 @@
   top: 10px;
   right: 10px;
   background: none;
-  color: #8b4513 !important;
+  color: var(--primary-bg-color) !important;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
@@ -50,7 +53,7 @@
   height: 100px;
   object-fit: cover;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   transition: transform 0.2s ease-in-out;
 }
 
@@ -60,7 +63,7 @@
 
 .custom-modal-details {
   text-align: center;
-  color: #8b4513 !important;
+  color: var(--primary-bg-color) !important;
 }
 
 .custom-modal-details h2 {
@@ -75,7 +78,7 @@
 
 .custom-modal-price {
   font-size: 1.8rem !important;
-  color: #8b4513;
+  color: var(--primary-bg-color);
   font-weight: 500;
   margin-bottom: 20px;
 }
@@ -83,18 +86,18 @@
 .custom-add-to-cart-button {
   margin-top: 15px;
   padding: 12px 30px;
-  background-color: #8b4513;
-  color: #ebb47c;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
   border: none;
   border-radius: 50px;
   font-size: 1rem;
   cursor: pointer;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: var(--font-family-secondary);
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 
 .custom-add-to-cart-button:hover {
-  background: #b7520b;
+  background: var(--button-hover-bg-color);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
@@ -123,47 +126,81 @@
 }
 
 .custom-lightbox-close-button {
-  position: fixed; /* Changed to fixed positioning */
-  top: 30px; /* Position at the top of the viewport */
-  right: 100px; /* Position at the right of the viewport */
+  position: fixed;
+  top: 30px;
+  right: 100px;
   background: none;
   border: none;
   font-size: 2rem;
   color: white;
   cursor: pointer;
-  /* z-index: 1200; Ensure it appears above other elements */
 }
 
 .custom-lightbox-image {
   width: 200%;
-  max-width: 80vw; /* Adjusted to take up 80% of the viewport width */
-  max-height: 80vh; /* Adjusted to take up 80% of the viewport height */
-  border-radius: 10px;
-  object-fit: contain; /* Ensure the image maintains its aspect ratio */
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: var(--border-radius);
+  object-fit: contain;
 }
 
-  
-  /* .modal-details {
-    width: 100%;
-  } */
-  
-  /* .modal-price {
+/* Responsive Design for Tablets and Mobile Devices */
+@media (max-width: 768px) {
+  .custom-modal-content {
+    padding: 15px;
+    max-width: 80%;
+  }
+
+  .custom-modal-details h2 {
     font-size: 1.5rem;
-    color: #333;
-    margin: 20px 0;
-  } */
-  
-  /* .add-to-cart-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
+  }
+
+  .custom-modal-price {
+    font-size: 1.5rem !important;
+  }
+
+  .custom-add-to-cart-button {
     padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-  } */
-  
-  /* .add-to-cart-button:hover {
-    background-color: #218838;
-  } */
-  
+    font-size: 0.9rem;
+  }
+
+  .custom-lightbox-close-button {
+    top: 20px;
+    right: 50px;
+  }
+
+  .custom-lightbox-image {
+    max-width: 90vw;
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-modal-content {
+    padding: 10px;
+    max-width: 95%;
+  }
+
+  .custom-modal-details h2 {
+    font-size: 1.2rem;
+  }
+
+  .custom-modal-price {
+    font-size: 1.2rem !important;
+  }
+
+  .custom-add-to-cart-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .custom-lightbox-close-button {
+    top: 15px;
+    right: 30px;
+  }
+
+  .custom-lightbox-image {
+    max-width: 95vw;
+    max-height: 65vh;
+  }
+}

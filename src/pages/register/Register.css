@@ -1,74 +1,109 @@
 /* src/pages/Register.css */
+@import '../../styles/variables.css';
+
 .register-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #8b4513;
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    /* font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--primary-bg-color);
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: var(--font-family-primary);
+}
+
+.register-page h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--primary-text-color);
+}
+
+.register-page form {
+  width: 100%;
+  max-width: var(--max-width);
+  background-color: var(--primary-text-color);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+}
+
+.register-page label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--primary-bg-color);
+}
+
+.register-page input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: var(--input-bg-color);
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  font-family: var(--font-family-primary);
+  font-size: medium;
+}
+
+.register-page button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: var(--font-family-secondary);
+}
+
+.register-page button:hover {
+  background-color: var(--button-hover-bg-color);
+}
+
+.register-page .error {
+  color: red;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Responsive Design for Tablets and Mobile Devices */
+@media (max-width: 768px) {
   .register-page h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #ebb47c;
+      font-size: 2rem;
+      margin-bottom: 15px;
   }
-  
+
   .register-page form {
-    width: 100%;
-    max-width: 400px;
-    background-color: #ebb47c;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+      padding: 15px;
   }
-  
-  .register-page label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #8b4513;
-  }
-  
-  .register-page input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    background-color: #e9d9c9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: medium;
-  }
-  
+
   .register-page button {
-    width: 100%;
-    padding: 12px;
-    /* background-color: #28a745; */
-    background-color: #8b4513;
-    color: #ebb47c;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 1rem;
+      padding: 10px;
   }
-  
-  .register-page button:hover {
-    /* background-color: #218838; */
-    background-color: #b7520b;
+}
+
+@media (max-width: 480px) {
+  .register-page h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
   }
-  
-  .register-page .error {
-    color: red;
-    margin-bottom: 20px;
-    text-align: center;
+
+  .register-page form {
+      padding: 10px;
   }
-  
+
+  .register-page input {
+      padding: 8px;
+  }
+
+  .register-page button {
+      font-size: 0.9rem;
+      padding: 8px;
+  }
+}
