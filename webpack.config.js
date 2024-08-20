@@ -5,6 +5,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // Ensures clean builds
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // Minifies CSS files
 
 require('dotenv').config();
 
@@ -51,6 +53,11 @@ module.exports = {
         },
       },
     },
+    minimize: isProduction, // Minimize the output in production mode
+    minimizer: [
+      '...', // Extend existing minimizers (e.g., `terser-webpack-plugin`)
+      new CssMinimizerPlugin(), // Minify CSS files in production
+    ],
   },
 
   // Development server configuration
@@ -73,6 +80,7 @@ module.exports = {
           loader: 'babel-loader', // Use Babel to transpile modern JavaScript and JSX
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'], // Presets for environment and React
+            plugins: ['@babel/plugin-transform-runtime'], // Optimize Babel runtime for reusability
           },
         },
       },
@@ -81,13 +89,23 @@ module.exports = {
         use: [
           isProduction ? MiniCssExtractPlugin.loader : 'style-loader', // Extract CSS in production, inject in development
           'css-loader', // Translates CSS into CommonJS modules
+          'postcss-loader', // Process CSS with PostCSS (for autoprefixing, etc.)
         ],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i, // Match image files
+        type: 'asset/resource', // Use asset modules to manage images
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i, // Match font files
+        type: 'asset/resource', // Use asset modules to manage fonts
       },
     ],
   },
 
   // Plugins to enhance Webpack functionality
   plugins: [
+    new CleanWebpackPlugin(), // Clean the output directory before each build
     new HtmlWebpackPlugin({
       template: './public/index.html', // HTML template to use
       inject: 'body', // Inject scripts into the body of the HTML
