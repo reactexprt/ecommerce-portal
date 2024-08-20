@@ -63,7 +63,7 @@
 }
 
 .icon-button.register, .icon-button.logout-icon-container {
-  margin-right: var(--icon-margin-right);
+  margin-right: 25px;
 }
 
 /* Tooltip styling */
@@ -160,5 +160,9 @@
     margin-top: 5px;
     color: var(--primary-text-color); /* Text color matching the icon */
     font-size: 0.7rem;
+  }
+
+  .icon-button.register, .icon-button.logout-icon-container {
+    margin-right: 0px;
   }
 }
