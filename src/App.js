@@ -6,17 +6,29 @@ import ErrorBoundaryWrapper from './components/ErrorBoundary';
 import Navbar from './components/navbar/Navbar';
 import { useSelector } from 'react-redux';
 import setupInactivityTimeout from './utils/inactivityTimeout';
+import history from './services/history';
 import './App.css';
 
-// Lazy loading components
-const TechnicalErrorPage = lazy(() => import('./pages/techError/TechnicalErrorPage'));
-const Home = lazy(() => import('./pages/home/Home'));
-const ProductsList = lazy(() => import('./pages/products/ProductsList'));
-const Login = lazy(() => import('./pages/login/Login'));
-const Register = lazy(() => import('./pages/register/Register'));
-const Cart = lazy(() => import('./pages/cart/Cart'));
-const Payment = lazy(() => import('./pages/payment/Payment'));
-const PaymentSuccess = lazy(() => import('./pages/payment/PaymentSuccess'));
+const loadable = (importFunc) => {
+  return lazy(() =>
+    importFunc().catch((err) => {
+      if (err.name === 'ChunkLoadError') {
+        window.location.reload();
+      }
+      throw err;
+    })
+  );
+};
+
+// Lazy loading components with error handling
+const TechnicalErrorPage = loadable(() => import('./pages/techError/TechnicalErrorPage'));
+const Home = loadable(() => import('./pages/home/Home'));
+const ProductsList = loadable(() => import('./pages/products/ProductsList'));
+const Login = loadable(() => import('./pages/login/Login'));
+const Register = loadable(() => import('./pages/register/Register'));
+const Cart = loadable(() => import('./pages/cart/Cart'));
+const Payment = loadable(() => import('./pages/payment/Payment'));
+const PaymentSuccess = loadable(() => import('./pages/payment/PaymentSuccess'));
 
 // Import TimeoutPage and NotFound directly
 import TimeoutPage from './pages/timeout/TimeoutPage';
@@ -46,7 +58,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <Router history={history}>
       <div className="App">
         <ErrorBoundaryWrapper>
           <Navbar />

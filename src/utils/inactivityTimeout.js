@@ -1,6 +1,4 @@
 import history from '../services/history';
-import store from '../redux/store';
-import { logout } from '../redux/actions/authActions';
 
 const TOKEN_TIMEOUT = 45 * 60 * 1000; // 45 minutes
 let timeout;
@@ -8,7 +6,6 @@ let timeout;
 const handleTimeout = () => {
   // store.dispatch(logout());
   history.push('/timeout');
-  history.go(0);
 };
 
 const resetTimeout = () => {
