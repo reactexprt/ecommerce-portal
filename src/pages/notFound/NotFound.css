@@ -1,0 +1,39 @@
+@import '../../styles/variables.css';
+
+.notfound-container {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    text-align: center;
+    padding: 50px 20px;
+    border-radius: var(--border-radius);
+    max-width: var(--max-width);
+    margin: 100px auto;
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family-primary);
+}
+
+.notfound-title {
+    font-size: 80px;
+    margin-bottom: 20px;
+    font-family: var(--font-family-secondary);
+    color: var(--secondary-text-color);
+}
+
+.notfound-message {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.notfound-home-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--secondary-bg-color);
+    color: var(--primary-bg-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease;
+}
+
+.notfound-home-link:hover {
+    background-color: var(--button-hover-bg-color);
+}

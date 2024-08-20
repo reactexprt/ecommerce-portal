@@ -6,12 +6,10 @@ import ErrorBoundaryWrapper from './components/ErrorBoundary';
 import Navbar from './components/navbar/Navbar';
 import { useSelector } from 'react-redux';
 import setupInactivityTimeout from './utils/inactivityTimeout';
-import history from './services/history';
 import './App.css';
 
 // Lazy loading components
 const TechnicalErrorPage = lazy(() => import('./pages/techError/TechnicalErrorPage'));
-const TimeoutPage = lazy(() => import('./pages/timeout/TimeoutPage'));
 const Home = lazy(() => import('./pages/home/Home'));
 const ProductsList = lazy(() => import('./pages/products/ProductsList'));
 const Login = lazy(() => import('./pages/login/Login'));
@@ -20,45 +18,63 @@ const Cart = lazy(() => import('./pages/cart/Cart'));
 const Payment = lazy(() => import('./pages/payment/Payment'));
 const PaymentSuccess = lazy(() => import('./pages/payment/PaymentSuccess'));
 
-function App() {
+// Import TimeoutPage and NotFound directly
+import TimeoutPage from './pages/timeout/TimeoutPage';
+import NotFound from './pages/notfound/NotFound';
+
+const useAuth = () => {
   const authToken = localStorage.getItem('token');
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  
-  const PrivateRoute = ({ children }) => {
-    return !!authToken && isAuthenticated ? children : <Navigate to="/login" replace />;
-  };
+  return !!authToken && isAuthenticated;
+};
 
+const PrivateRoute = ({ children }) => {
+  const isAuth = useAuth();
+  return isAuth ? children : <Navigate to="/login" replace />;
+};
+
+const Spinner = () => (
+  <div className="spinner-container">
+    <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+  </div>
+);
+
+function App() {
   useEffect(() => {
     setupInactivityTimeout();
   }, []);
 
   return (
-    <Router history={history}>
+    <Router>
       <div className="App">
         <ErrorBoundaryWrapper>
           <Navbar />
-          <Suspense fallback={<div className="spinner-container"><FontAwesomeIcon icon={faSpinner} spin size="3x" /></div>}>
+          <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/technicalError" element={<TechnicalErrorPage />} />
               <Route path="/timeout" element={<TimeoutPage />} />
               <Route path="/" element={<Home />} exact />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route 
-                path="/cart" 
+              <Route
+                path="/cart"
                 element={
                   <PrivateRoute>
-                    <Cart />
+                    <ErrorBoundaryWrapper>
+                      <Cart />
+                    </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/payment" 
+              <Route
+                path="/payment"
                 element={
                   <PrivateRoute>
-                    <Payment />
+                    <ErrorBoundaryWrapper>
+                      <Payment />
+                    </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
               <Route
                 path="/products"
@@ -69,7 +85,7 @@ function App() {
                 }
               />
               <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </ErrorBoundaryWrapper>
