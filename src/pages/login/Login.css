@@ -159,7 +159,7 @@
 }
 
 .biometric-login-btn {
-  width: 100% !important;
+  width: 25% !important;
   padding: 12px;
   background-color: var(--primary-bg-color);
   color: var(--primary-text-color);
