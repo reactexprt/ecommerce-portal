@@ -38,8 +38,8 @@
 
 .error-button {
   padding: 12px 30px;
-  background-color: var(--primary-bg-color);
-  color: var(--primary-text-color);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: none;
   border-radius: 50px;
   font-size: 1rem;

@@ -6,6 +6,7 @@ import ErrorBoundaryWrapper from './components/ErrorBoundary';
 import Navbar from './components/navbar/Navbar';
 import { useSelector } from 'react-redux';
 import setupInactivityTimeout from './utils/inactivityTimeout';
+import ScrollToTop from './utils/ScrollToTop';
 import history from './services/history';
 import './App.css';
 
@@ -29,6 +30,7 @@ const Register = loadable(() => import('./pages/register/Register'));
 const Cart = loadable(() => import('./pages/cart/Cart'));
 const Payment = loadable(() => import('./pages/payment/Payment'));
 const PaymentSuccess = loadable(() => import('./pages/payment/PaymentSuccess'));
+const Footer = loadable(() => import('./pages/footer/Footer'));
 
 // Import TimeoutPage and NotFound directly
 import TimeoutPage from './pages/timeout/TimeoutPage';
@@ -59,6 +61,7 @@ function App() {
 
   return (
     <Router history={history}>
+      <ScrollToTop />
       <div className="App">
         <ErrorBoundaryWrapper>
           <Navbar />
@@ -66,30 +69,30 @@ function App() {
             <Routes>
               <Route path="/technicalError" element={<TechnicalErrorPage />} />
               <Route path="/timeout" element={<TimeoutPage />} />
-              <Route 
-                path="/" 
+              <Route
+                path="/"
                 element={
                   <ErrorBoundaryWrapper>
                     <Home />
                   </ErrorBoundaryWrapper>
-                } 
-                exact 
+                }
+                exact
               />
-              <Route 
-                path="/login" 
+              <Route
+                path="/login"
                 element={
                   <ErrorBoundaryWrapper>
                     <Login />
                   </ErrorBoundaryWrapper>
-                } 
+                }
               />
-              <Route 
-                path="/register" 
+              <Route
+                path="/register"
                 element={
                   <ErrorBoundaryWrapper>
                     <Register />
                   </ErrorBoundaryWrapper>
-                } 
+                }
               />
               <Route
                 path="/cart"
@@ -125,6 +128,7 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          <Footer />
         </ErrorBoundaryWrapper>
       </div>
     </Router>

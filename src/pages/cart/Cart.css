@@ -2,7 +2,7 @@
 
 /* Cart Page Container */
 .cart-page {
-  padding: 90px 20px 20px 20px;
+  padding: 20px;
   background-color: var(--primary-bg-color);
   font-family: var(--font-family-primary);
   color: var(--primary-text-color);
@@ -12,11 +12,11 @@
 .cart-empty {
   text-align: center;
   font-size: 1.5rem;
-  color: #555;
+  color: var(--primary-text-color);
   margin-top: 180px;
   padding: 20px;
   border: 2px dashed #ddd;
-  background-color: var(--primary-bg-color);
+  background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   width: 80%;
@@ -39,8 +39,8 @@
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: var(--secondary-text-color);
-  color: var(--primary-bg-color);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   text-decoration: none;
   border-radius: var(--border-radius);
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
@@ -220,7 +220,7 @@
 
   .cart-item-image {
     width: 100%;
-    min-height: 50%;
+    height: 80%;
     margin-bottom: 10px;
   }
 

@@ -323,7 +323,7 @@ const AddressManager = ({ onSelectAddress }) => {
             country={form.countryCode || 'in'}
             value={form.phoneNumber}
             onChange={handlePhoneNumberChange}
-            inputStyle={{ width: 'calc(100% - 50px)', height: '40px', backgroundColor: '#e9d9c9' }}
+            // inputStyle={{  }}
             containerStyle={{ marginBottom: '15px' }}
             placeholder="Phone Number"
             inputRef={(el) => (inputRefs.current.phoneNumber = el)}

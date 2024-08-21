@@ -29,11 +29,11 @@
 }
 
 .notfound-home-link {
-    width: 120px;
+    width: 125px;
     display: inline-block;
     padding: 10px 20px;
-    background-color: var(--primary-bg-color);
-    color: var(--secondary-bg-color);
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     text-decoration: none;
     border-radius: var(--border-radius);
     transition: background-color 0.3s ease;

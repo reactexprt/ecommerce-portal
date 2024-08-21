@@ -1,4 +1,3 @@
-/* src/pages/Home.css */
 @import '../../styles/variables.css'; /* Import shared variables */
 
 .home-page {
@@ -7,26 +6,175 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 90px 20px;
+  padding: 30px 20px;
   background-color: var(--primary-bg-color);
   width: 100%;
-  min-height: 100vh;
   box-sizing: border-box;
   font-family: var(--font-family-primary);
 }
 
-.home-page h1 {
+/* Hero Section */
+.hero-section {
+  background-image: url('/public/images/himalayas-hero.png');
+  background-size: cover;
+  background-position: center;
+  padding: 100px 20px;
+  color: white;
+  text-align: center;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+.hero-section .btn-primary {
+  background-color: var(--home-button-bg-color);
+  color: var(--primary-text-color);
+}
+
+.hero-section .btn-primary:hover {
+  background-color: var(--home-button-hover-bg-button);
+}
+
+/* About the Himalayas Section */
+.about-himalayas {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: left;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-himalayas h2 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: var(--primary-text-color);
+  text-align: center;
 }
 
-.home-page p {
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.about-image {
+  flex: 1 1 50%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: var(--border-radius);
+}
+
+.about-text {
+  flex: 1 1 50%;
+  padding: 20px;
+}
+
+.about-text p {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.about-text ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.about-text ul li {
+  margin-bottom: 10px;
+}
+
+/* Sustainability Section */
+.sustainability-section {
+  padding: 60px 20px;
+  background-color: #004B49;
+  color: #fff;
+  text-align: center;
+}
+
+.sustainability-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.sustainability-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sustainability-section ul li {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 60px 20px;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.testimonials-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.testimonial {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+/* Newsletter Signup Section */
+.newsletter-signup {
+  padding: 60px 20px;
+  background-color: #004B49;
+  color: #fff;
+  text-align: center;
+}
+
+.newsletter-signup h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.newsletter-signup p {
   font-size: 1.2rem;
   margin-bottom: 40px;
-  color: var(--primary-text-color);
 }
 
+.newsletter-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.newsletter-form input {
+  padding: 12px;
+  border-radius: var(--border-radius);
+  border: none;
+  margin-right: 10px;
+  flex: 1 1 60%;
+  margin-bottom: 10px;
+}
+
+.newsletter-form button {
+  flex: 1 1 30%;
+}
+
+/* Product Highlight Section */
 .product-highlight {
   background-color: var(--secondary-bg-color);
   padding: 30px;
@@ -75,8 +223,8 @@
 
 .btn-primary {
   padding: 12px 30px;
-  background-color: var(--primary-bg-color);
-  color: var(--primary-text-color);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: none;
   border-radius: 50px;
   font-size: 1rem;
@@ -89,14 +237,6 @@
   background-color: var(--button-hover-bg-color);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.nav-btn-primary {
-  background-color: #28a745;
-}
-
-.nav-btn-primary:hover {
-  background-color: #218838;
 }
 
 /* Media Queries for Responsiveness */
@@ -114,17 +254,26 @@
     padding: 10px 25px;
     font-size: 0.9rem;
   }
+
+  .about-content {
+    flex-direction: column;
+  }
+
+  .about-image,
+  .about-text {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
 
 /* Phones */
 @media (max-width: 480px) {
   .home-page {
-    padding: 50px 20px 100px 20px;
+    padding: 10px 20px 20px 20px;
   }
 
   .home-page h1 {
     font-size: 1.8rem;
-    margin-top: 60px;
   }
 
   .home-page p {
@@ -138,5 +287,19 @@
   .btn-primary {
     font-size: 0.8rem;
     padding: 8px 20px;
+  }
+
+  .hero-section {
+    padding: 60px 20px;
+  }
+
+  .about-himalayas {
+    padding: 30px 20px;
+  }
+
+  .sustainability-section,
+  .testimonials-section,
+  .newsletter-signup {
+    padding: 30px 20px;
   }
 }

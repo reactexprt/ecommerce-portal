@@ -15,7 +15,7 @@
 }
 
 .custom-modal-content {
-  background: var(--primary-text-color) !important;
+  background: var(--primary-bg-color) !important;
   border-radius: var(--border-radius);
   max-width: 800px;
   width: 90%;
@@ -29,10 +29,17 @@
   top: 10px;
   right: 10px;
   background: none;
-  color: var(--primary-bg-color) !important;
+  color: var(--button-bg-color) !important;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-close-button:hover {
+  color: var(--button-hover-bg-color) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .custom-modal-body {
@@ -63,7 +70,7 @@
 
 .custom-modal-details {
   text-align: center;
-  color: var(--primary-bg-color) !important;
+  color: var(--secondary-text-color) !important;
 }
 
 .custom-modal-details h2 {
@@ -78,7 +85,7 @@
 
 .custom-modal-price {
   font-size: 1.8rem !important;
-  color: var(--primary-bg-color);
+  color: var(--secondary-text-color);
   font-weight: 500;
   margin-bottom: 20px;
 }
@@ -86,8 +93,8 @@
 .custom-add-to-cart-button {
   margin-top: 15px;
   padding: 12px 30px;
-  background-color: var(--primary-bg-color);
-  color: var(--primary-text-color);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: none;
   border-radius: 50px;
   font-size: 1rem;

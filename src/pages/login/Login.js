@@ -6,10 +6,14 @@ import api from '../../services/api';
 import ForgotPasswordModal from '../../components/forgotPassword/ForgotPasswordModal';
 import { login } from '../../redux/actions/authActions';
 import GoogleSignIn from '../../components/GoogleSignIn';
-import './Login.css';
-
-// Import WebAuthn library
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
+import ContactUsButton from '../../components/contactUs/ContactUsButton';
+
+// Import Font Awesome icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
+
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -107,7 +111,7 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Login - Himalayan Rasa</title>
+        <title>Ľogin - Ħimalayan R̥asa</title>
       </Helmet>
       <div className="login-page">
         <h2>LOGIN</h2>
@@ -116,7 +120,7 @@ const Login = () => {
         {/* Biometric Login Button */}
         {biometricEnabled && (
           <button onClick={handleBiometricLogin} className="biometric-login-btn">
-            Login with Face ID / Fingerprint
+            <FontAwesomeIcon icon={faFingerprint} /> Login with Face ID / Fingerprint
           </button>
         )}
 
@@ -155,6 +159,23 @@ const Login = () => {
           <button className="btn-link new-user" onClick={() => navigate('/register')}>
             NEW USER? REGISTER
           </button>
+        </div>
+
+        {/* Security Badges and Trust Seals */}
+        <div className="trust-badges">
+          <FontAwesomeIcon icon={faLock} /> Secure Checkout
+          <FontAwesomeIcon icon={faShieldAlt} /> Protected by SSL
+        </div>
+
+        {/* Customer Testimonials */}
+        <div className="testimonials">
+          <FontAwesomeIcon icon={faQuoteLeft} /> Himalayan Rasa has changed my life for the better. The best service ever! <FontAwesomeIcon icon={faQuoteRight} />
+          <p>- Abhinav Narchal</p>
+        </div>
+
+        {/* Contact Information */}
+        <div className="login-contact-info">
+          <FontAwesomeIcon icon={faHeadset} /> Need Help? <a href="/support">Contact Us</a>
         </div>
 
         {isModalOpen && (

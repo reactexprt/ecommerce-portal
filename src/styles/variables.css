@@ -2,31 +2,37 @@
 
 /* Common Constants */
 :root {
-    --primary-bg-color: #8b4513;
-    --secondary-bg-color: #ebb47c;
-    --input-bg-color: #e9d9c9;
-    --primary-text-color: #ebb47c;
-    --secondary-text-color: #8b4513;
-    --button-hover-bg-color: #b7520b;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --font-family-primary: Georgia, 'Times New Roman', Times, serif;
-    --font-family-secondary: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    --border-radius: 10px;
-    --max-width: 400px;
+  --primary-bg-color: #f4f4f4;  /* Coral */
+  --secondary-bg-color: #ffffff;  /* Teal */
+  --input-bg-color: #f9f9f9;  /* White or very light gray for inputs */
+  --primary-text-color: #333333;  /* Charcoal Gray */
+  --secondary-text-color: #333;  /* White for contrast on Teal background */
+  --button-text-color: #f9f9f9;
+  --button-bg-color: #333;
+  --button-hover-bg-color: #666;  /* Soft Golden Yellow */
+  --button-secondary-hover-bg-color: #f0f0f0;
+  --home-button-bg-color: #e67e22;
+  --home-button-hover-bg-button: #D35400;
   
-    /* Navbar specific constants */
-    --navbar-height: 45px;
-    --navbar-bg-color: #333;
-    --navbar-icon-color: #ebb47c;
-    --navbar-icon-hover-color: #ee9843;
-    --tooltip-bg-color: #333;
-    --tooltip-text-color: #ee9843;
-    --tooltip-font-size: 14px;
-    --cart-count-bg-color: red;
-    --font-size-large: 1.8rem;
-    --icon-size: 24px;
-    --icon-button-padding: 8px;
-    --icon-margin-right: 50px;
-    --gap-between-buttons: 15px;
-  }
-  
+  /* Enhancements */
+  --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  --font-family-primary: 'Montserrat', sans-serif;
+  --font-family-secondary: 'Roboto', sans-serif;
+  --border-radius: 8px;  /* Slightly rounded corners */
+  --max-width: 600px;  /* Increase max width for wider content */
+
+  /* Navbar specific constants */
+  --navbar-height: 60px;
+  --navbar-bg-color: #004B49;  /* Coral */
+  --navbar-icon-color: #FFFFFF;  /* White for icons */
+  --navbar-icon-hover-color: #FFB03B;  /* Golden Yellow on hover */
+  --tooltip-bg-color: #333333;  /* Charcoal Gray */
+  --tooltip-text-color: #FFFFFF;  /* White text on dark tooltip */
+  --tooltip-font-size: 14px;
+  --cart-count-bg-color: #FF6F61;  /* Coral matching primary */
+  --font-size-large: 2rem;
+  --icon-size: 28px;  /* Larger icons */
+  --icon-button-padding: 10px;  /* Slightly increased padding */
+  --icon-margin-right: 20px;
+  --gap-between-buttons: 20px;
+}

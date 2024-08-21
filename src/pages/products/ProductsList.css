@@ -2,7 +2,7 @@
 
 .products-list {
   font-family: var(--font-family-primary);
-  padding: 80px 20px;
+  /* padding: 80px 20px; */
   background: linear-gradient(to bottom, var(--primary-bg-color), #92450f);
   color: var(--primary-text-color);
 }
@@ -22,7 +22,7 @@
 }
 
 .product-card {
-  background: var(--primary-text-color);
+  background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius); /* Softer, more luxurious corners */
   box-shadow: var(--box-shadow); /* More pronounced shadow */
   overflow: hidden;
@@ -51,7 +51,7 @@
 .product-info {
   padding: 20px;
   text-align: center;
-  background-color: var(--primary-text-color); /* Subtle background for contrast */
+  background-color: var(--secondary-bg-color); /* Subtle background for contrast */
   border-top: 1px solid #ddd; /* Refined border separation */
 }
 
