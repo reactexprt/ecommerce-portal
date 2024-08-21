@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -21,6 +21,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const emailRef = useRef(null);  // Create a ref for the email input
+  const biometricBtnRef = useRef(null); // Create a ref for the biometric login button
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,22 +34,31 @@ const Login = () => {
       if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
-    if (!!getCookie('userEmail')) {
-      const storedEmail = decodeURIComponent(getCookie('userEmail')).trim();
+    const storedEmail = getCookie('userEmail') ? decodeURIComponent(getCookie('userEmail')).trim() : '';
+    
+    if (storedEmail) {
       setEmail(storedEmail);
+
       // Check if the user has enabled biometric login
       const checkBiometricStatus = async () => {
         try {
           const response = await api.get(`/users/biometric-status`, { params: { email: storedEmail } });
           if (response.data.biometricEnabled) {
             setBiometricEnabled(true);
+            biometricBtnRef.current.focus(); // Focus the biometric button if enabled
+            biometricBtnRef.current.click(); // Simulate a click on the biometric button
+          } else {
+            emailRef.current.focus(); // Focus the email input if biometric is not enabled
           }
         } catch (err) {
-          console.error('Error checking biometric status:');
+          console.error('Error checking biometric status:', err);
+          emailRef.current.focus(); // Fallback to focusing the email input in case of an error
         }
       };
 
       checkBiometricStatus();
+    } else {
+      emailRef.current.focus(); // Focus the email input if no stored email
     }
   }, []);
 
@@ -119,7 +130,7 @@ const Login = () => {
 
         {/* Biometric Login Button */}
         {biometricEnabled && (
-          <button onClick={handleBiometricLogin} className="biometric-login-btn">
+          <button onClick={handleBiometricLogin} ref={biometricBtnRef} className="biometric-login-btn">
             <FontAwesomeIcon icon={faFingerprint} /> Login with Face ID / Fingerprint
           </button>
         )}
@@ -132,6 +143,7 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              ref={emailRef} // Assign ref to the email input
               required
             />
           </div>
