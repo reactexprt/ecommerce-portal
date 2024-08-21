@@ -10,7 +10,7 @@ const ReturnsExchangesButton = () => {
   return (
     <>
       <button onClick={handleOpenModal} className='common-modal-button'>Returns & Exchanges</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="Returns Exchanges">
         <h2>Returns & Exchanges</h2>
         <p>
           Your satisfaction is our priority. If you're not completely satisfied with your purchase, we're here to help with our hassle-free return and exchange policy.

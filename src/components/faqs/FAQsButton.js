@@ -10,7 +10,7 @@ const FAQsButton = () => {
   return (
     <>
       <button onClick={handleOpenModal} className='common-modal-button'>FAQs</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="FAQs">
         <h2>Frequently Asked Questions (FAQs)</h2>
         <p>
           Here are some of the most common questions our customers ask. If you don't find the answer you're looking for, please contact us directly.

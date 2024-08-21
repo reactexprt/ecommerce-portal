@@ -10,8 +10,7 @@ const ContactUsButton = () => {
   return (
     <>
       <button onClick={handleOpenModal} className='common-modal-button'>Contact Us</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
-        <h2>Contact Us</h2>
+      <Modal show={showModal} onClose={handleCloseModal} title="Contact Us">
         <p>
           We're here to help! If you have any questions, concerns, or feedback, please don't hesitate to reach out to us. 
           Our team is committed to providing excellent customer service and we'll do our best to respond as quickly as possible.

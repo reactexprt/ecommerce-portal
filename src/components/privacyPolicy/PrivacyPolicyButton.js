@@ -10,7 +10,7 @@ const PrivacyPolicyButton = () => {
   return (
     <>
       <button className='common-modal-button' onClick={handleOpenModal}>Privacy Policy</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="Privacy Policy">
         <h2>Privacy Policy</h2>
         <p>
           At Himalayan Rasa, we are committed to protecting your privacy. This Privacy Policy outlines the types of information we collect, how we use it, and the steps we take to ensure it is protected.

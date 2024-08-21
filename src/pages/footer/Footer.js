@@ -27,7 +27,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-section about-us">
           <h2>About Us</h2>
-          <p>Himalayan Rasa is your one-stop shop for natural and organic products sourced directly from the pristine Himalayan mountains. Our mission is to provide quality products that enhance your well-being.</p>
+          <p className='common-text-color'>Himalayan Rasa is your one-stop shop for natural and organic products sourced directly from the pristine Himalayan mountains. Our mission is to provide quality products that enhance your well-being.</p>
           <Suspense fallback={<Spinner />}>
             <AboutUsButton />
           </Suspense>
@@ -91,9 +91,9 @@ const Footer = () => {
 
         <div className="footer-section footer-contact-info">
           <h2>Contact Information</h2>
-          <p>Rangri Road, Sarsai, Manali</p>
-          <p>Email: contact@himalayanrasa.com</p>
-          <p>Phone: +91-8588-90-4438</p>
+          <p className='common-text-color'>Rangri Road, Sarsai, Manali</p>
+          <p className='common-text-color'>Email: contact@himalayanrasa.com</p>
+          <p className='common-text-color'>Phone: +91-8588-90-4438</p>
         </div>
       </div>
       <div className="footer-bottom">

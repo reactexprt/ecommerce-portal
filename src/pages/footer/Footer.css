@@ -22,9 +22,13 @@
     margin-bottom: 20px;
 }
 
+.common-text-color {
+    color: #BDC3C7 !important;
+}
+
 .footer-section p,
 .footer-section a {
-    color: #BDC3C7;
+    color: #868b8f;
     font-size: 1rem;
     line-height: 1.8;
     margin-bottom: 10px;
@@ -88,7 +92,7 @@
 
 .payment-icons {
     display: grid;
-    grid-template-columns: repeat(4, .2fr); /* 3 icons per row */
+    grid-template-columns: repeat(4, .1fr); /* 3 icons per row */
     gap: 20px;
     justify-items: flex-start;
     margin: 10px 0;

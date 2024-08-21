@@ -10,7 +10,7 @@ const AboutUsButton = () => {
   return (
     <>
       <button onClick={handleOpenModal} className='common-modal-button'>Learn More</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="About Us">
         <div className="about-us-content">
           <h2>Our Story: A Commitment to Quality and Authenticity</h2>
           <p>

@@ -1,4 +1,4 @@
-@import '../../styles//variables.css';
+@import '../../styles/variables.css';
 
 .common-modal-overlay {
   position: fixed;
@@ -6,37 +6,75 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow: hidden; /* Prevents body scroll when modal is open */
+  overflow: hidden;
 }
 
 .common-modal-content {
-  background-color: var(--secondary-bg-color);
-  padding: 20px;
-  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
   max-width: 600px;
   width: 90%;
-  max-height: 80vh; /* Limits the modal height to 80% of the viewport height */
-  overflow-y: auto; /* Enables vertical scrolling */
+  max-height: 80vh;
+  overflow-y: auto;
   position: relative;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .common-modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.common-modal-close:hover {
+  color: #000;
+}
+
+.common-modal-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.common-modal-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
 }
 
 .common-modal-body {
-  padding: 20px 0;
-  overflow-y: auto; /* Ensures the modal body is scrollable */
+  padding: 0;
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.common-modal-button {
+  background-color: var(--home-button-bg-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: var(--font-family-primary);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.common-modal-button:hover {
+  background-color: var(--home-button-hover-bg-button);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }

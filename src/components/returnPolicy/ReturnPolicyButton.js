@@ -10,7 +10,7 @@ const RefundPolicyButton = () => {
   return (
     <>
       <button className='common-modal-button' onClick={handleOpenModal}>Refund Policy</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="Refund Policy">
         <h2>Refund Policy</h2>
         <p>
           At Himalayan Rasa, we stand behind the quality of our products and want you to be completely satisfied with your purchase. If you are not satisfied, we offer the following refund policy.

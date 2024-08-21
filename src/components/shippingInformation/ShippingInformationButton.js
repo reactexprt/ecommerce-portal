@@ -10,7 +10,7 @@ const ShippingInformationButton = () => {
   return (
     <>
       <button onClick={handleOpenModal} className='common-modal-button'>Shipping Information</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="Shipping Information">
         <h2>Shipping Information</h2>
         <p>
           We offer fast and reliable shipping to ensure your products reach you in perfect condition. All orders are processed within 2-3 business days and shipped via trusted carriers.

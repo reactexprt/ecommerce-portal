@@ -10,7 +10,7 @@ const TermsAndConditionsButton = () => {
   return (
     <>
       <button className='common-modal-button' onClick={handleOpenModal}>Terms & Conditions</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
+      <Modal show={showModal} onClose={handleCloseModal} title="Terms and Conditions">
         <h2>Terms & Conditions</h2>
         <p>
           Welcome to Himalayan Rasa! These terms and conditions outline the rules and regulations for the use of our website and services.
