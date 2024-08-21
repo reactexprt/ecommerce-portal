@@ -27,7 +27,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Attempt to retrieve email from cookies using a utility function or manually
     const getCookie = (name) => {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -45,20 +44,28 @@ const Login = () => {
           const response = await api.get(`/users/biometric-status`, { params: { email: storedEmail } });
           if (response.data.biometricEnabled) {
             setBiometricEnabled(true);
-            biometricBtnRef.current.focus(); // Focus the biometric button if enabled
-            biometricBtnRef.current.click(); // Simulate a click on the biometric button
+            if (biometricBtnRef.current) {
+              biometricBtnRef.current.focus(); // Focus the biometric button if enabled
+              biometricBtnRef.current.click(); // Simulate a click on the biometric button
+            }
           } else {
-            emailRef.current.focus(); // Focus the email input if biometric is not enabled
+            if (emailRef.current) {
+              emailRef.current.focus(); // Focus the email input if biometric is not enabled
+            }
           }
         } catch (err) {
           console.error('Error checking biometric status:', err);
-          emailRef.current.focus(); // Fallback to focusing the email input in case of an error
+          if (emailRef.current) {
+            emailRef.current.focus(); // Fallback to focusing the email input in case of an error
+          }
         }
       };
 
       checkBiometricStatus();
     } else {
-      emailRef.current.focus(); // Focus the email input if no stored email
+      if (emailRef.current) {
+        emailRef.current.focus(); // Focus the email input if no stored email
+      }
     }
   }, []);
 
@@ -68,7 +75,6 @@ const Login = () => {
       const response = await api.post('/users/login', { email, password });
       dispatch(login(response.data.token, response.data.refreshToken, response.data.userId));
 
-      // Check if biometric login is enabled and prompt if not
       const biometricStatusResponse = await api.get(`/users/biometric-status`, { params: { email } });
       if (!biometricStatusResponse.data.biometricEnabled && window.confirm('Would you like to enable biometric login for future logins?')) {
         try {
@@ -91,7 +97,6 @@ const Login = () => {
 
   const handleBiometricLogin = async () => {
     try {
-      // Ensure email is available
       if (!email) {
         return setError('Email is required for biometric login. Please log in using your password first.');
       }
@@ -128,14 +133,12 @@ const Login = () => {
         <h2>LOGIN</h2>
         {error && <p className="error">{error}</p>}
 
-        {/* Biometric Login Button */}
         {biometricEnabled && (
           <button onClick={handleBiometricLogin} ref={biometricBtnRef} className="biometric-login-btn">
             <FontAwesomeIcon icon={faFingerprint} /> Login with Face ID / Fingerprint
           </button>
         )}
 
-        {/* Traditional Login Form */}
         <form onSubmit={handleLogin}>
           <div>
             <label>EMAIL</label>
@@ -159,7 +162,6 @@ const Login = () => {
           <button type="submit">LOGIN</button>
         </form>
 
-        {/* Google Sign-In Button */}
         <div className="google-signin-container">
           <GoogleSignIn />
         </div>
@@ -173,19 +175,16 @@ const Login = () => {
           </button>
         </div>
 
-        {/* Security Badges and Trust Seals */}
         <div className="trust-badges">
           <FontAwesomeIcon icon={faLock} /> Secure Checkout
           <FontAwesomeIcon icon={faShieldAlt} /> Protected by SSL
         </div>
 
-        {/* Customer Testimonials */}
         <div className="testimonials">
           <FontAwesomeIcon icon={faQuoteLeft} /> Himalayan Rasa has changed my life for the better. The best service ever! <FontAwesomeIcon icon={faQuoteRight} />
           <p>- Abhinav Narchal</p>
         </div>
 
-        {/* Contact Information */}
         <div className="login-contact-info">
           <FontAwesomeIcon icon={faHeadset} /> Need Help? <a href="/support">Contact Us</a>
         </div>
