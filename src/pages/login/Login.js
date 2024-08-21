@@ -9,7 +9,6 @@ import GoogleSignIn from '../../components/GoogleSignIn';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import ContactUsButton from '../../components/contactUs/ContactUsButton';
 
-// Import Font Awesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,8 +20,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
-  const emailRef = useRef(null);  // Create a ref for the email input
-  const biometricBtnRef = useRef(null); // Create a ref for the biometric login button
+  const emailRef = useRef(null); 
+  const biometricBtnRef = useRef(null); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,36 +37,33 @@ const Login = () => {
     if (storedEmail) {
       setEmail(storedEmail);
 
-      // Check if the user has enabled biometric login
       const checkBiometricStatus = async () => {
         try {
           const response = await api.get(`/users/biometric-status`, { params: { email: storedEmail } });
           if (response.data.biometricEnabled) {
             setBiometricEnabled(true);
-            if (biometricBtnRef.current) {
-              biometricBtnRef.current.focus(); // Focus the biometric button if enabled
-              biometricBtnRef.current.click(); // Simulate a click on the biometric button
-            }
           } else {
-            if (emailRef.current) {
-              emailRef.current.focus(); // Focus the email input if biometric is not enabled
-            }
+            emailRef.current?.focus(); // Focus the email input if biometric is not enabled
           }
         } catch (err) {
           console.error('Error checking biometric status:', err);
-          if (emailRef.current) {
-            emailRef.current.focus(); // Fallback to focusing the email input in case of an error
-          }
+          emailRef.current?.focus(); // Fallback to focusing the email input in case of an error
         }
       };
 
       checkBiometricStatus();
     } else {
-      if (emailRef.current) {
-        emailRef.current.focus(); // Focus the email input if no stored email
-      }
+      emailRef.current?.focus(); // Focus the email input if no stored email
     }
   }, []);
+
+  useEffect(() => {
+    // Separate useEffect to ensure biometricBtnRef is available before accessing
+    if (biometricEnabled && biometricBtnRef.current) {
+      biometricBtnRef.current.focus(); // Focus the biometric button
+      biometricBtnRef.current.click(); // Simulate a click on the biometric button
+    }
+  }, [biometricEnabled]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
