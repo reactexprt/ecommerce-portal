@@ -3,7 +3,7 @@
 .admin-upload-page {
   width: var(--max-width);
   margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px;
   background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
