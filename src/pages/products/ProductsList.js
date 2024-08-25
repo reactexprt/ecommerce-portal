@@ -13,7 +13,7 @@ const ProductsList = () => {
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(10); // Initially load 5 products
+  const [limit] = useState(8); // Initially load 5 products
   const [hasMore, setHasMore] = useState(true); // Track if more products are available
 
   useEffect(() => {

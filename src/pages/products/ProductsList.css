@@ -88,7 +88,7 @@
 .load-more-button {
   background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
   color: #fff; /* White text color */
-  max-width: 30%;
+  max-width: 70%;
   border: none; /* Remove border */
   border-radius: 30px; /* Rounded corners */
   padding: 12px 30px; /* Padding for the button */
