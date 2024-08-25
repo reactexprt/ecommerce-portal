@@ -84,7 +84,7 @@ const Login = () => {
         }
       }
 
-      navigate('/products');
+      navigate('/cart');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Invalid email or password. Please try again.';
       setError(errorMessage);
@@ -104,7 +104,7 @@ const Login = () => {
       });
 
       dispatch(login(verificationResponse.data.token, verificationResponse.data.refreshToken, verificationResponse.data.userId));
-      navigate('/products');
+      navigate('/cart');
 
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Biometric authentication failed. Please try again.';

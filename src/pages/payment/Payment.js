@@ -36,7 +36,7 @@ const PaymentForm = () => {
     const fetchUserProfile = async () => {
       try {
         const { data } = await api.get('/users/profile');
-        setEmail(data || '');
+        setEmail(data.email || '');
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }

@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
-import { fetchCart } from '../../redux/actions/cartActions';
+import { fetchCart, mergeCart } from '../../redux/actions/cartActions';
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -25,8 +25,10 @@ const Navbar = () => {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchCart());
+      dispatch(mergeCart()); // Call merge cart after login
     }
   }, [dispatch, isAuthenticated]);
+  
 
   const handleLogout = async () => {
     await dispatch(logout());
@@ -36,7 +38,7 @@ const Navbar = () => {
   const buttons = [
     { icon: faHome, tooltip: 'Home', onClick: () => navigate('/') },
     { icon: faBoxOpen, tooltip: 'Products', onClick: () => navigate('/products') },
-    { icon: faShoppingCart, tooltip: 'Cart', onClick: () => navigate('/cart'), visible: isAuthenticated },
+    { icon: faShoppingCart, tooltip: 'Cart', onClick: () => navigate('/cart') },
     { icon: faSignInAlt, tooltip: 'Login', onClick: () => navigate('/login'), visible: !isAuthenticated },
     { icon: faUserPlus, tooltip: 'Register', onClick: () => navigate('/register'), visible: !isAuthenticated, className: "register" },
     { icon: faSignOutAlt, tooltip: 'Logout', onClick: handleLogout, visible: isAuthenticated, className: "logout-icon-container" },

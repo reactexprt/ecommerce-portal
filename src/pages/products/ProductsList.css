@@ -2,7 +2,7 @@
 
 .products-list {
   font-family: var(--font-family-primary);
-  /* padding: 80px 20px; */
+  padding: 0 0 40px 0;
   background: linear-gradient(to bottom, var(--primary-bg-color), #92450f);
   color: var(--primary-text-color);
 }
@@ -18,7 +18,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px; /* Increased gap for a more spacious layout */
-  padding: 0 30px;
+  padding: 5px 30px 30px 30px;
 }
 
 .product-card {
@@ -79,11 +79,38 @@
   font-size: 1.5rem;
   text-align: center;
   padding: 50px;
-  color: var(--primary-text-color);
+  color: var(--home-button-bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+/* Load More button */
+.load-more-button {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+  color: #fff; /* White text color */
+  max-width: 30%;
+  border: none; /* Remove border */
+  border-radius: 30px; /* Rounded corners */
+  padding: 12px 30px; /* Padding for the button */
+  font-size: 1.2rem; /* Larger font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
+  margin: 20px auto; /* Center the button */
+  display: block; /* Ensure it is a block element */
+}
+
+.load-more-button:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+}
+
+.load-more-button:active {
+  transform: translateY(1px); /* Slight press effect on click */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slightly less shadow on active */
+}
+
 
 /* Additional rich elements */
 .product-card::before {
@@ -113,7 +140,7 @@
 
   .products-grid {
     gap: 20px;
-    padding: 0 20px;
+    padding: 5px 20px 20px 20px;
   }
 
   .product-card {
@@ -144,7 +171,7 @@
   .products-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
-    padding: 0 15px;
+    padding: 2px 15px 15px 15px;
   }
 
   .product-card {

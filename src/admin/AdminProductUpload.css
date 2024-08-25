@@ -1,0 +1,89 @@
+@import '../styles/variables.css';
+
+.admin-upload-page {
+  width: var(--max-width);
+  margin: 0 auto;
+  height: 100vh;
+  padding: 20px;
+  background-color: var(--secondary-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  font-family: var(--font-family-primary);
+}
+
+.admin-page-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary-text-color);
+  font-family: var(--font-family-secondary);
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    background-color: var(--primary-bg-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    align-items: center;
+}
+
+.admin-form-title {
+    margin-bottom: 20px;
+    color: var(--primary-text-color);
+    font-family: var(--font-family-secondary);
+}
+
+.admin-input, .admin-textarea, .admin-file-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  background-color: var(--input-bg-color);
+  color: var(--primary-text-color);
+}
+
+.admin-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.admin-submit-button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  width: auto;
+}
+
+.admin-submit-button:hover {
+  background-color: var(--button-hover-bg-color);
+}
+
+.admin-message {
+  text-align: center;
+  font-weight: bold;
+  color: green;
+  margin-top: 20px;
+  font-family: var(--font-family-secondary);
+}
+
+.admin-image-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.admin-image-list-item {
+  background-color: var(--input-bg-color);
+  padding: 5px 10px;
+  border-radius: var(--border-radius);
+  margin-bottom: 5px;
+  font-size: 14px;
+}

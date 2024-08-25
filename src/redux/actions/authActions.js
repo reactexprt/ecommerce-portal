@@ -1,7 +1,8 @@
 import api from '../../services/api';
+import { LOGIN_SUCCESS, LOGOUT, CLEAR_CART } from '../constants/cartConstants';
 
 export const loginSuccess = (token, userId) => ({
-  type: 'LOGIN_SUCCESS',
+  type: LOGIN_SUCCESS,
   payload: { token, userId }
 });
 
@@ -14,11 +15,11 @@ export const logout = () => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`
       },
     });
-
     // Clear tokens from local storage
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
-    dispatch({ type: 'LOGOUT' });
+    dispatch({ type: CLEAR_CART });
+    dispatch({ type: LOGOUT });
   } catch (error) {
     console.error('Logout error:');
   }

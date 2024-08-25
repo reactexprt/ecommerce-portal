@@ -31,6 +31,7 @@ const Cart = loadable(() => import('./pages/cart/Cart'));
 const Payment = loadable(() => import('./pages/payment/Payment'));
 const PaymentSuccess = loadable(() => import('./pages/payment/PaymentSuccess'));
 const Footer = loadable(() => import('./pages/footer/Footer'));
+const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 // Import TimeoutPage and NotFound directly
 import TimeoutPage from './pages/timeout/TimeoutPage';
@@ -48,9 +49,9 @@ const PrivateRoute = ({ children }) => {
 };
 
 const Spinner = () => (
-  <div className="spinner-container">
+  <div className="loading">
     <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-    <p>Loading content, please wait...</p>
+    <p>Loading...</p>
   </div>
 );
 
@@ -117,13 +118,12 @@ function App() {
               <Route
                 path="/products"
                 element={
-                  <PrivateRoute>
-                    <ErrorBoundaryWrapper>
-                      <ProductsList />
-                    </ErrorBoundaryWrapper>
-                  </PrivateRoute>
+                  <ErrorBoundaryWrapper>
+                    <ProductsList />
+                  </ErrorBoundaryWrapper>
                 }
               />
+              <Route path="/admin" element={<AdminProductUpload />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

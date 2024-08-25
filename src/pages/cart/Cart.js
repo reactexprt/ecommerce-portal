@@ -2,20 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import api from '../../services/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { fetchCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions';
 import AddressManager from '../../components/addressManager/AddressManager';
 import './Cart.css';
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const cartItems = useSelector(state => state.cart.cartItems) || [];
+  const isLoading = useSelector(state => state.cart.isLoading);
   const navigate = useNavigate();
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchCart());
-  }, [dispatch]);
+    if (!isAuthenticated) {
+      navigate('/login'); // Redirect to login if not authenticated when trying to access cart
+    } else {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, isAuthenticated]);
+
+  if (isLoading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+        <p>Loading Cart...</p>
+      </div>
+    );
+  }
+  
 
   const totalAmount = cartItems.reduce((sum, item) => {
     if (item.productId && item.productId.price) {

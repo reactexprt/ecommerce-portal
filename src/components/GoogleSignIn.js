@@ -20,7 +20,7 @@ const GoogleSignIn = () => {
       // Dispatch an action to set the user in your Redux store
       // dispatch({ type: 'LOGIN_SUCCESS', payload: { token: authToken, userId: userId } });
       dispatch(login(authToken, refreshToken, userId));
-      navigate('/products');
+      navigate('/cart');
     } catch (error) {
       console.error('Google Sign-In Error:', error);
     }
