@@ -12,6 +12,7 @@ const api = axios.create({
 
 let isRefreshing = false;
 let refreshSubscribers = [];
+let isLoggingOut = false; // Flag to indicate logout in progress
 
 function onTokenRefreshed(newToken) {
   refreshSubscribers.forEach(callback => callback(newToken));
@@ -33,9 +34,12 @@ const retryRequest = async (request, retries = 3, delay = 1000) => {
   }
 };
 
-// Request interceptor to add token to headers
 api.interceptors.request.use(
   config => {
+    if (isLoggingOut) {
+      return Promise.reject(new Error("Logout in progress"));
+    }
+
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -53,11 +57,9 @@ api.interceptors.response.use(
     if (error.response) {
       const errorMessage = error.response.data?.message || error.response.statusText;
 
-      // Handle 401 errors (unauthorized)
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
-        // If there's already a refresh in progress, wait for it to complete
         if (isRefreshing) {
           return new Promise(resolve => {
             addRefreshSubscriber(newToken => {
@@ -72,14 +74,12 @@ api.interceptors.response.use(
         try {
           const refreshToken = localStorage.getItem('refreshToken');
 
-          // If there's no refresh token available, log out immediately
           if (!refreshToken) {
             throw new Error('No refresh token available');
           }
 
           const { userId } = store.getState().auth;
 
-          // Attempt to refresh the token
           const { data } = await retryRequest(
             {
               method: 'post',
@@ -90,25 +90,29 @@ api.interceptors.response.use(
             1000
           );
 
-          // Save the new access token
           localStorage.setItem('token', data.accessToken);
           store.dispatch(loginSuccess(data.accessToken, userId));
 
           isRefreshing = false;
           onTokenRefreshed(data.accessToken);
 
-          // Retry the original request with the new token
           originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
           return api(originalRequest);
         } catch (refreshError) {
           isRefreshing = false;
+          isLoggingOut = true; // Set the flag to prevent further requests
           store.dispatch(logout());
+          localStorage.removeItem('token'); // Ensure tokens are removed
+          localStorage.removeItem('refreshToken');
           alert("Your session has expired. Please log in again.");
           history.push('/login');
           return Promise.reject(refreshError);
         }
       } else if (errorMessage === "Invalid token" || errorMessage === "Unauthorized access" || error.response.status === 403) {
+        isLoggingOut = true; // Set the flag to prevent further requests
         store.dispatch(logout());
+        localStorage.removeItem('token'); // Ensure tokens are removed
+        localStorage.removeItem('refreshToken');
         history.push('/login');
       } else {
         history.push('/technicalError');
