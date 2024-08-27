@@ -33,6 +33,7 @@ const retryRequest = async (request, retries = 3, delay = 1000) => {
   }
 };
 
+// Request interceptor to add token to headers
 api.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token');
@@ -52,9 +53,11 @@ api.interceptors.response.use(
     if (error.response) {
       const errorMessage = error.response.data?.message || error.response.statusText;
 
+      // Handle 401 errors (unauthorized)
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
+        // If there's already a refresh in progress, wait for it to complete
         if (isRefreshing) {
           return new Promise(resolve => {
             addRefreshSubscriber(newToken => {
@@ -68,8 +71,15 @@ api.interceptors.response.use(
 
         try {
           const refreshToken = localStorage.getItem('refreshToken');
+
+          // If there's no refresh token available, log out immediately
+          if (!refreshToken) {
+            throw new Error('No refresh token available');
+          }
+
           const { userId } = store.getState().auth;
 
+          // Attempt to refresh the token
           const { data } = await retryRequest(
             {
               method: 'post',
@@ -80,12 +90,14 @@ api.interceptors.response.use(
             1000
           );
 
+          // Save the new access token
           localStorage.setItem('token', data.accessToken);
           store.dispatch(loginSuccess(data.accessToken, userId));
 
           isRefreshing = false;
           onTokenRefreshed(data.accessToken);
 
+          // Retry the original request with the new token
           originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
           return api(originalRequest);
         } catch (refreshError) {
@@ -95,13 +107,12 @@ api.interceptors.response.use(
           history.push('/login');
           return Promise.reject(refreshError);
         }
-      } else if (errorMessage === "Invalid token" || errorMessage === "Unauthorized access") {
+      } else if (errorMessage === "Invalid token" || errorMessage === "Unauthorized access" || error.response.status === 403) {
         store.dispatch(logout());
         history.push('/login');
-      } else if (error.response.status === 403) {
-        store.dispatch(logout());
-        history.push('/login');
-      } 
+      } else {
+        history.push('/technicalError');
+      }
     } else if (!error.response && !originalRequest._networkRetry) {
       originalRequest._networkRetry = true;
       return retryRequest(originalRequest);
@@ -112,7 +123,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-
 
 export default api;
