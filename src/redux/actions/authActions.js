@@ -9,18 +9,24 @@ export const loginSuccess = (token, userId) => ({
 export const logout = () => async (dispatch, getState) => {
   try {
     const { auth } = getState();
-    const { userId } = auth;
-
-    await api.post('/users/logout', { userId });
-
+    const { token, userId } = auth;
+    await api.post('/users/logout', { userId }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
     // Clear tokens from local storage
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
-
     dispatch({ type: CLEAR_CART });
     dispatch({ type: LOGOUT });
   } catch (error) {
     console.error('Logout error:');
+    // In case of an error, still clear the tokens and dispatch logout
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    dispatch({ type: CLEAR_CART });
+    dispatch({ type: LOGOUT });
   }
 };
 

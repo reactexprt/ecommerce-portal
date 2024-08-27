@@ -16,8 +16,6 @@ export default function authReducer(state = initialState, action) {
         userId: action.payload.userId
       };
     case LOGOUT:
-      localStorage.removeItem('token');
-      localStorage.removeItem('refreshToken');
       return {
         isAuthenticated: false,
         token: null,
