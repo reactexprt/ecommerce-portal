@@ -91,6 +91,7 @@ api.interceptors.response.use(
           );
 
           localStorage.setItem('token', data.accessToken);
+          localStorage.setItem('refreshToken', data.refreshToken);
           store.dispatch(loginSuccess(data.accessToken, userId));
 
           isRefreshing = false;

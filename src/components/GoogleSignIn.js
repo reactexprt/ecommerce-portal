@@ -37,7 +37,7 @@ const GoogleSignIn = () => {
         onError={handleError}
         // redirectUri="http://localhost"
         scope="profile"
-        // useOneTap
+        useOneTap
       />
     </GoogleOAuthProvider>
   );

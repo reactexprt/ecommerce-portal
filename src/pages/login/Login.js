@@ -178,7 +178,7 @@ const Login = () => {
 
         <div className="testimonials">
           <FontAwesomeIcon icon={faQuoteLeft} /> Himalayan Rasa has changed my life for the better. The best service ever! <FontAwesomeIcon icon={faQuoteRight} />
-          <p>- Abhinav Narchal</p>
+          <p>- A Satisfied Customer</p>
         </div>
 
         <div className="login-contact-info">
