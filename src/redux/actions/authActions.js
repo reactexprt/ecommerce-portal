@@ -9,15 +9,14 @@ export const loginSuccess = (token, userId) => ({
 export const logout = () => async (dispatch, getState) => {
   try {
     const { auth } = getState();
-    const { token, userId } = auth;
-    await api.post('/users/logout', { userId }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    });
+    const { userId } = auth;
+
+    await api.post('/users/logout', { userId });
+
     // Clear tokens from local storage
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
+
     dispatch({ type: CLEAR_CART });
     dispatch({ type: LOGOUT });
   } catch (error) {
