@@ -69,7 +69,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post('/users/login', { email, password });
-      dispatch(login(response.data.token, response.data.refreshToken, response.data.userId));
+      dispatch(login(response.data.token, response.data.userId));
 
       const biometricStatusResponse = await api.get(`/users/biometric-status`, { params: { email } });
       if (!biometricStatusResponse.data.biometricEnabled && window.confirm('Would you like to enable biometric login for future logins?')) {
@@ -103,7 +103,7 @@ const Login = () => {
         credential: authResponse
       });
 
-      dispatch(login(verificationResponse.data.token, verificationResponse.data.refreshToken, verificationResponse.data.userId));
+      dispatch(login(verificationResponse.data.token, verificationResponse.data.userId));
       navigate('/cart');
 
     } catch (err) {
@@ -137,22 +137,26 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <div>
-            <label>EMAIL</label>
+            <label htmlFor='email'>EMAIL</label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               ref={emailRef} // Assign ref to the email input
               required
+              autoComplete='email'
             />
           </div>
           <div>
-            <label>PASSWORD</label>
+            <label htmlFor='password'>PASSWORD</label>
             <input
+              id='password'
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete='current-password'
             />
           </div>
           <button type="submit">LOGIN</button>

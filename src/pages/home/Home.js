@@ -76,7 +76,7 @@ const Home = () => {
           <h2>Stay Connected</h2>
           <p>Subscribe to our newsletter to receive updates on new products, special offers, and tips on natural wellness.</p>
           <form className="newsletter-form">
-            <input type="email" placeholder="Your email address" />
+            <input id='email' type="email" placeholder="Your email address" autoComplete='email' />
             <button type="submit" className="btn btn-primary">Subscribe</button>
           </form>
         </div>

@@ -7,34 +7,27 @@ export const loginSuccess = (token, userId) => ({
 });
 
 export const logout = () => async (dispatch, getState) => {
-  try {
-    const { auth } = getState();
-    const { token, userId } = auth;
-    await api.post('/users/logout', { userId }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    });
-    // Clear tokens from local storage
+  const { auth } = getState();
+  const { token, userId } = auth;
+  // Attempt to notify the server about the logout
+  api.post('/users/logout', { userId }, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+  }).catch(error => {
+    console.error('Logout error:', error);
+    // This catch is just to log the error; the logout proceeds regardless
+  }).finally(() => {
+    // Always clear the client state, regardless of server response
     localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
     dispatch({ type: CLEAR_CART });
     dispatch({ type: LOGOUT });
-  } catch (error) {
-    console.error('Logout error:');
-    // In case of an error, still clear the tokens and dispatch logout
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    dispatch({ type: CLEAR_CART });
-    dispatch({ type: LOGOUT });
-  }
+  });
 };
 
-
-export const login = (token, refreshToken, userId) => async dispatch => {
+export const login = (token, userId) => async dispatch => {
   try {
     localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', refreshToken);
     dispatch(loginSuccess(token, userId));
   } catch (error) {
     console.error('Login error:', error);

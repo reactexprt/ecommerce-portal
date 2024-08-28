@@ -15,11 +15,11 @@ const GoogleSignIn = () => {
 
       // Send the token to your backend for verification or user creation
       const result = await api.post('/auth/google', { token: credential });
-      // Assuming the backend returns both accessToken and refreshToken
-      const { authToken, refreshToken, userId } = result.data;
+      // Assuming the backend returns both accessToken
+      const { authToken, userId } = result.data;
       // Dispatch an action to set the user in your Redux store
       // dispatch({ type: 'LOGIN_SUCCESS', payload: { token: authToken, userId: userId } });
-      dispatch(login(authToken, refreshToken, userId));
+      dispatch(login(authToken, userId));
       navigate('/cart');
     } catch (error) {
       console.error('Google Sign-In Error:', error);

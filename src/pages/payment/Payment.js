@@ -145,6 +145,7 @@ const PaymentForm = () => {
           onChange={(e) => setName(e.target.value)} 
           required 
           disabled
+          autoComplete='name'
         />
       </div>
       <div className="form-group">
@@ -156,6 +157,7 @@ const PaymentForm = () => {
           onChange={(e) => setEmail(e.target.value)} 
           required 
           disabled
+          autoComplete='email'
         />
       </div>
       <div className="form-group">
@@ -167,6 +169,7 @@ const PaymentForm = () => {
           onChange={(e) => setContact(e.target.value)} 
           required 
           disabled
+          autoComplete='tel'
         />
       </div>
       <div className="form-group">
@@ -178,6 +181,7 @@ const PaymentForm = () => {
           required
           rows="3"
           disabled
+          autoComplete='street-address'
         />
       </div>
 

@@ -71,7 +71,7 @@ const Footer = () => {
           </div>
           <form className="newsletter-form">
             <label htmlFor="newsletter">Subscribe to our newsletter</label>
-            <input type="email" id="newsletter" placeholder="Your email address" />
+            <input type="email" id="newsletter" placeholder="Your email address" autoComplete='email' />
             <button type="submit">Subscribe</button>
           </form>
         </div>

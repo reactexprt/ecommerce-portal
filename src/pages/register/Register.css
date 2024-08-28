@@ -48,7 +48,7 @@
   font-size: medium;
 }
 
-.register-page button {
+#register-button {
   width: 100%;
   padding: 12px;
   background-color: var(--button-bg-color);

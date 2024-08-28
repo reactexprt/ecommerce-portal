@@ -55,10 +55,10 @@ export const addToCart = (product, quantity = 1) => async (dispatch, getState) =
     if (existingItem) {
       // If the item already exists, update the quantity
       const updatedQuantity = existingItem.quantity + quantity;
-      dispatch(updateCartItem(product._id, updatedQuantity));
+      
       if (auth.isAuthenticated) {
         // Update the cart on the server
-        await api.put(`/cart/${product._id}`, { quantity: updatedQuantity });
+        dispatch(updateCartItem(product._id, updatedQuantity));
       } else {
         // Update the cart in local storage
         const updatedCartItems = cart.cartItems.map(item =>

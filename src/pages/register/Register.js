@@ -60,45 +60,53 @@ const Register = () => {
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleRegister}>
           <div className='inputDiv'>
-            <label>USERNAME</label>
+            <label htmlFor='username'>USERNAME</label>
             <input
+              id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
               minLength="3"
               maxLength="20"
+              autoComplete='username'
             />
           </div>
           <div className='inputDiv'>
-            <label>EMAIL</label>
+            <label htmlFor='email'>EMAIL</label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete='email'
             />
           </div>
           <div className='inputDiv'>
-            <label>PASSWORD</label>
+            <label htmlFor='password'>PASSWORD</label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength="6"
+              autoComplete='new-password'
             />
           </div>
           <div className='inputDiv'>
-            <label>CONFIRM PASSWORD</label>
+            <label htmlFor='confirm-password'>CONFIRM PASSWORD</label>
             <input
+              id="confirm-password"
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              autoComplete='new-password'
             />
           </div>
-          <button type="submit">CREATE NEW ACCOUNT</button>
+          <button id='register-button' type="submit">CREATE NEW ACCOUNT</button>
         </form>
       </div>
     </>

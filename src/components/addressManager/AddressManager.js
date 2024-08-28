@@ -206,11 +206,12 @@ const AddressManager = ({ onSelectAddress }) => {
   return (
     <div className="address-manager">
       <h2>Manage Delivery Addresses</h2>
-      <form onSubmit={handleSubmit} className="address-form">
+      <form id="address-form" onSubmit={handleSubmit} className="address-form">
 
         {/* Form Fields */}
         <input
           type="text"
+          id="label"
           name="label"
           value={form.label}
           onChange={handleChange}
@@ -218,6 +219,7 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.label ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.label = el)}
           required
+          autoComplete="off"
         />
         {errors.label && <span className="error-message">{errors.label}</span>}
 
@@ -225,17 +227,20 @@ const AddressManager = ({ onSelectAddress }) => {
         <input
           type="text"
           name="firstName"
+          id="firstName"
           value={form.firstName}
           onChange={handleChange}
           placeholder="First Name"
           className={errors.firstName ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.firstName = el)}
           required
+          autoComplete="given-name"
         />
         {errors.firstName && <span className="error-message">{errors.firstName}</span>}
 
         <input
           type="text"
+          id="lastName"
           name="lastName"
           value={form.lastName}
           onChange={handleChange}
@@ -243,11 +248,13 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.lastName ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.lastName = el)}
           required
+          autoComplete="family-name"
         />
         {errors.lastName && <span className="error-message">{errors.lastName}</span>}
 
         <input
           type="text"
+          id="flat"
           name="flat"
           value={form.flat}
           onChange={handleChange}
@@ -255,11 +262,13 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.flat ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.flat = el)}
           required
+          autoComplete="address-line1"
         />
         {errors.flat && <span className="error-message">{errors.flat}</span>}
 
         <input
           type="text"
+          id="street"
           name="street"
           value={form.street}
           onChange={handleChange}
@@ -267,11 +276,13 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.street ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.street = el)}
           required
+          autoComplete="address-line2"
         />
         {errors.street && <span className="error-message">{errors.street}</span>}
 
         <input
           type="text"
+          id="city"
           name="city"
           value={form.city}
           onChange={handleChange}
@@ -279,11 +290,13 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.city ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.city = el)}
           required
+          autoComplete="address-level2"
         />
         {errors.city && <span className="error-message">{errors.city}</span>}
 
         <input
           type="text"
+          id="state"
           name="state"
           value={form.state}
           onChange={handleChange}
@@ -291,11 +304,13 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.state ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.state = el)}
           required
+          autoComplete="address-level1"
         />
         {errors.state && <span className="error-message">{errors.state}</span>}
 
         <input
           type="text"
+          id="zip"
           name="zip"
           value={form.zip}
           onChange={handleChange}
@@ -303,11 +318,13 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.zip ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.zip = el)}
           required
+          autoComplete="postal-code"
         />
         {errors.zip && <span className="error-message">{errors.zip}</span>}
 
         <input
           type="text"
+          id="country"
           name="country"
           value={form.country}
           onChange={handleChange}
@@ -315,6 +332,7 @@ const AddressManager = ({ onSelectAddress }) => {
           className={errors.country ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.country = el)}
           required
+          autoComplete="country"
         />
         {errors.country && <span className="error-message">{errors.country}</span>}
 
@@ -332,7 +350,7 @@ const AddressManager = ({ onSelectAddress }) => {
         </div>
 
         <label className="checkbox-label">
-          <input type="checkbox" name="isDefault" checked={form.isDefault} onChange={handleChange} />
+          <input id="isDefault" type="checkbox" name="isDefault" checked={form.isDefault} onChange={handleChange} />
           Set as Default
         </label>
         <button type="button" onClick={handleUseCurrentLocation} className="location-button">
