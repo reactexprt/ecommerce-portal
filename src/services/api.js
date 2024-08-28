@@ -12,7 +12,6 @@ const api = axios.create({
 
 let isRefreshing = false;
 let refreshSubscribers = [];
-let isLoggingOut = false; // Flag to indicate logout in progress
 
 function onTokenRefreshed(newToken) {
   refreshSubscribers.forEach(callback => callback(newToken));
@@ -23,6 +22,7 @@ function addRefreshSubscriber(callback) {
   refreshSubscribers.push(callback);
 }
 
+// Retry failed requests
 const retryRequest = async (request, retries = 3, delay = 1000) => {
   for (let i = 0; i < retries; i++) {
     try {
@@ -36,10 +36,6 @@ const retryRequest = async (request, retries = 3, delay = 1000) => {
 
 api.interceptors.request.use(
   config => {
-    if (isLoggingOut) {
-      return Promise.reject(new Error("Logout in progress"));
-    }
-
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -72,26 +68,18 @@ api.interceptors.response.use(
         isRefreshing = true;
 
         try {
-          const refreshToken = localStorage.getItem('refreshToken');
-
-          if (!refreshToken) {
-            throw new Error('No refresh token available');
-          }
-
           const { userId } = store.getState().auth;
-
           const { data } = await retryRequest(
             {
               method: 'post',
               url: `${API_URL}/users/token`,
-              data: { refreshToken }
+              withCredentials: true
             },
             3,
             1000
           );
 
           localStorage.setItem('token', data.accessToken);
-          localStorage.setItem('refreshToken', data.refreshToken);
           store.dispatch(loginSuccess(data.accessToken, userId));
 
           isRefreshing = false;
@@ -101,31 +89,33 @@ api.interceptors.response.use(
           return api(originalRequest);
         } catch (refreshError) {
           isRefreshing = false;
-          isLoggingOut = true; // Set the flag to prevent further requests
           store.dispatch(logout());
-          localStorage.removeItem('token'); // Ensure tokens are removed
-          localStorage.removeItem('refreshToken');
           alert("Your session has expired. Please log in again.");
           history.push('/login');
-          return Promise.reject(refreshError);
+          // return Promise.reject(refreshError);
         }
       } else if (errorMessage === "Invalid token" || errorMessage === "Unauthorized access" || error.response.status === 403) {
-        isLoggingOut = true; // Set the flag to prevent further requests
         store.dispatch(logout());
-        localStorage.removeItem('token'); // Ensure tokens are removed
-        localStorage.removeItem('refreshToken');
         history.push('/login');
+        // return Promise.reject(new Error("Session expired, please log in again"));
       } else {
         history.push('/technicalError');
+        // return Promise.reject(new Error("An unknown error occurred"));
       }
     } else if (!error.response && !originalRequest._networkRetry) {
-      originalRequest._networkRetry = true;
-      return retryRequest(originalRequest);
+      originalRequest._networkRetry = originalRequest._networkRetry || 0;
+
+      if (originalRequest._networkRetry < 3) {
+        originalRequest._networkRetry += 1;
+        await new Promise(res => setTimeout(res, 1000 * Math.pow(2, originalRequest._networkRetry))); // Exponential backoff
+        return api(originalRequest); // Retry the request
+      } else {
+        return Promise.reject(new Error("Network error, please try again"));
+      }
     } else {
       history.push('/technicalError');
+      return Promise.reject(new Error("An unknown error occurred"));
     }
-
-    return Promise.reject(error);
   }
 );
 
