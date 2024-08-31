@@ -5,7 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ErrorBoundaryWrapper from './components/ErrorBoundary';
 import Navbar from './components/navbar/Navbar';
 import { useSelector } from 'react-redux';
-import setupInactivityTimeout from './utils/inactivityTimeout';
+// import setupInactivityTimeout from './utils/inactivityTimeout';
 import ScrollToTop from './utils/ScrollToTop';
 import history from './services/history';
 import './App.css';
@@ -22,7 +22,6 @@ const loadable = (importFunc) => {
 };
 
 // Lazy loading components with error handling
-const TechnicalErrorPage = loadable(() => import('./pages/techError/TechnicalErrorPage'));
 const Home = loadable(() => import('./pages/home/Home'));
 const ProductsList = loadable(() => import('./pages/products/ProductsList'));
 const Login = loadable(() => import('./pages/login/Login'));
@@ -34,7 +33,8 @@ const Footer = loadable(() => import('./pages/footer/Footer'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 // Import TimeoutPage and NotFound directly
-import TimeoutPage from './pages/timeout/TimeoutPage';
+// import TimeoutPage from './pages/timeout/TimeoutPage';
+import TechnicalErrorPage from './pages/techError/TechnicalErrorPage';
 import NotFound from './pages/notFound/NotFound';
 
 const useAuth = () => {
@@ -56,9 +56,9 @@ const Spinner = () => (
 );
 
 function App() {
-  useEffect(() => {
-    setupInactivityTimeout();
-  }, []);
+  // useEffect(() => {
+  //   setupInactivityTimeout();
+  // }, []);
 
   return (
     <Router history={history}>
@@ -69,7 +69,7 @@ function App() {
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/technicalError" element={<TechnicalErrorPage />} />
-              <Route path="/timeout" element={<TimeoutPage />} />
+              {/* <Route path="/timeout" element={<TimeoutPage />} /> */}
               <Route
                 path="/"
                 element={
