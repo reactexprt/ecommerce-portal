@@ -1,11 +1,19 @@
 import history from '../services/history';
+import store from '../redux/store'; // Make sure this path is correct for your Redux store
+import { logout } from '../redux/actions/authActions'; // Adjust the path according to your project structure
 
 const TOKEN_TIMEOUT = 45 * 60 * 1000; // 45 minutes
 let timeout;
 
 const handleTimeout = () => {
-  // store.dispatch(logout());
+  store.dispatch(logout()); // Dispatching logout action to clear the user state
+  clearTimeout(timeout); // Clear the timeout to clean up
   history.push('/timeout');
+  window.removeEventListener('mousemove', handleActivity);
+  window.removeEventListener('keypress', handleActivity);
+  window.removeEventListener('click', handleActivity);
+  window.removeEventListener('scroll', handleActivity);
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
 };
 
 const resetTimeout = () => {
@@ -13,16 +21,17 @@ const resetTimeout = () => {
   timeout = setTimeout(handleTimeout, TOKEN_TIMEOUT);
 };
 
-const setupInactivityTimeout = () => {
-  // Reset the timeout on user interaction
-  const handleActivity = () => resetTimeout();
+const handleActivity = () => resetTimeout();
 
-  // Reset the timeout if the page becomes active again
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      resetTimeout();
-    }
-  };
+const handleVisibilityChange = () => {
+  if (document.visibilityState === 'visible') {
+    resetTimeout();
+  }
+};
+
+const setupInactivityTimeout = () => {
+  // Initialize the timeout when the page loads
+  resetTimeout();
 
   // Event listeners for detecting user activity
   window.addEventListener('mousemove', handleActivity);
@@ -32,9 +41,6 @@ const setupInactivityTimeout = () => {
 
   // Event listener for page visibility change
   document.addEventListener('visibilitychange', handleVisibilityChange);
-
-  // Initialize the timeout when the page loads
-  resetTimeout();
 };
 
 export default setupInactivityTimeout;

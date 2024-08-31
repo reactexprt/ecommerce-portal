@@ -9,7 +9,10 @@ import {
   faSignInAlt, 
   faUserPlus, 
   faSignOutAlt, 
-  faBoxOpen 
+  faBoxOpen, 
+  faUserCircle, 
+  faHistory, // For Previous Orders
+  faUser // For Profile
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
@@ -21,6 +24,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [tooltip, setTooltip] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -28,11 +32,14 @@ const Navbar = () => {
       dispatch(mergeCart()); // Call merge cart after login
     }
   }, [dispatch, isAuthenticated]);
-  
 
   const handleLogout = async () => {
     await dispatch(logout());
     navigate('/');
+  };
+
+  const handleProfileClick = () => {
+    setShowDropdown(!showDropdown);
   };
 
   const buttons = [
@@ -41,7 +48,8 @@ const Navbar = () => {
     { icon: faShoppingCart, tooltip: 'Cart', onClick: () => navigate('/cart') },
     { icon: faSignInAlt, tooltip: 'Login', onClick: () => navigate('/login'), visible: !isAuthenticated },
     { icon: faUserPlus, tooltip: 'Register', onClick: () => navigate('/register'), visible: !isAuthenticated, className: "register" },
-    { icon: faSignOutAlt, tooltip: 'Logout', onClick: handleLogout, visible: isAuthenticated, className: "logout-icon-container" },
+    { icon: faUserCircle, tooltip: 'Account', onClick: handleProfileClick, visible: isAuthenticated, className: "profile-icon-container" },
+    // { icon: faSignOutAlt, tooltip: 'Logout', onClick: handleLogout, visible: isAuthenticated, className: "logout-icon-container" },
   ];
 
   return (
@@ -65,6 +73,22 @@ const Navbar = () => {
                 {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
                 {button.tooltip === 'Cart' && cartItems.length > 0 && (
                   <span className="cart-count">{cartItems.length}</span>
+                )}
+                {button.tooltip === 'Account' && showDropdown && (
+                  <div className="dropdown-menu">
+                    <div onClick={() => navigate('/profile')}>
+                      <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
+                      <span>Profile</span>
+                    </div>
+                    <div onClick={() => navigate('/orders')}>
+                      <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
+                      <span>Previous Orders</span>
+                    </div>
+                    <div onClick={handleLogout}>
+                      <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />
+                      <span>Logout</span>
+                    </div>
+                  </div>
                 )}
               </div>
             ))}

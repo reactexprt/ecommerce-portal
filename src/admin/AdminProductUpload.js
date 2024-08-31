@@ -23,10 +23,10 @@ const AdminProductUpload = () => {
                 if (response.data && response.data.isAdmin) {
                     setIsAdmin(true);
                 } else {
-                    history.push('/login');
+                    history.push('/');
                 }
             } catch (error) {
-                history.push('/login');
+                history.push('/');
             }
         };
 

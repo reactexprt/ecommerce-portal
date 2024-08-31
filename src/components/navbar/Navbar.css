@@ -65,7 +65,7 @@
   color: var(--button-hover-bg-color);
 }
 
-.icon-button.register, .icon-button.logout-icon-container {
+.icon-button.register, .icon-button.profile-icon-container {
   margin-right: 25px;
 }
 
@@ -108,6 +108,41 @@
   display: none;
 }
 
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 60px; /* Adjust based on your navbar height */
+  right: 0;
+  background-color: var(--navbar-bg-color);
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  padding: 10px;
+  z-index: 1001;
+  width: 200px; /* Set a fixed width for consistency */
+}
+
+.dropdown-menu div {
+  padding: 10px;
+  color: var(--primary-bg-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center; /* Align text and icon */
+}
+
+.dropdown-menu div:hover {
+  background-color: var(--primary-text-color);
+}
+
+.dropdown-icon {
+  margin-right: 10px;
+  color: var(--primary-bg-color);
+  width: 18px;
+  height: 18px;
+}
+
+
+
 /* Media Queries for Responsiveness */
 
 /* Tablets */
@@ -126,7 +161,7 @@
   }
 
   .icon-button.register,
-  .icon-button.logout-icon-container {
+  .icon-button.profile-icon-container {
     margin-right: 30px;
   }
 }
@@ -180,7 +215,7 @@
     font-size: 0.7rem;
   }
 
-  .icon-button.register, .icon-button.logout-icon-container {
+  .icon-button.register, .icon-button.profile-icon-container {
     margin-right: 0px;
   }
 }

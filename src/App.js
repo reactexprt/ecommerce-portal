@@ -124,7 +124,16 @@ function App() {
                 }
               />
               <Route path="/admin" element={<AdminProductUpload />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route 
+                path="/payment-success" 
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <PaymentSuccess />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                } 
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
