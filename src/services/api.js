@@ -35,7 +35,7 @@ api.interceptors.response.use(
         originalRequest._retry = true; // Mark the original request to prevent loops
 
         try {
-          const response = await axios.post(`${API_URL}/users/token`, { withCredentials: true });
+          const response = await api.post('/users/token');
 
           store.dispatch(loginSuccess(response.data.accessToken, response.data.userId));
           localStorage.setItem('token', response.data.accessToken);
