@@ -1,6 +1,6 @@
 @import '../../styles/variables.css';
 
-.previous-orders-container {
+.po-previous-orders-container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 20px;
@@ -8,20 +8,20 @@
   color: var(--primary-text-color);
 }
 
-h2 {
+.po-heading {
   font-size: 24px;
   margin-bottom: 20px;
   font-family: var(--font-family-secondary);
   text-align: center;
 }
 
-.orders-list {
+.po-orders-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.order-card {
+.po-order-card {
   background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -29,46 +29,46 @@ h2 {
   transition: transform 0.3s ease-in-out;
 }
 
-.order-card:hover {
+.po-order-card:hover {
   transform: translateY(-5px);
 }
 
-.order-header {
+.po-order-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
   font-size: 14px;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  flex-wrap: wrap;
 }
 
-.order-id {
+.po-order-id {
   font-weight: 600;
 }
 
-.order-date {
+.po-order-date {
   font-weight: 400;
 }
 
-.order-amount,
-.order-status {
+.po-order-amount,
+.po-order-status {
   margin: 10px 0;
   font-size: 16px;
   font-weight: 500;
 }
 
-.order-items h4 {
+.po-items-heading {
   font-family: var(--font-family-secondary);
   font-size: 16px;
   margin-bottom: 5px;
 }
 
-.order-items ul {
+.po-items-list {
   list-style-type: none;
   padding-left: 0;
   margin: 0;
 }
 
-.order-items li {
+.po-order-item {
   display: flex;
   align-items: center;
   background-color: var(--input-bg-color);
@@ -77,7 +77,7 @@ h2 {
   margin-bottom: 5px;
 }
 
-.item-image img {
+.po-item-image img {
   width: 60px;
   height: 60px;
   object-fit: cover;
@@ -85,60 +85,60 @@ h2 {
   margin-right: 10px;
 }
 
-.item-details {
+.po-item-details {
   display: flex;
   flex-direction: column;
 }
 
-.item-name {
+.po-item-name {
   font-weight: 600;
   margin-bottom: 5px;
 }
 
-.item-quantity {
+.po-item-quantity {
   font-size: 14px;
 }
 
-.order-address {
+.po-order-address {
   margin-top: 15px;
   font-size: 14px;
 }
 
-.load-more-button {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
-  color: #fff; /* White text color */
+.po-load-more-button {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: #fff;
   max-width: 70%;
-  border: none; /* Remove border */
-  border-radius: 30px; /* Rounded corners */
-  padding: 12px 30px; /* Padding for the button */
-  font-size: 1.2rem; /* Larger font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
-  margin: 20px auto; /* Center the button */
-  display: block; /* Ensure it is a block element */
+  border: none;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 20px auto;
+  display: block;
 }
 
-.load-more-button:hover {
-  transform: translateY(-3px); /* Slight lift on hover */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+.po-load-more-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.load-more-button:active {
-  transform: translateY(1px); /* Slight press effect on click */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slightly less shadow on active */
+.po-load-more-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.loading,
-.error,
-.no-orders {
+.po-loading,
+.po-error,
+.po-no-orders {
   text-align: center;
   font-size: 18px;
   margin: 20px 0;
 }
 
-.loading-more {
+.po-loading-more {
   text-align: center;
   font-size: 16px;
   margin: 20px 0;
@@ -148,29 +148,29 @@ h2 {
 
 /* Medium devices (tablets, 768px and up) */
 @media (max-width: 768px) {
-  .previous-orders-container {
+  .po-previous-orders-container {
     padding: 15px;
   }
 
-  h2 {
+  .po-heading {
     font-size: 22px;
   }
 
-  .order-card {
+  .po-order-card {
     padding: 15px;
   }
 
-  .order-header {
+  .po-order-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .order-amount,
-  .order-status {
+  .po-order-amount,
+  .po-order-status {
     font-size: 15px;
   }
 
-  .load-more-button {
+  .po-load-more-button {
     font-size: 14px;
     padding: 8px 16px;
   }
@@ -178,52 +178,52 @@ h2 {
 
 /* Small devices (phones, 576px and up) */
 @media (max-width: 576px) {
-  .previous-orders-container {
+  .po-previous-orders-container {
     padding: 10px;
   }
 
-  h2 {
+  .po-heading {
     font-size: 20px;
   }
 
-  .order-card {
+  .po-order-card {
     padding: 15px;
   }
 
-  .order-header {
+  .po-order-header {
     font-size: 13px;
   }
 
-  .order-amount,
-  .order-status {
+  .po-order-amount,
+  .po-order-status {
     font-size: 14px;
   }
 
-  .order-items h4 {
+  .po-items-heading {
     font-size: 14px;
   }
 
-  .order-items li {
+  .po-order-item {
     font-size: 13px;
     padding: 7px;
   }
 
-  .item-image img {
+  .po-item-image img {
     width: 50px;
     height: 50px;
     margin-right: 8px;
   }
 
-  .item-quantity {
+  .po-item-quantity {
     font-size: 12px;
   }
 
-  .order-address {
+  .po-order-address {
     font-size: 13px;
     margin-top: 10px;
   }
 
-  .load-more-button {
+  .po-load-more-button {
     font-size: 13px;
     padding: 8px 16px;
   }

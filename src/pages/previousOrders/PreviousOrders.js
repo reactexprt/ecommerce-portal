@@ -36,55 +36,55 @@ const PreviousOrders = () => {
     setPage(prevPage => prevPage + 1); // Increment the page number
   };
 
-  if (loading && page === 1) return <div className="loading">Loading your previous orders...</div>;
-  if (error) return <div className="error">{error}</div>;
-  if (!orders.length && !loading) return <div className="no-orders">No previous orders found.</div>;
+  if (loading && page === 1) return <div className="po-loading">Loading your previous orders...</div>;
+  if (error) return <div className="po-error">{error}</div>;
+  if (!orders.length && !loading) return <div className="po-no-orders">No previous orders found.</div>;
 
   return (
     <>
-    <Helmet>
-          <title>Órders - Ħimalayan R̥asa</title>
-        </Helmet>
-    <div className="previous-orders-container">
-      <h2>Your Previous Orders</h2>
-      <div className="orders-list">
-        {orders.map(order => (
-          <div key={order._id} className="order-card">
-            <div className="order-header">
-              <p className="order-id">Order ID: {order._id}</p>
-              <p className="order-date">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+      <Helmet>
+        <title>Órders - Ħimalayan R̥asa</title>
+      </Helmet>
+      <div className="po-previous-orders-container">
+        <h2 className="po-heading">Your Previous Orders</h2>
+        <div className="po-orders-list">
+          {orders.map(order => (
+            <div key={order._id} className="po-order-card">
+              <div className="po-order-header">
+                <p className="po-order-id">Order ID: {order._id}</p>
+                <p className="po-order-date">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+              </div>
+              <p className="po-order-amount">Total Amount: ₹{order.totalAmount}</p>
+              <p className="po-order-status">Status: {order.orderStatus} | Payment: {order.paymentStatus}</p>
+              <div className="po-order-items">
+                <h4 className="po-items-heading">Items:</h4>
+                <ul className="po-items-list">
+                  {order.products.map(item => (
+                    <li key={item.productId._id} className="po-order-item">
+                      <div className="po-item-image">
+                        {item.productId.images && item.productId.images.length > 0 && (
+                          <img src={item.productId.images[0]} alt={item.productId.name} />
+                        )}
+                      </div>
+                      <div className="po-item-details">
+                        <p className="po-item-name">{item.productId.name}</p>
+                        <p className="po-item-quantity">Qty: {item.quantity}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p className="po-order-address">Shipping Address: {order.shippingAddress}</p>
             </div>
-            <p className="order-amount">Total Amount: ₹{order.totalAmount}</p>
-            <p className="order-status">Status: {order.orderStatus} | Payment: {order.paymentStatus}</p>
-            <div className="order-items">
-              <h4>Items:</h4>
-              <ul>
-                {order.products.map(item => (
-                  <li key={item.productId._id} className="order-item">
-                    <div className="item-image">
-                      {item.productId.images && item.productId.images.length > 0 && (
-                        <img src={item.productId.images[0]} alt={item.productId.name} />
-                      )}
-                    </div>
-                    <div className="item-details">
-                      <p className="item-name">{item.productId.name}</p>
-                      <p className="item-quantity">Qty: {item.quantity}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <p className="order-address">Shipping Address: {order.shippingAddress}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Load More Button */}
-      {(page < totalPages && !loading) && (
-        <button className="load-more-button" onClick={loadMoreOrders}>Load More Orders</button>
-      )}
-      {loading && page > 1 && <p className="loading-more">Loading more orders...</p>}
-    </div>
+        {/* Load More Button */}
+        {(page < totalPages && !loading) && (
+          <button className="po-load-more-button" onClick={loadMoreOrders}>Load More Orders</button>
+        )}
+        {loading && page > 1 && <p className="po-loading-more">Loading more orders...</p>}
+      </div>
     </>
   );
 };

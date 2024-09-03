@@ -26,7 +26,6 @@ function forceLogout() {
     localStorage.removeItem('token');
     alert("Your session has expired. Please log in again.");
     history.push('/login');
-    window.location.reload(); // Optional: force reload to clean application state
   }
 }
 
@@ -81,9 +80,6 @@ api.interceptors.response.use(
           setTimeout(() => reject(new Error("Login session expired, please log in again.")), 500); // Add a delay to handle concurrent requests
         });
       }
-    } else if (error.response && error.response.status === 403) {
-      // Handle 403 Forbidden
-      forceLogout();  // Force logout on forbidden access
     }
 
     return Promise.reject(error);

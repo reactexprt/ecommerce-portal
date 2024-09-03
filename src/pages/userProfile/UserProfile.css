@@ -1,59 +1,121 @@
-/* src/components/UserProfile.css */
 @import '../../styles/variables.css';
 
-.user-profile-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 20px;
-    font-family: var(--font-family-primary);
-    color: var(--primary-text-color);
+.up-user-profile-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px;
+  font-family: var(--font-family-primary);
+  color: var(--primary-text-color);
+}
+
+.up-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-family: var(--font-family-secondary);
+  text-align: center;
+}
+
+.up-user-details {
+  background-color: var(--secondary-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+}
+
+.up-user-details p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.up-address-heading {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.up-address-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.up-address-item {
+  background-color: var(--input-bg-color);
+  padding: 10px;
+  border-radius: var(--border-radius);
+  margin-bottom: 10px;
+  box-shadow: var(--box-shadow);
+}
+
+.up-address-item p {
+  margin: 5px 0;
+}
+
+.up-loading,
+.up-error {
+  text-align: center;
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+/* Responsive Design */
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  .up-user-profile-container {
+    padding: 15px;
   }
-  
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-family: var(--font-family-secondary);
-    text-align: center;
+
+  .up-heading {
+    font-size: 22px;
   }
-  
-  .user-details {
-    background-color: var(--secondary-bg-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 20px;
+
+  .up-user-details {
+    padding: 15px;
   }
-  
-  .user-details p {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  h3 {
-    font-size: 20px;
-    margin-top: 20px;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    background-color: var(--input-bg-color);
-    padding: 10px;
-    border-radius: var(--border-radius);
-    margin-bottom: 10px;
-    box-shadow: var(--box-shadow);
-  }
-  
-  li p {
-    margin: 5px 0;
-  }
-  
-  .loading,
-  .error {
-    text-align: center;
+
+  .up-address-heading {
     font-size: 18px;
-    margin: 20px 0;
   }
-  
+
+  .up-user-details p {
+    font-size: 14px;
+  }
+
+  .up-address-item {
+    padding: 8px;
+  }
+
+  .up-address-item p {
+    font-size: 14px;
+  }
+}
+
+/* Small devices (phones, 576px and up) */
+@media (max-width: 576px) {
+  .up-user-profile-container {
+    padding: 10px;
+  }
+
+  .up-heading {
+    font-size: 20px;
+  }
+
+  .up-user-details {
+    padding: 10px;
+  }
+
+  .up-address-heading {
+    font-size: 16px;
+  }
+
+  .up-user-details p {
+    font-size: 13px;
+  }
+
+  .up-address-item {
+    padding: 7px;
+  }
+
+  .up-address-item p {
+    font-size: 13px;
+  }
+}
