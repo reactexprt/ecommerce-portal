@@ -17,8 +17,9 @@
 .hero-section {
   background-image: url('https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayas-hero.png');
   background-size: cover;
+  width: 100%;
   background-position: center;
-  padding: 100px 20px;
+  padding: 100px 10px;
   color: white;
   text-align: center;
   box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
@@ -294,7 +295,7 @@
   }
 
   .hero-section {
-    padding: 60px 20px;
+    padding: 60px 19px;
   }
 
   .about-himalayas {
