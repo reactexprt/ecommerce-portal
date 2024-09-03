@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faSpinner, 
   faHome, 
   faShoppingCart, 
   faSignInAlt, 
@@ -30,13 +29,14 @@ const Navbar = () => {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchCart());
-      dispatch(mergeCart()); 
+      dispatch(mergeCart());
     }
   }, [dispatch, isAuthenticated]);
 
   const handleLogout = async () => {
     await dispatch(logout());
     navigate('/');
+    setShowDropdown(false);
   };
 
   const handleProfileClick = () => {
@@ -45,7 +45,10 @@ const Navbar = () => {
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setShowDropdown(false);
+      // Introduce a slight delay before closing the dropdown
+      setTimeout(() => {
+        setShowDropdown(false);
+      }, 50); // 150ms delay
     }
   };
 
@@ -60,6 +63,11 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showDropdown]);
+
+  const handleNavigation = (path) => {
+    setShowDropdown(false);
+    navigate(path);
+  };
 
   const buttons = [
     { icon: faHome, tooltip: 'Home', onClick: () => navigate('/') },
@@ -86,9 +94,9 @@ const Navbar = () => {
             <div
               key={index}
               className={`icon-button ${button.className || ''}`}
-              onClick={button.onClick}
               onMouseEnter={() => setTooltip(button.tooltip)}
               onMouseLeave={() => setTooltip(null)}
+              onClick={button.onClick}
             >
               <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
               {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
@@ -97,11 +105,11 @@ const Navbar = () => {
               )}
               {button.tooltip === 'Account' && showDropdown && (
                 <div className="dropdown-menu" ref={dropdownRef}>
-                  <div onClick={() => navigate('/profile')}>
+                  <div onClick={() => handleNavigation('/profile')}>
                     <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
                     <span>Profile</span>
                   </div>
-                  <div onClick={() => navigate('/previousOrders')}>
+                  <div onClick={() => handleNavigation('/previousOrders')}>
                     <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
                     <span>Previous Orders</span>
                   </div>
@@ -129,11 +137,11 @@ const Navbar = () => {
             )}
             {button.tooltip === 'Account' && showDropdown && (
               <div className="bottom-dropdown-menu" ref={dropdownRef}>
-                <div onClick={() => navigate('/profile')}>
+                <div onClick={() => handleNavigation('/profile')}>
                   <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
                   <span>Profile</span>
                 </div>
-                <div onClick={() => navigate('/previousOrders')}>
+                <div onClick={() => handleNavigation('/previousOrders')}>
                   <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
                   <span>Previous Orders</span>
                 </div>
