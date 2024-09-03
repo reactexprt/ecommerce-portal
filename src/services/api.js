@@ -11,7 +11,28 @@ const api = axios.create({
 });
 
 let isRefreshing = false;
-let hasLoggedOut = false; // Flag to ensure logout is only processed once
+let refreshSubscribers = [];
+let hasLoggedOut = false; // Flag to prevent multiple alerts
+
+function onRefreshed(token) {
+  refreshSubscribers.forEach(callback => callback(token));
+  refreshSubscribers = [];
+}
+
+function addRefreshSubscriber(callback) {
+  refreshSubscribers.push(callback);
+}
+
+function forceLogout() {
+  if (!hasLoggedOut) {
+    hasLoggedOut = true; // Set the flag to prevent multiple alerts
+    store.dispatch(logout());
+    localStorage.removeItem('token');
+    alert("Your session has expired. Please log in again.");
+    history.push('/login');
+    window.location.reload(); // Optional: force reload to clean application state
+  }
+}
 
 api.interceptors.request.use(
   config => {
@@ -29,37 +50,52 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      if (!isRefreshing) {
-        isRefreshing = true;
-        originalRequest._retry = true; // Mark the original request to prevent loops
+    if (error.response) {
+      const status = error.response.status;
 
-        try {
-          const response = await api.post('/users/token');
+      if (status === 401) {
+        // Handle 401 Unauthorized
+        if (!originalRequest._retry) {
+          originalRequest._retry = true;
 
-          store.dispatch(loginSuccess(response.data.accessToken, response.data.userId));
-          localStorage.setItem('token', response.data.accessToken);
-          api.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`;
-          originalRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
+          if (!isRefreshing) {
+            isRefreshing = true;
 
-          isRefreshing = false; // Reset the refreshing flag after successful refresh
-          return api(originalRequest); // Retry the original request with the new token
-        } catch (refreshError) {
-          isRefreshing = false;
-          if (!hasLoggedOut) {
-            hasLoggedOut = true; // Set the logged out flag
-            store.dispatch(logout());
-            localStorage.removeItem('token');
-            alert("Your session has expired. Please log in again.");
-            history.push('/login');
-            window.location.reload(); // Optional: force reload to clean application state
+            try {
+              const response = await api.post('/users/token');
+              const appAccessToken = response?.data?.accessToken;
+
+              store.dispatch(loginSuccess(appAccessToken, response.data.userId));
+              localStorage.setItem('token', appAccessToken);
+              api.defaults.headers.common['Authorization'] = `Bearer ${appAccessToken}`;
+
+              onRefreshed(appAccessToken);
+              isRefreshing = false;
+
+              return api(originalRequest);
+            } catch (refreshError) {
+              isRefreshing = false;
+              forceLogout();  // Force logout on failed refresh
+              return Promise.reject(refreshError);
+            }
+          } else {
+            return new Promise((resolve, reject) => {
+              addRefreshSubscriber(token => {
+                if (token instanceof Error) {
+                  reject(token);
+                } else {
+                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
+                  resolve(api(originalRequest));
+                }
+              });
+            });
           }
-          return Promise.reject(refreshError); // Reject the promise to stop further processing
+        } else {
+          forceLogout();  // Force logout if retry fails
         }
-      } else {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => reject(new Error("Login session expired, please log in again.")), 500); // Add a delay to handle concurrent requests
-        });
+      } else if (status === 403) {
+        // Handle 403 Forbidden
+        forceLogout();  // Force logout on forbidden access
       }
     }
 
