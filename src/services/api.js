@@ -12,15 +12,11 @@ const api = axios.create({
 
 let isRefreshing = false;
 let refreshSubscribers = [];
-let hasLoggedOut = false; // Flag to prevent multiple alerts
+let hasLoggedOut = false;
 
 function onRefreshed(token) {
   refreshSubscribers.forEach(callback => callback(token));
   refreshSubscribers = [];
-}
-
-function addRefreshSubscriber(callback) {
-  refreshSubscribers.push(callback);
 }
 
 function forceLogout() {
@@ -50,53 +46,44 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    if (error.response) {
-      const status = error.response.status;
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-      if (status === 401) {
-        // Handle 401 Unauthorized
-        if (!originalRequest._retry) {
-          originalRequest._retry = true;
+      if (!isRefreshing) {
+        isRefreshing = true;
 
-          if (!isRefreshing) {
-            isRefreshing = true;
+        try {
+          const response = await api.post('/users/token');
+          const appAccessToken = response?.data?.accessToken;
 
-            try {
-              const response = await api.post('/users/token');
-              const appAccessToken = response?.data?.accessToken;
+          store.dispatch(loginSuccess(appAccessToken, response.data.userId));
+          localStorage.setItem('token', appAccessToken);
+          api.defaults.headers.common['Authorization'] = `Bearer ${appAccessToken}`;
 
-              store.dispatch(loginSuccess(appAccessToken, response.data.userId));
-              localStorage.setItem('token', appAccessToken);
-              api.defaults.headers.common['Authorization'] = `Bearer ${appAccessToken}`;
+          onRefreshed(appAccessToken);
+          isRefreshing = false;
 
-              onRefreshed(appAccessToken);
-              isRefreshing = false;
-
-              return api(originalRequest);
-            } catch (refreshError) {
-              isRefreshing = false;
-              forceLogout();  // Force logout on failed refresh
-              return Promise.reject(refreshError);
+          return new Promise((resolve, reject) => {
+            if (appAccessToken instanceof Error) {
+              reject(appAccessToken);
+            } else {
+              originalRequest.headers['Authorization'] = `Bearer ${appAccessToken}`;
+              resolve(api(originalRequest));
             }
-          } else {
-            return new Promise((resolve, reject) => {
-              addRefreshSubscriber(token => {
-                if (token instanceof Error) {
-                  reject(token);
-                } else {
-                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
-                  resolve(api(originalRequest));
-                }
-              });
-            });
-          }
-        } else {
-          forceLogout();  // Force logout if retry fails
+          });
+        } catch (refreshError) {
+          isRefreshing = false;
+          forceLogout();
+          return Promise.reject(refreshError);
         }
-      } else if (status === 403) {
-        // Handle 403 Forbidden
-        forceLogout();  // Force logout on forbidden access
+      } else {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => reject(new Error("Login session expired, please log in again.")), 500); // Add a delay to handle concurrent requests
+        });
       }
+    } else if (error.response && error.response.status === 403) {
+      // Handle 403 Forbidden
+      forceLogout();  // Force logout on forbidden access
     }
 
     return Promise.reject(error);

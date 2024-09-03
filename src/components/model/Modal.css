@@ -1,5 +1,6 @@
 /* src/components/Modal.css */
 @import '../../styles/variables.css';
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
 
 .custom-modal-overlay {
   position: fixed;
@@ -109,6 +110,40 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+.custom-wishlist-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: var(--button-bg-color);
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-wishlist-button:hover {
+  color: var(--button-hover-bg-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.custom-wishlist-button .fa-heart {
+  font-size: 1.5rem;
+}
+
+.custom-wishlist-button .far {
+  color: var(--button-bg-color);
+}
+
+.custom-wishlist-button .fas {
+  color: red;
+}
+
 /* Lightbox CSS */
 .custom-lightbox-overlay {
   position: fixed;
@@ -149,6 +184,13 @@
   max-height: 80vh;
   border-radius: var(--border-radius);
   object-fit: contain;
+}
+
+.modal-button-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
 }
 
 /* Responsive Design for Tablets and Mobile Devices */
@@ -201,6 +243,11 @@
     font-size: 0.8rem;
   }
 
+  .custom-wishlist-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
   .custom-lightbox-close-button {
     top: 15px;
     right: 30px;
@@ -209,5 +256,10 @@
   .custom-lightbox-image {
     max-width: 95vw;
     max-height: 65vh;
+  }
+
+  .modal-button-div {
+    flex-direction: column;
+    gap: 5px;
   }
 }

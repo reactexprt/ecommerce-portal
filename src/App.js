@@ -33,6 +33,7 @@ const Footer = loadable(() => import('./pages/footer/Footer'));
 const PreviousOrders = loadable(() => import('./pages/previousOrders/PreviousOrders'));
 const UserProfile = loadable(() => import('./pages/userProfile/UserProfile'));
 const AddressBook = loadable(() => import('./pages/addressBook/AddressBook'));
+const Wishlist = loadable(() => import('./pages/wishlist/Wishlist'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 // Import TimeoutPage and NotFound directly
@@ -153,6 +154,16 @@ function App() {
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <AddressBook />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/wishlist" 
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <Wishlist />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
                 } 

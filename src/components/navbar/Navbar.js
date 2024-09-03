@@ -2,16 +2,23 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faHome, 
-  faShoppingCart, 
-  faSignInAlt, 
-  faUserPlus, 
-  faSignOutAlt, 
-  faBoxOpen, 
-  faUserCircle, 
-  faHistory, 
-  faUser 
+import {
+  faHome,
+  faShoppingCart,
+  faSignInAlt,
+  faUserPlus,
+  faSignOutAlt,
+  faBoxOpen,
+  faUserCircle,
+  faHistory,
+  faUser,
+  faCog,
+  faHeart,
+  faAddressBook,
+  faTruck,
+  faLifeRing,
+  faBell,
+  faCreditCard
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
@@ -82,10 +89,10 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-logo-title">
-          <img 
-            src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png" 
-            alt="Rasa Icon" 
-            className="navbar-icon" 
+          <img
+            src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png"
+            alt="Rasa Icon"
+            className="navbar-icon"
           />
           <h1>Ħimalayan R̥asa</h1>
         </div>
@@ -112,6 +119,34 @@ const Navbar = () => {
                   <div onClick={() => handleNavigation('/previousOrders')}>
                     <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
                     <span>Previous Orders</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/addressBook')}>
+                    <FontAwesomeIcon icon={faAddressBook} className="dropdown-icon" />
+                    <span>Address Book</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/orderTracking')}>
+                    <FontAwesomeIcon icon={faTruck} className="dropdown-icon" />
+                    <span>Track My Orders</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/wishlist')}>
+                    <FontAwesomeIcon icon={faHeart} className="dropdown-icon" />
+                    <span>Wishlist</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/notifications')}>
+                    <FontAwesomeIcon icon={faBell} className="dropdown-icon" />
+                    <span>Notifications</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/accountSettings')}>
+                    <FontAwesomeIcon icon={faCog} className="dropdown-icon" />
+                    <span>Account Settings</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/paymentMethods')}>
+                    <FontAwesomeIcon icon={faCreditCard} className="dropdown-icon" />
+                    <span>Payment Methods</span>
+                  </div>
+                  <div onClick={() => handleNavigation('/support')}>
+                    <FontAwesomeIcon icon={faLifeRing} className="dropdown-icon" />
+                    <span>Help & Support</span>
                   </div>
                   <div onClick={handleLogout}>
                     <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />
@@ -144,6 +179,34 @@ const Navbar = () => {
                 <div onClick={() => handleNavigation('/previousOrders')}>
                   <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
                   <span>Previous Orders</span>
+                </div>
+                <div onClick={() => handleNavigation('/addressBook')}>
+                  <FontAwesomeIcon icon={faAddressBook} className="dropdown-icon" />
+                  <span>Address Book</span>
+                </div>
+                <div onClick={() => handleNavigation('/orderTracking')}>
+                  <FontAwesomeIcon icon={faTruck} className="dropdown-icon" />
+                  <span>Track My Orders</span>
+                </div>
+                <div onClick={() => handleNavigation('/wishlist')}>
+                  <FontAwesomeIcon icon={faHeart} className="dropdown-icon" />
+                  <span>Wishlist</span>
+                </div>
+                <div onClick={() => handleNavigation('/notifications')}>
+                  <FontAwesomeIcon icon={faBell} className="dropdown-icon" />
+                  <span>Notifications</span>
+                </div>
+                <div onClick={() => handleNavigation('/accountSettings')}>
+                  <FontAwesomeIcon icon={faCog} className="dropdown-icon" />
+                  <span>Account Settings</span>
+                </div>
+                <div onClick={() => handleNavigation('/paymentMethods')}>
+                  <FontAwesomeIcon icon={faCreditCard} className="dropdown-icon" />
+                  <span>Payment Methods</span>
+                </div>
+                <div onClick={() => handleNavigation('/support')}>
+                  <FontAwesomeIcon icon={faLifeRing} className="dropdown-icon" />
+                  <span>Help & Support</span>
                 </div>
                 <div onClick={handleLogout}>
                   <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />

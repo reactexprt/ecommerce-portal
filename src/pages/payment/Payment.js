@@ -87,7 +87,7 @@ const PaymentForm = () => {
     }
 
     try {
-      const { data } = await api.post('/create-razorpay-order', { amount: totalAmount * 100 });
+      const { data } = await api.post('/payment/create-razorpay-order', { amount: totalAmount * 100 });
 
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID,
@@ -104,7 +104,7 @@ const PaymentForm = () => {
             razorpaySignature: response.razorpay_signature,
           };
 
-          const result = await api.post('/verify-razorpay-payment', paymentData);
+          const result = await api.post('/payment/verify-razorpay-payment', paymentData);
 
           if (result.data.status === 'success') {
             await api.post('/cart/clear');
