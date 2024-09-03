@@ -23,12 +23,14 @@ import {
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
 import { fetchCart, mergeCart } from '../../redux/actions/cartActions';
+import api from '../../services/api';
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [unreadCount, setUnreadCount] = useState(0);
   const [tooltip, setTooltip] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -40,6 +42,19 @@ const Navbar = () => {
     }
   }, [dispatch, isAuthenticated]);
 
+  useEffect(() => {
+    const fetchUnreadNotifications = async () => {
+      try {
+        const response = await api.get('/notifications/unread-count');
+        setUnreadCount(response.data.unreadCount);
+      } catch (error) {
+        console.error('Error fetching unread notifications count:', error);
+      }
+    };
+
+    fetchUnreadNotifications();
+  }, []);
+
   const handleLogout = async () => {
     await dispatch(logout());
     navigate('/');
@@ -48,14 +63,14 @@ const Navbar = () => {
 
   const handleProfileClick = () => {
     setShowDropdown(!showDropdown);
+    setTooltip(null); // Disable tooltip when dropdown is open
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Introduce a slight delay before closing the dropdown
       setTimeout(() => {
         setShowDropdown(false);
-      }, 50); // 150ms delay
+      }, 50);
     }
   };
 
@@ -101,12 +116,12 @@ const Navbar = () => {
             <div
               key={index}
               className={`icon-button ${button.className || ''}`}
-              onMouseEnter={() => setTooltip(button.tooltip)}
+              onMouseEnter={() => !showDropdown && setTooltip(button.tooltip)}  // Disable tooltip when dropdown is open
               onMouseLeave={() => setTooltip(null)}
               onClick={button.onClick}
             >
               <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
-              {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
+              {tooltip === button.tooltip && !showDropdown && <span className="tooltip">{tooltip}</span>}
               {button.tooltip === 'Cart' && cartItems.length > 0 && (
                 <span className="cart-count">{cartItems.length}</span>
               )}
@@ -135,6 +150,9 @@ const Navbar = () => {
                   <div onClick={() => handleNavigation('/notifications')}>
                     <FontAwesomeIcon icon={faBell} className="dropdown-icon" />
                     <span>Notifications</span>
+                    {unreadCount > 0 && (
+                      <span className="notification-count">{unreadCount}</span>
+                    )}
                   </div>
                   <div onClick={() => handleNavigation('/accountSettings')}>
                     <FontAwesomeIcon icon={faCog} className="dropdown-icon" />
@@ -195,6 +213,9 @@ const Navbar = () => {
                 <div onClick={() => handleNavigation('/notifications')}>
                   <FontAwesomeIcon icon={faBell} className="dropdown-icon" />
                   <span>Notifications</span>
+                  {unreadCount > 0 && (
+                    <span className="notification-count">{unreadCount}</span>
+                  )}
                 </div>
                 <div onClick={() => handleNavigation('/accountSettings')}>
                   <FontAwesomeIcon icon={faCog} className="dropdown-icon" />

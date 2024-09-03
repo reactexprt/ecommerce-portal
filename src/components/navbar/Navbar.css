@@ -24,7 +24,6 @@
 .navbar-icon {
   width: 80px;
   height: 80px;
-  /* margin-top: 5px; */
   margin-right: 2px;
   object-fit: contain;
 }
@@ -132,6 +131,7 @@
 
 .dropdown-menu div:hover {
   background-color: var(--primary-text-color);
+  cursor: pointer;
 }
 
 .dropdown-icon {
@@ -139,6 +139,19 @@
   color: var(--primary-bg-color);
   width: 18px;
   height: 18px;
+  position: relative;
+}
+
+.notification-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 10px;
+  display: inline-block;
+  align-self: center;
 }
 
 
@@ -168,6 +181,7 @@
 
 .bottom-dropdown-menu div:hover {
   background-color: var(--primary-text-color);
+  cursor: pointer;
 }
 
 
@@ -242,6 +256,11 @@
     margin-top: 5px;
     color: var(--button-text-color); /* Text color matching the icon */
     font-size: 0.7rem;
+  }
+
+  .bottom-icon-button .notification-count {
+    top: -6px; /* Adjust for mobile */
+    right: -6px; /* Adjust for mobile */
   }
 
   .icon-button.register, .icon-button.profile-icon-container {

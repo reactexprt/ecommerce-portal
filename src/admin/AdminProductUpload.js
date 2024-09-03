@@ -13,7 +13,12 @@ const AdminProductUpload = () => {
         stock: 0,
         images: []
     });
-    const [multipleProducts, setMultipleProducts] = useState([]);
+    const [notification, setNotification] = useState({
+        message: '',
+        type: 'info'
+    });
+    const [loadingProduct, setLoadingProduct] = useState(false);
+    const [loadingNotification, setLoadingNotification] = useState(false);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -21,7 +26,11 @@ const AdminProductUpload = () => {
             try {
                 const response = await api.get('/users/profile');
                 if (response.data && response.data.isAdmin) {
-                    setIsAdmin(true);
+                    if (response.data.isAdmin) {
+                        setIsAdmin(true);
+                    } else {
+                        history.push('/products')
+                    }
                 } else {
                     history.push('/');
                 }
@@ -31,7 +40,7 @@ const AdminProductUpload = () => {
         };
 
         fetchUserData();
-    }, [history]);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -42,25 +51,18 @@ const AdminProductUpload = () => {
         const files = Array.from(e.target.files);
         setSingleProduct((prevProduct) => ({
             ...prevProduct,
-            images: [...prevProduct.images, ...files] // Append new files to the existing array
+            images: [...prevProduct.images, ...files]
         }));
     };
 
-    const handleMultipleFileChange = (e) => {
-        const files = e.target.files;
-        const products = Array.from(files).map(file => ({
-            name: file.name.split('.')[0],
-            price: '',
-            description: '',
-            category: '',
-            stock: 0,
-            images: [file]
-        }));
-        setMultipleProducts(products);
+    const handleNotificationChange = (e) => {
+        const { name, value } = e.target;
+        setNotification({ ...notification, [name]: value });
     };
 
     const handleSingleSubmit = async (e) => {
         e.preventDefault();
+        setLoadingProduct(true);
         try {
             const formData = new FormData();
             Object.keys(singleProduct).forEach(key => {
@@ -77,12 +79,27 @@ const AdminProductUpload = () => {
             setMessage(`Product ${response.data.name} uploaded successfully!`);
         } catch (error) {
             setMessage('Error uploading product');
+        } finally {
+            setLoadingProduct(false);
+        }
+    };
+
+    const handleNotificationSubmit = async (e) => {
+        e.preventDefault();
+        setLoadingNotification(true);
+        try {
+            await api.post('/notifications/send', notification);
+            setMessage('Notification sent successfully!');
+        } catch (error) {
+            setMessage('Error sending notification');
+        } finally {
+            setLoadingNotification(false);
         }
     };
 
     return (
         <div className="admin-upload-page">
-            <h1 className="admin-page-title">Admin Product Upload</h1>
+            <h1 className="admin-page-title">Admin Dashboard</h1>
 
             <form onSubmit={handleSingleSubmit} className="admin-form admin-single-upload-form">
                 <h2 className="admin-form-title">Upload Single Product</h2>
@@ -144,7 +161,36 @@ const AdminProductUpload = () => {
                         ))}
                     </ul>
                 )}
-                <button type="submit" className="admin-submit-button">Upload Product</button>
+                <button type="submit" className="admin-submit-button" disabled={loadingProduct}>
+                    {loadingProduct ? 'Uploading...' : 'Upload Product'}
+                </button>
+            </form>
+
+            <form onSubmit={handleNotificationSubmit} className="admin-form admin-notification-form">
+                <h2 className="admin-form-title">Post Notification</h2>
+                <textarea
+                    name="message"
+                    placeholder="Notification Message"
+                    value={notification.message}
+                    onChange={handleNotificationChange}
+                    required
+                    className="admin-textarea"
+                />
+                <select
+                    name="type"
+                    value={notification.type}
+                    onChange={handleNotificationChange}
+                    required
+                    className="admin-input"
+                >
+                    <option value="info">Info</option>
+                    <option value="success">Success</option>
+                    <option value="warning">Warning</option>
+                    <option value="error">Error</option>
+                </select>
+                <button type="submit" className="admin-submit-button" disabled={loadingNotification}>
+                    {loadingNotification ? 'Sending...' : 'Post Notification'}
+                </button>
             </form>
 
             {message && <p className="admin-message">{message}</p>}

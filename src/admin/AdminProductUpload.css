@@ -19,22 +19,22 @@
 }
 
 .admin-form {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 40px;
-    background-color: var(--primary-bg-color);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  background-color: var(--primary-bg-color);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  align-items: center;
 }
 
 .admin-form-title {
-    margin-bottom: 20px;
-    color: var(--primary-text-color);
-    font-family: var(--font-family-secondary);
+  margin-bottom: 20px;
+  color: var(--primary-text-color);
+  font-family: var(--font-family-secondary);
 }
 
-.admin-input, .admin-textarea, .admin-file-input {
+.admin-input, .admin-textarea, .admin-file-input, .admin-select {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -64,6 +64,11 @@
 
 .admin-submit-button:hover {
   background-color: var(--button-hover-bg-color);
+}
+
+.admin-submit-button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 .admin-message {
