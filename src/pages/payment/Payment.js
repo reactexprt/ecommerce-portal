@@ -18,6 +18,20 @@ const loadRazorpay = () => {
   });
 };
 
+const sendOrder = async (address, totalAmount, cartItems) => {
+  try {
+    await api.post('/orders/order', {
+      shippingAddress: address,
+      cartItems,
+      totalAmount,
+      paymentStatus: 'Paid'
+    });
+  } catch (error) {
+    console.error('Error sending order');
+    // navigate('/technicalError');
+  }
+};
+
 const PaymentForm = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
   const location = useLocation();
@@ -96,6 +110,7 @@ const PaymentForm = () => {
             await api.post('/cart/clear');
             setSucceeded(true);
             setError(null);
+            sendOrder(location.state.selectedAddress, totalAmount, cartItems);
             dispatch(clearCart());
             navigate('/payment-success', {
               state: {

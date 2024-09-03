@@ -8,24 +8,6 @@ const PaymentSuccess = () => {
   const navigate = useNavigate();
   const { orderId, amount, name, contact, address, cartItems } = location.state;
 
-  useEffect(() => {
-    const sendOrder = async () => {
-      try {
-        await api.post('/orders/order', {
-          shippingAddress: address,
-          cartItems,
-          totalAmount: amount,
-          paymentStatus: 'Paid'
-        });
-      } catch (error) {
-        console.error('Error sending order');
-        navigate('/technicalError');
-      }
-    };
-  
-    sendOrder();
-  }, [address, amount, cartItems]);
-
   return (
     <div className="success-page">
       <h2>Thank You for Your Purchase!</h2>

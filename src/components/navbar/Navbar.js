@@ -80,7 +80,7 @@ const Navbar = () => {
                       <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
                       <span>Profile</span>
                     </div>
-                    <div onClick={() => navigate('/orders')}>
+                    <div onClick={() => navigate('/previousOrders')}>
                       <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
                       <span>Previous Orders</span>
                     </div>
