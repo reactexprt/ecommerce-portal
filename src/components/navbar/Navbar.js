@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,8 +11,8 @@ import {
   faSignOutAlt, 
   faBoxOpen, 
   faUserCircle, 
-  faHistory, // For Previous Orders
-  faUser // For Profile
+  faHistory, 
+  faUser 
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
@@ -25,11 +25,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [tooltip, setTooltip] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchCart());
-      dispatch(mergeCart()); // Call merge cart after login
+      dispatch(mergeCart()); 
     }
   }, [dispatch, isAuthenticated]);
 
@@ -42,6 +43,24 @@ const Navbar = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
+
   const buttons = [
     { icon: faHome, tooltip: 'Home', onClick: () => navigate('/') },
     { icon: faBoxOpen, tooltip: 'Products', onClick: () => navigate('/products') },
@@ -49,7 +68,6 @@ const Navbar = () => {
     { icon: faSignInAlt, tooltip: 'Login', onClick: () => navigate('/login'), visible: !isAuthenticated },
     { icon: faUserPlus, tooltip: 'Register', onClick: () => navigate('/register'), visible: !isAuthenticated, className: "register" },
     { icon: faUserCircle, tooltip: 'Account', onClick: handleProfileClick, visible: isAuthenticated, className: "profile-icon-container" },
-    // { icon: faSignOutAlt, tooltip: 'Logout', onClick: handleLogout, visible: isAuthenticated, className: "logout-icon-container" },
   ];
 
   return (
@@ -60,39 +78,37 @@ const Navbar = () => {
           <h1>Ħimalayan R̥asa</h1>
         </div>
         <div className="nav-buttons">
-          <Suspense fallback={<div className="spinner-container"><FontAwesomeIcon icon={faSpinner} spin size="3x" /></div>}>
-            {buttons.filter(button => button.visible !== false).map((button, index) => (
-              <div
-                key={index}
-                className={`icon-button ${button.className || ''}`}
-                onClick={button.onClick}
-                onMouseEnter={() => setTooltip(button.tooltip)}
-                onMouseLeave={() => setTooltip(null)}
-              >
-                <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
-                {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
-                {button.tooltip === 'Cart' && cartItems.length > 0 && (
-                  <span className="cart-count">{cartItems.length}</span>
-                )}
-                {button.tooltip === 'Account' && showDropdown && (
-                  <div className="dropdown-menu">
-                    <div onClick={() => navigate('/profile')}>
-                      <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
-                      <span>Profile</span>
-                    </div>
-                    <div onClick={() => navigate('/previousOrders')}>
-                      <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
-                      <span>Previous Orders</span>
-                    </div>
-                    <div onClick={handleLogout}>
-                      <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />
-                      <span>Logout</span>
-                    </div>
+          {buttons.filter(button => button.visible !== false).map((button, index) => (
+            <div
+              key={index}
+              className={`icon-button ${button.className || ''}`}
+              onClick={button.onClick}
+              onMouseEnter={() => setTooltip(button.tooltip)}
+              onMouseLeave={() => setTooltip(null)}
+            >
+              <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
+              {tooltip === button.tooltip && <span className="tooltip">{tooltip}</span>}
+              {button.tooltip === 'Cart' && cartItems.length > 0 && (
+                <span className="cart-count">{cartItems.length}</span>
+              )}
+              {button.tooltip === 'Account' && showDropdown && (
+                <div className="dropdown-menu" ref={dropdownRef}>
+                  <div onClick={() => navigate('/profile')}>
+                    <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
+                    <span>Profile</span>
                   </div>
-                )}
-              </div>
-            ))}
-          </Suspense>
+                  <div onClick={() => navigate('/previousOrders')}>
+                    <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
+                    <span>Previous Orders</span>
+                  </div>
+                  <div onClick={handleLogout}>
+                    <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />
+                    <span>Logout</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </nav>
       <div className="bottom-nav">
@@ -106,6 +122,22 @@ const Navbar = () => {
             <span>{button.tooltip}</span>
             {button.tooltip === 'Cart' && cartItems.length > 0 && (
               <span className="cart-count">{cartItems.length}</span>
+            )}
+            {button.tooltip === 'Account' && showDropdown && (
+              <div className="bottom-dropdown-menu" ref={dropdownRef}>
+                <div onClick={() => navigate('/profile')}>
+                  <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
+                  <span>Profile</span>
+                </div>
+                <div onClick={() => navigate('/previousOrders')}>
+                  <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
+                  <span>Previous Orders</span>
+                </div>
+                <div onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />
+                  <span>Logout</span>
+                </div>
+              </div>
             )}
           </div>
         ))}

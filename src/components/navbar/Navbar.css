@@ -111,7 +111,7 @@
 /* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
-  top: 60px; /* Adjust based on your navbar height */
+  top: 55px; /* Adjust based on your navbar height */
   right: 0;
   background-color: var(--navbar-bg-color);
   border-radius: 4px;
@@ -141,6 +141,34 @@
   height: 18px;
 }
 
+
+/* Specific styling for the drop-up menu in the bottom navbar */
+.bottom-dropdown-menu {
+  position: absolute;
+  bottom: 64px; /* Adjust this value to position the menu above the bottom navbar */
+  left: 50%; /* Center the drop-up menu horizontally */
+  transform: translateX(-50%) translateY(0); /* Center the menu and move it upwards */
+  background-color: var(--navbar-bg-color);
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  padding: 10px;
+  z-index: 1001;
+  width: 200px;
+}
+
+/* Additional styling to ensure the dropdown menu looks good */
+.bottom-dropdown-menu div {
+  padding: 10px;
+  color: var(--primary-bg-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.bottom-dropdown-menu div:hover {
+  background-color: var(--primary-text-color);
+}
 
 
 /* Media Queries for Responsiveness */
@@ -202,6 +230,7 @@
     font-size: 0.8rem;
     padding: 5px;
     color: var(--primary-text-color);
+    position: relative; 
   }
 
   .bottom-icon-button .awesome-icon {

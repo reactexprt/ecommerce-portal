@@ -31,6 +31,7 @@ const Payment = loadable(() => import('./pages/payment/Payment'));
 const PaymentSuccess = loadable(() => import('./pages/payment/PaymentSuccess'));
 const Footer = loadable(() => import('./pages/footer/Footer'));
 const PreviousOrders = loadable(() => import('./pages/previousOrders/PreviousOrders'));
+const UserProfile = loadable(() => import('./pages/userProfile/UserProfile'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 // Import TimeoutPage and NotFound directly
@@ -131,6 +132,16 @@ function App() {
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <PreviousOrders />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/profile" 
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <UserProfile />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
                 } 

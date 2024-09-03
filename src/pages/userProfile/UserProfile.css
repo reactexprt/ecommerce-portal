@@ -1,0 +1,59 @@
+/* src/components/UserProfile.css */
+@import '../../styles/variables.css';
+
+.user-profile-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px;
+    font-family: var(--font-family-primary);
+    color: var(--primary-text-color);
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: var(--font-family-secondary);
+    text-align: center;
+  }
+  
+  .user-details {
+    background-color: var(--secondary-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+  }
+  
+  .user-details p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  h3 {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: var(--input-bg-color);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    box-shadow: var(--box-shadow);
+  }
+  
+  li p {
+    margin: 5px 0;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  

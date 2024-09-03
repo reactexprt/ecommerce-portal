@@ -105,20 +105,29 @@ h2 {
 }
 
 .load-more-button {
-  background-color: var(--home-button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 16px;
-  display: block;
-  margin: 20px auto;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+  color: #fff; /* White text color */
+  max-width: 70%;
+  border: none; /* Remove border */
+  border-radius: 30px; /* Rounded corners */
+  padding: 12px 30px; /* Padding for the button */
+  font-size: 1.2rem; /* Larger font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
+  margin: 20px auto; /* Center the button */
+  display: block; /* Ensure it is a block element */
 }
 
 .load-more-button:hover {
-  background-color: var(--home-button-hover-bg-button);
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+}
+
+.load-more-button:active {
+  transform: translateY(1px); /* Slight press effect on click */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slightly less shadow on active */
 }
 
 .loading,
