@@ -74,7 +74,11 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-logo-title">
-          <img src="/images/himalayanrasa.png" alt="Rasa Icon" className="navbar-icon" />
+          <img 
+            src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png" 
+            alt="Rasa Icon" 
+            className="navbar-icon" 
+          />
           <h1>Ħimalayan R̥asa</h1>
         </div>
         <div className="nav-buttons">
