@@ -21,7 +21,11 @@ const Home = () => {
         <div className="about-himalayas">
           <h2>Why the Himalayas?</h2>
           <div className="about-content">
-            <img src="/images/himalayas-hero.png" alt="Himalayas" className="about-image" />
+            <img 
+              src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayas-hero.png" 
+              alt="Himalayas" 
+              className="about-image" 
+            />
             <div className="about-text">
               <p>The Himalayas are a unique source of natural ingredients, offering unparalleled purity. The pristine environment and high altitude ensure that our products are rich in minerals and nutrients, free from pollutants, and crafted using traditional methods passed down through generations.</p>
               <ul>
