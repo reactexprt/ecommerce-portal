@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 import { addToCart } from '../../redux/actions/cartActions';
 import api from '../../services/api';
 import './Wishlist.css';
@@ -7,7 +8,6 @@ import './Wishlist.css';
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,22 +44,27 @@ const Wishlist = () => {
   if (!wishlistItems.length) return <div>No items in your wishlist.</div>;
 
   return (
-    <div className="wishlist-container">
-      <h2>Your Wishlist</h2>
-      <div className="wishlist-items">
-        {wishlistItems.map(item => (
-          <div key={item._id} className="wishlist-item">
-            {/* Display the first image in the array */}
-            {item.images && item.images.length > 0 && (
-              <img src={item.images[0]} alt={item.name} className="wishlist-item-image" />
-            )}
-            <p>{item.name}</p>
-            <p className="wishlist-item-price">Price: ₹{item.price}</p>
-            <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
-          </div>
-        ))}
+    <>
+      <Helmet>
+        <title>Ŵishlist - Ħimalayan R̥asa</title>
+      </Helmet>
+      <div className="wishlist-container">
+        <h2>Your Wishlist</h2>
+        <div className="wishlist-items">
+          {wishlistItems.map(item => (
+            <div key={item._id} className="wishlist-item">
+              {/* Display the first image in the array */}
+              {item.images && item.images.length > 0 && (
+                <img src={item.images[0]} alt={item.name} className="wishlist-item-image" />
+              )}
+              <p>{item.name}</p>
+              <p className="wishlist-item-price">Price: ₹{item.price}</p>
+              <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

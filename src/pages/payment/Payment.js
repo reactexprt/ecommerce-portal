@@ -212,7 +212,7 @@ const Payment = () => {
   return (
     <>
       <Helmet>
-        <title>Payment - Himalayan Rasa</title>
+        <title>Payment - Ħimalayan R̥asa</title>
       </Helmet>
       <div className="payment-page">
         <div className="payment-container">
