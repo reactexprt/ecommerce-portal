@@ -1,5 +1,6 @@
 // src/components/PreviousOrders.js
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import api from '../../services/api';
 import './PreviousOrders.css'; // Import the CSS file for styling
 
@@ -40,6 +41,10 @@ const PreviousOrders = () => {
   if (!orders.length && !loading) return <div className="no-orders">No previous orders found.</div>;
 
   return (
+    <>
+    <Helmet>
+          <title>Órders - Ħimalayan R̥asa</title>
+        </Helmet>
     <div className="previous-orders-container">
       <h2>Your Previous Orders</h2>
       <div className="orders-list">
@@ -80,6 +85,7 @@ const PreviousOrders = () => {
       )}
       {loading && page > 1 && <p className="loading-more">Loading more orders...</p>}
     </div>
+    </>
   );
 };
 

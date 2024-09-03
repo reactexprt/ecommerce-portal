@@ -1,5 +1,6 @@
 // src/components/UserProfile.js
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import api from '../../services/api';
 import './UserProfile.css'; // Import the CSS file for styling
 
@@ -27,28 +28,33 @@ const UserProfile = () => {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="user-profile-container">
-      <h2>Your Profile</h2>
-      {user && (
-        <div className="user-details">
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          {/* <p><strong>Admin:</strong> {user.isAdmin ? 'Yes' : 'No'}</p> */}
-          <p><strong>Biometric Enabled:</strong> {user.biometricEnabled ? 'Yes' : 'No'}</p>
-          <h3>Addresses:</h3>
-          <ul>
-            {user.addresses.map((address, index) => (
-              <li key={index}>
-                <p><strong>{address.label}:</strong> {address.firstName} {address.lastName}</p>
-                <p>{address.flat}, {address.street}, {address.city}, {address.state}, {address.zip}, {address.country}</p>
-                <p><strong>Phone:</strong> {address.phoneNumber}</p>
-                <p><strong>Default:</strong> {address.isDefault ? 'Yes' : 'No'}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    <>
+      <Helmet>
+        <title>Ÿour Profile - Ħimalayan R̥asa</title>
+      </Helmet>
+      <div className="user-profile-container">
+        <h2>Your Profile</h2>
+        {user && (
+          <div className="user-details">
+            <p><strong>Username:</strong> {user.username}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            {/* <p><strong>Admin:</strong> {user.isAdmin ? 'Yes' : 'No'}</p> */}
+            <p><strong>Biometric Enabled:</strong> {user.biometricEnabled ? 'Yes' : 'No'}</p>
+            <h3>Addresses:</h3>
+            <ul>
+              {user.addresses.map((address, index) => (
+                <li key={index}>
+                  <p><strong>{address.label}:</strong> {address.firstName} {address.lastName}</p>
+                  <p>{address.flat}, {address.street}, {address.city}, {address.state}, {address.zip}, {address.country}</p>
+                  <p><strong>Phone:</strong> {address.phoneNumber}</p>
+                  <p><strong>Default:</strong> {address.isDefault ? 'Yes' : 'No'}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
