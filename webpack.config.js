@@ -36,6 +36,7 @@ module.exports = {
     filename: '[name].[contenthash].js', // Use contenthash for cache busting
     path: path.resolve(__dirname, 'dist'), // Output directory as an absolute path
     clean: true, // Clean the output directory before each build
+    publicPath: '/'
   },
 
   // Optimization settings for better performance
