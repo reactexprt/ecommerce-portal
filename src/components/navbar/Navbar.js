@@ -123,6 +123,7 @@ const Navbar = () => {
                   onLogout={handleLogout}
                   unreadCount={unreadCount}
                   dropdownRef={dropdownRef}
+                  isBottomNav={false}
                 />
               )}
             </div>
@@ -147,6 +148,7 @@ const Navbar = () => {
                 onLogout={handleLogout}
                 unreadCount={unreadCount}
                 dropdownRef={dropdownRef}
+                isBottomNav={true}
               />
             )}
           </div>

@@ -121,6 +121,15 @@ const AdminProductUpload = () => {
                     required
                     className="admin-input"
                 />
+                <input
+                    type="number"
+                    name="discountPrice"
+                    placeholder="Product Discount Price"
+                    value={singleProduct.discountPrice}
+                    onChange={handleInputChange}
+                    required
+                    className="admin-input"
+                />
                 <textarea
                     name="description"
                     placeholder="Product Description"

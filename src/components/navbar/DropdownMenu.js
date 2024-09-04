@@ -15,9 +15,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 
-const DropdownMenu = ({ onNavigate, onLogout, unreadCount, dropdownRef }) => {
+const DropdownMenu = ({ onNavigate, onLogout, unreadCount, dropdownRef, isBottomNav }) => {
   return (
-    <div className="dropdown-menu" ref={dropdownRef}>
+    <div className={isBottomNav ? "bottom-dropdown-menu" : "dropdown-menu"} ref={dropdownRef}>
       <div onClick={() => onNavigate('/profile')}>
         <FontAwesomeIcon icon={faUser} className="dropdown-icon" />
         <span>Profile</span>

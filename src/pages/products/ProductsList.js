@@ -2,29 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
-import Modal from '../../components/model/Modal';
 import './ProductsList.css';
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(8); // Initially load 5 products
-  const [hasMore, setHasMore] = useState(true); // Track if more products are available
+  const [limit] = useState(8); // Load 8 products per page
+  const [hasMore, setHasMore] = useState(true);
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        // Fetch products from the server with the current page and limit
         const response = await api.get(`/products?page=${currentPage}&limit=${limit}`);
         const { products, hasMore } = response.data;
 
-        // Filter out duplicates using a Set based on the product ID
+        // Filter out duplicates based on the product ID
         setProducts(prevProducts => {
           const productMap = new Map(prevProducts.map(product => [product._id, product]));
           products.forEach(product => {
@@ -35,7 +34,7 @@ const ProductsList = () => {
           return Array.from(productMap.values());
         });
 
-        setHasMore(hasMore); // Update hasMore state based on server response
+        setHasMore(hasMore); // Update hasMore state
       } catch (error) {
         setError('Error fetching products');
       }
@@ -43,23 +42,19 @@ const ProductsList = () => {
     };
 
     fetchProducts();
-  }, [currentPage]);  
+  }, [currentPage]);
 
   const loadMoreProducts = () => {
     if (hasMore) {
-      setCurrentPage(prevPage => prevPage + 1); // Increment the page number to load more products
+      setCurrentPage(prevPage => prevPage + 1); // Increment the page to load more products
     }
   };
 
-  const handleProductClick = product => {
-    setSelectedProduct(product);
+  const handleProductClick = (productId) => {
+    navigate(`/products/product/${productId}`); // Navigate to the product details page using useNavigate
   };
 
-  const closeModal = () => {
-    setSelectedProduct(null);
-  };
-
-  if (loading && currentPage === 1) { // Only show spinner on the initial load
+  if (loading && currentPage === 1) { // Only show spinner during the initial load
     return (
       <div className="loading">
         <FontAwesomeIcon icon={faSpinner} spin size="3x" />
@@ -81,7 +76,7 @@ const ProductsList = () => {
         <h1>Our Products</h1>
         <div className="products-grid">
           {products.map(product => (
-            <div className="product-card" key={product._id} onClick={() => handleProductClick(product)}>
+            <div className="product-card" key={product._id} onClick={() => handleProductClick(product._id)}>
               <ImageSlider images={product.images} />
               <div className="product-info">
                 <h2 className="product-name">{product.name}</h2>
@@ -101,7 +96,6 @@ const ProductsList = () => {
             <p>Loading more products...</p>
           </div>
         )}
-        {selectedProduct && <Modal product={selectedProduct} closeModal={closeModal} />}
       </div>
     </>
   );

@@ -24,6 +24,7 @@ const loadable = (importFunc) => {
 // Lazy loading components with error handling
 const Home = loadable(() => import('./pages/home/Home'));
 const ProductsList = loadable(() => import('./pages/products/ProductsList'));
+const ProductDetails = loadable(() => import('./pages/products/ProductDetails'));
 const Login = loadable(() => import('./pages/login/Login'));
 const Register = loadable(() => import('./pages/register/Register'));
 const Cart = loadable(() => import('./pages/cart/Cart'));
@@ -126,6 +127,14 @@ function App() {
                 element={
                   <ErrorBoundaryWrapper>
                     <ProductsList />
+                  </ErrorBoundaryWrapper>
+                }
+              />
+              <Route
+                path="/products/product/:productId"
+                element={
+                  <ErrorBoundaryWrapper>
+                    <ProductDetails />
                   </ErrorBoundaryWrapper>
                 }
               />
