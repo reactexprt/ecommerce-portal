@@ -126,8 +126,7 @@ const ProductDetails = () => {
                 ))}
             </>
         );
-    };
-    
+    };   
     
     const renderStars = () => {
         return [...Array(5)].map((star, index) => {

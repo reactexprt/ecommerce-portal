@@ -1,7 +1,7 @@
 // src/components/Notifications.js
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Notifications.css';
 
@@ -35,7 +35,7 @@ const Notifications = () => {
 
   if (loading) {
     return (
-      <div className="notifications-container loading-container">
+      <div className="notifications-page-loading">
         <FontAwesomeIcon icon={faBell} spin size="2x" />
         <p>Loading your notifications...</p>
       </div>
@@ -44,7 +44,7 @@ const Notifications = () => {
 
   if (!notifications.length) {
     return (
-      <div className="notifications-container empty-container">
+      <div className="notifications-page-empty">
         <FontAwesomeIcon icon={faBell} size="4x" />
         <p>No notifications found.</p>
       </div>
@@ -52,11 +52,11 @@ const Notifications = () => {
   }
 
   return (
-    <div className="notifications-container">
+    <div className="notifications-page-container">
       <h2>Your Notifications</h2>
-      <ul className="notifications-list">
+      <ul className="notifications-page-list">
         {notifications.map(notification => (
-          <li key={notification._id} className={`notification-item ${notification.read ? 'read' : ''}`}>
+          <li key={notification._id} className={`notifications-page-item ${notification.read ? 'read' : ''}`}>
             <p>{notification.message}</p>
             {!notification.read && (
               <button onClick={() => markAsRead(notification._id)}>

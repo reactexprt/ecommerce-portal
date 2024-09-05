@@ -37,9 +37,10 @@ const Wishlist = () => {
     }
   };
 
-  if (loading) return <div className="wishlist-container loading-container">Loading your wishlist...</div>;
+  if (loading) return <div className="wishlist-page-loading">Loading your wishlist...</div>;
+
   if (!wishlistItems.length) return (
-    <div className="wishlist-container empty-container">
+    <div className="wishlist-page-empty">
       <FontAwesomeIcon icon={faHeart} size="4x" />
       <p>Your wishlist is empty.</p>
     </div>
@@ -48,18 +49,18 @@ const Wishlist = () => {
   return (
     <>
       <Helmet>
-        <title>Ŵishlist - Ħimalayan R̥asa</title>
+        <title>Wishlist - Himalayan Rasa</title>
       </Helmet>
-      <div className="wishlist-container">
+      <div className="wishlist-page-container">
         <h2>Your Wishlist</h2>
-        <div className="wishlist-items">
+        <div className="wishlist-page-items">
           {wishlistItems.map(item => (
-            <div key={item._id} className="wishlist-item">
+            <div key={item._id} className="wishlist-page-item">
               {item.images && item.images.length > 0 && (
-                <img src={item.images[0]} alt={item.name} className="wishlist-item-image" />
+                <img src={item.images[0]} alt={item.name} className="wishlist-page-item-image" />
               )}
               <p>{item.name}</p>
-              <p className="wishlist-item-price">Price: ₹{item.price}</p>
+              <p className="wishlist-page-item-price">Price: ₹{item.price}</p>
               <button onClick={() => handleAddToCart(item)}>
                 <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
               </button>

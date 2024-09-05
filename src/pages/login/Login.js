@@ -6,6 +6,7 @@ import api from '../../services/api';
 import ForgotPasswordModal from '../../components/forgotPassword/ForgotPasswordModal';
 import { login } from '../../redux/actions/authActions';
 import GoogleSignIn from '../../components/GoogleSignIn';
+import FacebookSignin from '../../components/FacebookSignin';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import ContactUsButton from '../../components/contactUs/ContactUsButton';
 
@@ -161,9 +162,13 @@ const Login = () => {
           </div>
           <button type="submit">LOGIN</button>
         </form>
-
-        <div className="google-signin-container">
-          <GoogleSignIn />
+        <div className='single-sign-in-divs'>
+          <div className="google-signin-container">
+            <GoogleSignIn />
+          </div>
+          <div className='facebook-sigin-container'>
+            <FacebookSignin />
+          </div>
         </div>
 
         <div className="login-footer">

@@ -2,7 +2,7 @@
 @import '../../styles/variables.css';
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
 
-.wishlist-container {
+.wishlist-page-container {
   max-width: 800px;
   margin: 50px auto;
   padding: 20px;
@@ -11,21 +11,21 @@
   text-align: center;
 }
 
-.wishlist-container h2 {
+.wishlist-page-container h2 {
   font-size: 24px;
   margin-bottom: 20px;
   font-family: var(--font-family-secondary);
   color: var(--button-bg-color);
 }
 
-.wishlist-items {
+.wishlist-page-items {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
 }
 
-.wishlist-item {
+.wishlist-page-item {
   background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -35,28 +35,28 @@
   transition: transform 0.3s ease;
 }
 
-.wishlist-item:hover {
+.wishlist-page-item:hover {
   transform: translateY(-5px);
 }
 
-.wishlist-item img {
+.wishlist-page-item img {
   max-width: 100%;
   border-radius: var(--border-radius);
   margin-bottom: 10px;
 }
 
-.wishlist-item p {
+.wishlist-page-item p {
   margin: 10px 0;
   font-size: 1rem;
   color: var(--primary-text-color);
 }
 
-.wishlist-item-price {
+.wishlist-page-item-price {
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.wishlist-item button {
+.wishlist-page-item button {
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
   border: none;
@@ -71,53 +71,55 @@
   font-size: 0.9rem;
 }
 
-.wishlist-item button:hover {
+.wishlist-page-item button:hover {
   background-color: var(--button-hover-bg-color);
 }
 
-.loading-container, .empty-container {
+.wishlist-page-loading,
+.wishlist-page-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 300px;
+  height: 50vh;
 }
 
-.loading-container p, .empty-container p {
+.wishlist-page-loading p,
+.wishlist-page-empty p {
   font-size: 1.2rem;
   margin-top: 20px;
   color: var(--primary-text-color);
 }
 
 @media (max-width: 768px) {
-  .wishlist-container {
+  .wishlist-page-container {
     padding: 15px;
     margin: 20px auto;
   }
 
-  .wishlist-container h2 {
+  .wishlist-page-container h2 {
     font-size: 22px;
   }
 
-  .wishlist-item {
+  .wishlist-page-item {
     width: 180px;
   }
 }
 
 @media (max-width: 480px) {
-  .wishlist-container {
+  .wishlist-page-container {
     padding: 10px;
   }
 
-  .wishlist-container h2 {
+  .wishlist-page-container h2 {
     font-size: 20px;
   }
 
-  .wishlist-item {
+  .wishlist-page-item {
     width: 160px;
   }
 
-  .wishlist-item button {
+  .wishlist-page-item button {
     padding: 8px;
     font-size: 0.8rem;
   }

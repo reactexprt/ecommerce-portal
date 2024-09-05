@@ -2,8 +2,9 @@
 @import '../../styles/variables.css';
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
 
-.notifications-container {
+.notifications-page-container {
   max-width: 600px;
+  /* height: 50vh; */
   margin: 50px auto;
   padding: 20px;
   font-family: var(--font-family-primary);
@@ -11,20 +12,20 @@
   text-align: center;
 }
 
-.notifications-container h2 {
+.notifications-page-container h2 {
   font-size: 24px;
   margin-bottom: 20px;
   font-family: var(--font-family-secondary);
   color: var(--button-bg-color);
 }
 
-.notifications-list {
+.notifications-page-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.notification-item {
+.notifications-page-item {
   background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -36,14 +37,14 @@
   transition: background-color 0.3s ease;
 }
 
-.notification-item p {
+.notifications-page-item p {
   margin: 0;
   font-size: 1rem;
   text-align: left;
   flex: 1;
 }
 
-.notification-item button {
+.notifications-page-item button {
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
   border: none;
@@ -57,64 +58,67 @@
   transition: background-color 0.3s ease;
 }
 
-.notification-item button:hover {
+.notifications-page-item button:hover {
   background-color: var(--button-hover-bg-color);
 }
 
-.notification-item.read {
+.notifications-page-item.read {
   background-color: #f0f0f0;
   opacity: 0.7;
 }
 
-.loading-container, .empty-container {
+.notifications-page-loading,
+.notifications-page-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 50vh;
   justify-content: center;
-  height: 100%;
 }
 
-.loading-container p, .empty-container p {
+.notifications-page-loading p,
+.notifications-page-empty p {
   font-size: 1.2rem;
   margin-top: 20px;
   color: var(--primary-text-color);
 }
 
 @media (max-width: 768px) {
-  .notifications-container {
+  .notifications-page-container {
     padding: 15px;
     margin: 20px auto;
   }
 
-  .notifications-container h2 {
+  .notifications-page-container h2 {
     font-size: 22px;
   }
 
-  .notification-item {
+  .notifications-page-item {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .notification-item p {
+  .notifications-page-item p {
     margin-bottom: 10px;
   }
 
-  .notification-item button {
+  .notifications-page-item button {
     width: 100%;
     justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .notifications-container {
+  .notifications-page-container {
     padding: 10px;
   }
 
-  .notifications-container h2 {
+  .notifications-page-container h2 {
     font-size: 20px;
   }
 
-  .loading-container p, .empty-container p {
+  .notifications-page-loading p,
+  .notifications-page-empty p {
     font-size: 1rem;
   }
 }

@@ -1,0 +1,146 @@
+/* src/components/AccountSettings.css */
+@import '../../styles/variables.css';
+
+.account-settings-wrapper {
+    max-width: 100%;
+    margin: 20px 40px;
+    padding: 20px;
+    background-color: var(--secondary-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family-primary);
+}
+
+.account-settings-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-text-color);
+}
+
+.account-settings-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    background-color: var(--primary-bg-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+}
+
+.account-settings-section h3 {
+    align-self: flex-start;
+    margin-bottom: 15px;
+    color: var(--primary-text-color);
+}
+
+.account-settings-input, .account-settings-button {
+    max-width: 98%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-family: var(--font-family-primary);
+    font-size: 16px;
+    background-color: var(--input-bg-color);
+    color: var(--primary-text-color);
+}
+
+.account-settings-input {
+    display: block;
+    width: 100%;
+}
+
+.account-settings-button {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    padding: 12px 20px;
+    text-align: center;
+}
+
+.account-settings-button:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+.account-settings-message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.account-settings-success {
+    color: green;
+}
+
+.account-settings-error {
+    color: red;
+}
+
+/* Responsive Design for Tablets */
+@media (max-width: 768px) {
+    .account-settings-wrapper {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .account-settings-title {
+        font-size: 1.5rem;
+    }
+
+    .account-settings-section h3 {
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+    }
+
+    .account-settings-input,
+    .account-settings-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .account-settings-section {
+        padding: 15px;
+    }
+
+    .account-settings-button {
+        padding: 10px 18px;
+    }
+}
+
+/* Responsive Design for Mobile Devices */
+@media (max-width: 480px) {
+    .account-settings-wrapper {
+        padding: 10px;
+        max-width: 95%;
+    }
+
+    .account-settings-title {
+        font-size: 1.25rem;
+    }
+
+    .account-settings-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .account-settings-input,
+    .account-settings-button {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .account-settings-section {
+        padding: 10px;
+        margin-bottom: 30px;
+    }
+
+    .account-settings-button {
+        padding: 8px 15px;
+    }
+
+    .account-settings-message {
+        font-size: 14px;
+    }
+}

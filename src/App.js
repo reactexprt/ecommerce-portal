@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ErrorBoundaryWrapper from './components/ErrorBoundary';
+import TechnicalErrorPage from './pages/techError/TechnicalErrorPage';
+import NotFound from './pages/notFound/NotFound';
 import Navbar from './components/navbar/Navbar';
 import { useSelector } from 'react-redux';
 // import setupInactivityTimeout from './utils/inactivityTimeout';
@@ -36,13 +38,11 @@ const UserProfile = loadable(() => import('./pages/userProfile/UserProfile'));
 const AddressBook = loadable(() => import('./pages/addressBook/AddressBook'));
 const Wishlist = loadable(() => import('./pages/wishlist/Wishlist'));
 const Notifications = loadable(() => import('./pages/notifications/Notifications'));
-const AccountSettings = loadable(() => import('./pages/accountSettings/AccountSettings'));
+const AccountSettings = loadable(() => import('./pages/accountSettings.js/AccountSettings'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 // Import TimeoutPage and NotFound directly
 // import TimeoutPage from './pages/timeout/TimeoutPage';
-import TechnicalErrorPage from './pages/techError/TechnicalErrorPage';
-import NotFound from './pages/notFound/NotFound';
 
 const useAuth = () => {
   const authToken = localStorage.getItem('token');
@@ -138,7 +138,9 @@ function App() {
                   </ErrorBoundaryWrapper>
                 }
               />
+
               <Route path="/admin" element={<AdminProductUpload />} />
+
               <Route 
                 path="/previousOrders" 
                 element={

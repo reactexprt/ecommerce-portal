@@ -1,6 +1,8 @@
 // src/components/PreviousOrders.js
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './PreviousOrders.css'; // Import the CSS file for styling
 
@@ -38,7 +40,14 @@ const PreviousOrders = () => {
 
   if (loading && page === 1) return <div className="po-loading">Loading your previous orders...</div>;
   if (error) return <div className="po-error">{error}</div>;
-  if (!orders.length && !loading) return <div className="po-no-orders">No previous orders found.</div>;
+  if (!orders.length && !loading) {
+    return (
+        <div className="po-no-orders">
+            <FontAwesomeIcon icon={faBoxOpen} size="4x" />
+            <p>No previous orders found.</p>
+        </div>
+    );
+  }
 
   return (
     <>

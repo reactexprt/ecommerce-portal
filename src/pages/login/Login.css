@@ -153,10 +153,47 @@
   color: var(--primary-text-color);
 }
 
-.google-signin-container {
-  text-align: center;
+.single-sign-in-divs {
+  display: flex;
+  justify-content: center;
+  /* width: 100%; */
+  gap: 20px;
   margin: 20px 0;
 }
+
+.google-signin-container {
+  text-align: center;
+}
+
+#fb-login {
+  background-color: #3b5998 !important;  /* Facebook blue */
+  color: white !important;
+  border: none !important;
+  height: 20px !important;
+  max-width: 95.5% !important;
+  border-radius: 5px !important;
+  padding: 10px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;  /* Shadow for effect */
+  font-weight: bold !important;
+  font-size: 16px !important;
+}
+
+#fb-login span {
+  font-size: 13px !important;
+}
+
+#fb-login img {
+  height: 25px !important;
+}
+
+#fb-login:hover {
+  background-color: #2d4373 !important;
+}
+
 
 .biometric-login-btn {
   width: 25% !important;
@@ -198,6 +235,13 @@
 @media (max-width: 480px) {
   .login-page h2 {
     font-size: 1.8rem;
+  }
+
+  .single-sign-in-divs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 25px 0;
   }
 
   .login-page form {

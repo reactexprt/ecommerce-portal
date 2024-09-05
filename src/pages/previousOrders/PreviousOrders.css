@@ -131,11 +131,25 @@
 }
 
 .po-loading,
-.po-error,
-.po-no-orders {
+.po-error {
   text-align: center;
   font-size: 18px;
   margin: 20px 0;
+}
+
+.po-no-orders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh; /* Adjust height as per your design */
+  text-align: center;
+  color: var(--primary-text-color); /* Adjust based on your theme */
+}
+
+.po-no-orders p {
+  font-size: 1.2rem;
+  margin-top: 20px;
 }
 
 .po-loading-more {
