@@ -156,7 +156,6 @@
 .single-sign-in-divs {
   display: flex;
   justify-content: center;
-  /* width: 100%; */
   gap: 20px;
   margin: 20px 0;
 }
@@ -170,7 +169,7 @@
   color: white !important;
   border: none !important;
   height: 20px !important;
-  max-width: 95.5% !important;
+  max-width: 92.5% !important;
   border-radius: 5px !important;
   padding: 10px 8px !important;
   display: flex !important;
@@ -241,7 +240,7 @@
   .single-sign-in-divs {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     margin: 25px 0;
   }
 
