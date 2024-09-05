@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons'; 
+import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import { addToCart } from '../../redux/actions/cartActions';
 import './ProductDetails.css';
@@ -10,13 +10,14 @@ import './ProductDetails.css';
 const ProductDetails = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null); 
+    const [selectedImage, setSelectedImage] = useState(null);
     const [newComment, setNewComment] = useState('');
-    const [newRating, setNewRating] = useState(0); 
-    const [hoverRating, setHoverRating] = useState(null); 
-    const [isLightboxOpen, setIsLightboxOpen] = useState(false); 
-    const [inWishlist, setInWishlist] = useState(false); 
+    const [newRating, setNewRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(null);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [inWishlist, setInWishlist] = useState(false);
     const dispatch = useDispatch();
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -25,61 +26,69 @@ const ProductDetails = () => {
                 const response = await api.get(`/products/${productId}`);
                 setProduct(response.data);
                 if (response.data.images && response.data.images.length > 0) {
-                    setSelectedImage(response.data.images[0]); 
+                    setSelectedImage(response.data.images[0]);
                 }
-                const wishlistResponse = await api.get('/wishlist');
-                setInWishlist(wishlistResponse.data.some(item => item._id === productId));
+                if (isAuthenticated) {
+                    const wishlistResponse = await api.get('/wishlist');
+                    setInWishlist(wishlistResponse.data.some(item => item._id === productId));
+                }
             } catch (error) {
                 setError('Error fetching product. Please try again.');
                 console.error('Error fetching product:', error);
             }
         };
         fetchProduct();
-    }, [productId]);
+    }, [productId, isAuthenticated]);
 
     const handleAddToCart = () => {
         dispatch(addToCart(product));
     };
 
     const toggleWishlist = async () => {
-        try {
-            if (inWishlist) {
-                await api.post('/wishlist/remove', { productId });
-                setInWishlist(false); 
-            } else {
-                await api.post('/wishlist/add', { productId });
-                setInWishlist(true); 
+        if (isAuthenticated) {
+            try {
+                if (inWishlist) {
+                    await api.post('/wishlist/remove', { productId });
+                    setInWishlist(false);
+                } else {
+                    await api.post('/wishlist/add', { productId });
+                    setInWishlist(true);
+                }
+            } catch (error) {
+                console.error('Error toggling wishlist:', error);
             }
-        } catch (error) {
-            console.error('Error toggling wishlist:', error);
         }
     };
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await api.post(`/products/${productId}/comment`, {
-                comment: newComment,
-                rating: newRating,
-            });
-            setProduct(response.data.product); 
-            setNewComment(''); 
-            setNewRating(0); 
-        } catch (error) {
-            setError('Failed to add comment. Please try again.');
+        if (isAuthenticated) {
+            try {
+                const response = await api.post(`/products/${productId}/comment`, {
+                    comment: newComment,
+                    rating: newRating,
+                });
+                setProduct(response.data.product);
+                setNewComment('');
+                setNewRating(0);
+            } catch (error) {
+                setError('Failed to add comment. Please try again.');
+            }
+        } else {
+            alert('Please Login to give the feedback. Thankyou!');
         }
     };
 
     const handleImageClick = (image) => {
-        setSelectedImage(image); 
+        setSelectedImage(image);
     };
 
     const handleMainImageClick = () => {
-        setIsLightboxOpen(true); 
+        setIsLightboxOpen(true);
     };
 
     const closeLightbox = () => {
-        setIsLightboxOpen(false); 
+        setIsLightboxOpen(false);
     };
 
     const renderUserStars = (rating) => {
@@ -90,8 +99,8 @@ const ProductDetails = () => {
                     key={index}
                     icon={faStar}
                     className="product-details-star"
-                    color={starValue <= rating ? "#FFD700" : "#E4E5E9"} 
-                    style={{ cursor: 'default' }} 
+                    color={starValue <= rating ? "#FFD700" : "#E4E5E9"}
+                    style={{ cursor: 'default' }}
                 />
             );
         });
@@ -101,7 +110,7 @@ const ProductDetails = () => {
         const fullStars = Math.floor(averageRating); // Number of full stars
         const hasHalfStar = averageRating % 1 >= 0.5; // Check if there's a half star
         const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate empty stars
-    
+
         return (
             <>
                 {/* Full Stars */}
@@ -110,14 +119,14 @@ const ProductDetails = () => {
                         &#9733; {/* Unicode for filled star */}
                     </span>
                 ))}
-    
+
                 {/* Half Star */}
                 {hasHalfStar && (
                     <span key="half-star" className="half-star">
                         &#x2605; {/* Unicode for half star */}
                     </span>
                 )}
-    
+
                 {/* Empty Stars */}
                 {[...Array(emptyStars)].map((_, index) => (
                     <span key={`empty-${index}`} className="star">
@@ -126,8 +135,8 @@ const ProductDetails = () => {
                 ))}
             </>
         );
-    };   
-    
+    };
+
     const renderStars = () => {
         return [...Array(5)].map((star, index) => {
             const starValue = index + 1;
@@ -136,9 +145,9 @@ const ProductDetails = () => {
                     key={index}
                     icon={faStar}
                     className="product-details-star"
-                    onClick={() => setNewRating(starValue)} 
-                    onMouseEnter={() => setHoverRating(starValue)} 
-                    onMouseLeave={() => setHoverRating(null)} 
+                    onClick={() => setNewRating(starValue)}
+                    onMouseEnter={() => setHoverRating(starValue)}
+                    onMouseLeave={() => setHoverRating(null)}
                     color={starValue <= (hoverRating || newRating) ? "#FFD700" : "#E4E5E9"}
                     style={{ cursor: 'pointer' }}
                 />
@@ -225,7 +234,7 @@ const ProductDetails = () => {
                             <div key={index} className="product-details-comment">
                                 <p><strong>{comment.username}</strong> rated:</p>
                                 <div className="user-rating-stars">
-                                    {renderUserStars(comment.rating)} 
+                                    {renderUserStars(comment.rating)}
                                 </div>
                                 <p>{comment.comment}</p>
                                 <small>{new Date(comment.createdAt).toLocaleString()}</small>
@@ -246,7 +255,7 @@ const ProductDetails = () => {
                     />
 
                     <div className="product-details-star-rating">
-                        {renderStars()} 
+                        {renderStars()}
                     </div>
 
                     <button type="submit">Submit Review</button>

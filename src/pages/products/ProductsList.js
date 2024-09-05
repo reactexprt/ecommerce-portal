@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
 import './ProductsList.css';
 
 const ProductsList = () => {
+  const { shopId } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,9 +19,10 @@ const ProductsList = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setProducts([]);
       setLoading(true);
       try {
-        const response = await api.get(`/products?page=${currentPage}&limit=${limit}`);
+        const response = await api.get(`/shops/${shopId}/products?page=${currentPage}&limit=${limit}`);
         const { products, hasMore } = response.data;
 
         // Filter out duplicates based on the product ID
@@ -42,7 +44,7 @@ const ProductsList = () => {
     };
 
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, shopId]);
 
   const loadMoreProducts = () => {
     if (hasMore) {

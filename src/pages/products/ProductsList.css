@@ -1,5 +1,6 @@
-@import '../../styles/variables.css'; /* Import shared variables */
+@import '../../styles/variables.css';
 
+/* Main container for the product list */
 .products-list {
   font-family: var(--font-family-primary);
   padding: 0 0 40px 0;
@@ -9,70 +10,76 @@
 
 .products-list h1 {
   text-align: center;
-  font-size: 3rem; /* Larger for more impact */
-  margin-bottom: 40px; /* More space for a luxurious feel */
+  font-size: 3rem;
+  margin-bottom: 40px;
   color: var(--primary-text-color);
 }
 
+/* Grid system for products */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px; /* Increased gap for a more spacious layout */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Use auto-fill to dynamically fit items, with a min size */
+  justify-content: center;
+  gap: 25px;
   padding: 5px 30px 30px 30px;
 }
 
+/* Product Card Styling */
 .product-card {
+  width: 100%;
+  max-width: 285px; /* Set a maximum width for product cards */
   background-color: var(--secondary-bg-color);
-  border-radius: var(--border-radius); /* Softer, more luxurious corners */
-  box-shadow: var(--box-shadow); /* More pronounced shadow */
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative; /* For layering elements */
+  margin: 0 auto; /* Ensure the card is centered */
 }
 
 .product-card:hover {
-  transform: translateY(-10px); /* Higher lift for more drama */
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
   cursor: pointer;
 }
 
 .product-image {
   width: 100%;
-  height: 250px; /* Consistent height for a uniform look */
-  object-fit: cover; /* Ensures image covers the area */
+  height: 250px;
+  object-fit: cover;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.1); /* Slightly more zoom for emphasis */
-  opacity: 0.9; /* Slight opacity change for depth effect */
+  transform: scale(1.1);
+  opacity: 0.9;
 }
 
 .product-info {
   padding: 20px;
   text-align: center;
-  background-color: var(--secondary-bg-color); /* Subtle background for contrast */
-  border-top: 1px solid #ddd; /* Refined border separation */
+  background-color: var(--secondary-bg-color);
+  border-top: 1px solid #ddd;
 }
 
 .product-name {
   font-family: var(--font-family-secondary);
-  font-size: 1.6rem; /* Slightly larger for emphasis */
+  font-size: 1.6rem;
   color: var(--secondary-text-color);
   margin-bottom: 5px;
 }
 
 .product-price {
-  font-size: 1.4rem; /* Larger for prominence */
-  color: var(--secondary-text-color); /* Elegant, muted green for pricing */
+  font-size: 1.4rem;
+  color: var(--secondary-text-color);
   font-weight: 600;
 }
 
+/* Loading and Error Styling */
 .loading, .error {
   text-align: center;
   font-size: 1.5rem;
   margin-top: 20px;
-  color: #c0392b; /* Rich, deep red for errors */
+  color: #c0392b;
 }
 
 .loading {
@@ -84,55 +91,38 @@
   flex-direction: column;
   align-items: center;
 }
-/* Load More button */
+
+/* Load More Button Styling */
 .load-more-button {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
-  color: #fff; /* White text color */
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: #fff;
   max-width: 70%;
-  border: none; /* Remove border */
-  border-radius: 30px; /* Rounded corners */
-  padding: 12px 30px; /* Padding for the button */
-  font-size: 1.2rem; /* Larger font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
-  margin: 20px auto; /* Center the button */
-  display: block; /* Ensure it is a block element */
+  border: none;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 20px auto;
+  display: block;
 }
 
 .load-more-button:hover {
-  transform: translateY(-3px); /* Slight lift on hover */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .load-more-button:active {
-  transform: translateY(1px); /* Slight press effect on click */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slightly less shadow on active */
-}
-
-
-/* Additional rich elements */
-.product-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1));
-  transition: opacity 0.3s ease;
-  opacity: 0;
-}
-
-.product-card:hover::before {
-  opacity: 1; /* Subtle gradient overlay on hover */
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Styles */
 
 /* Tablets */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .products-list h1 {
     font-size: 2.5rem;
     margin-bottom: 30px;
@@ -144,6 +134,9 @@
   }
 
   .product-card {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
@@ -169,12 +162,15 @@
   }
 
   .products-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust for small screens */
     gap: 15px;
     padding: 2px 15px 15px 15px;
   }
 
   .product-card {
+    max-width: 290px;
+    width: 100%;
+    margin: 0 auto;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   }

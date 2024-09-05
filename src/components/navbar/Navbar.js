@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -9,13 +8,14 @@ import {
   faSignInAlt,
   faUserPlus,
   faUserCircle,
-  faBoxOpen
+  faStore
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
 import { fetchCart, mergeCart } from '../../redux/actions/cartActions';
 import api from '../../services/api';
 import DropdownMenu from './DropdownMenu';
+import SearchBar from '../../pages/search/SearchBar'; // Import the SearchBar component
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -43,9 +43,10 @@ const Navbar = () => {
         console.error('Error fetching unread notifications count:', error);
       }
     };
-
-    fetchUnreadNotifications();
-  }, []);
+    if (isAuthenticated) {
+      fetchUnreadNotifications();
+    }
+  }, [isAuthenticated, unreadCount]);
 
   const handleLogout = async () => {
     await dispatch(logout());
@@ -85,7 +86,7 @@ const Navbar = () => {
 
   const buttons = [
     { icon: faHome, tooltip: 'Home', onClick: () => navigate('/') },
-    { icon: faBoxOpen, tooltip: 'Products', onClick: () => navigate('/products') },
+    { icon: faStore, tooltip: 'Shops', onClick: () => navigate('/shops') },
     { icon: faShoppingCart, tooltip: 'Cart', onClick: () => navigate('/cart') },
     { icon: faSignInAlt, tooltip: 'Login', onClick: () => navigate('/login'), visible: !isAuthenticated },
     { icon: faUserPlus, tooltip: 'Register', onClick: () => navigate('/register'), visible: !isAuthenticated, className: "register" },
@@ -94,42 +95,48 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar">
-        <div className="navbar-logo-title">
-          <img
-            src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png"
-            alt="Rasa Icon"
-            className="navbar-icon"
-          />
-          <h1>Ħimalayan R̥asa</h1>
-        </div>
-        <div className="nav-buttons">
-          {buttons.filter(button => button.visible !== false).map((button, index) => (
-            <div
-              key={index}
-              className={`icon-button ${button.className || ''}`}
-              onMouseEnter={() => !showDropdown && setTooltip(button.tooltip)}  // Disable tooltip when dropdown is open
-              onMouseLeave={() => setTooltip(null)}
-              onClick={button.onClick}
-            >
-              <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
-              {tooltip === button.tooltip && !showDropdown && <span className="tooltip">{tooltip}</span>}
-              {button.tooltip === 'Cart' && cartItems.length > 0 && (
-                <span className="cart-count">{cartItems.length}</span>
-              )}
-              {button.tooltip === 'Account' && showDropdown && (
-                <DropdownMenu
-                  onNavigate={handleNavigation}
-                  onLogout={handleLogout}
-                  unreadCount={unreadCount}
-                  dropdownRef={dropdownRef}
-                  isBottomNav={false}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      </nav>
+    <nav className="navbar">
+      <div className="navbar-section navbar-logo-title">
+        <img
+          src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png"
+          alt="Rasa Icon"
+          className="navbar-icon"
+        />
+        <h1 className="navbar-full-title">Ħimalayan R̥asa</h1>
+        <h1 className="navbar-short-title">ĦR̥</h1>
+      </div>
+
+      <div className="navbar-section search-section">
+        <SearchBar /> {/* Place the search bar */}
+      </div>
+
+      <div className="navbar-section nav-buttons">
+        {buttons.filter(button => button.visible !== false).map((button, index) => (
+          <div
+            key={index}
+            className={`icon-button ${button.className || ''}`}
+            onMouseEnter={() => !showDropdown && setTooltip(button.tooltip)}
+            onMouseLeave={() => setTooltip(null)}
+            onClick={button.onClick}
+          >
+            <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
+            {tooltip === button.tooltip && !showDropdown && <span className="tooltip">{tooltip}</span>}
+            {button.tooltip === 'Cart' && cartItems.length > 0 && (
+              <span className="cart-count">{cartItems.length}</span>
+            )}
+            {button.tooltip === 'Account' && showDropdown && (
+              <DropdownMenu
+                onNavigate={handleNavigation}
+                onLogout={handleLogout}
+                unreadCount={unreadCount}
+                dropdownRef={dropdownRef}
+                isBottomNav={false}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    </nav>
       <div className="bottom-nav">
         {buttons.filter(button => button.visible !== false).map((button, index) => (
           <div

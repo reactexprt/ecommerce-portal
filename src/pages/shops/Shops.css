@@ -1,0 +1,140 @@
+@import '../../styles/variables.css';
+
+/* Container and Title */
+.shops-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: var(--primary-bg-color);
+}
+
+.shops-title {
+  font-family: var(--font-family-primary);
+  font-size: 3rem;
+  color: var(--primary-text-color);
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+/* Grid System */
+.shops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+
+/* Shop Card */
+.shop-card {
+    max-width: 455px;
+  background-color: var(--secondary-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.shop-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Handling */
+.shop-image-container {
+  height: 240px;
+  overflow: hidden;
+}
+
+.shop-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-image-placeholder {
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ddd;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+/* Shop Content */
+.shop-card-content {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shop-name {
+  font-family: var(--font-family-secondary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin-bottom: 10px;
+}
+
+.shop-description {
+  font-family: var(--font-family-secondary);
+  font-size: 1.1rem;
+  color: var(--primary-text-color);
+  margin-bottom: 10px;
+  flex-grow: 1;
+}
+
+.shop-location,
+.shop-contact,
+.shop-contact-phone {
+  font-family: var(--font-family-secondary);
+  font-size: 0.95rem;
+  color: var(--primary-text-color);
+  margin-bottom: 5px;
+}
+
+/* Social Media Icons */
+.shop-social-media {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.shop-social-media a {
+  font-size: 1.6rem;
+  color: var(--primary-text-color);
+  transition: color 0.3s ease;
+}
+
+.shop-social-media a:hover {
+  color: var(--home-button-bg-color);
+}
+
+/* Explore Button */
+.shop-explore-button {
+  background-color: var(--home-button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  padding: 12px 25px;
+  border-radius: var(--border-radius);
+  text-transform: uppercase;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.shop-explore-button:hover {
+  background-color: var(--home-button-hover-bg-button);
+}
+
+.shop-buttons {
+  margin-top: auto;
+  padding: 20px;
+}

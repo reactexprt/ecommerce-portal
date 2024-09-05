@@ -1,5 +1,7 @@
 @import '../../styles/variables.css'; /* Import shared variables */
 
+/* src/components/Navbar.css */
+
 /* Navbar Styles */
 .navbar {
   display: flex;
@@ -16,9 +18,28 @@
   z-index: 1000;
 }
 
+.navbar-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .navbar-logo-title {
   display: flex;
   align-items: center;
+}
+
+.navbar-logo-title img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+.search-section {
+  flex-grow: 2; /* Allows the search bar to take up available space */
+  display: flex;
+  justify-content: center;
 }
 
 .navbar-icon {
@@ -28,11 +49,17 @@
   object-fit: contain;
 }
 
-.navbar h1 {
+.navbar-full-title {
+  display: block;
   margin: 0;
-  font-size: var(--font-size-large);
+  font-size: 25px;
   letter-spacing: 1px;
   line-height: 1;
+}
+
+.navbar-short-title {
+  display: none;
+  font-size: 22px;
 }
 
 .nav-buttons {
@@ -41,8 +68,8 @@
 }
 
 .icon-button {
-  display: inline-block;
-  padding: var(--icon-button-padding);
+  display: flex;
+  padding: 5px;
   cursor: pointer;
   position: relative;
   transition: transform 0.2s;
@@ -198,8 +225,8 @@
     height: 70px;
   }
 
-  .navbar h1 {
-    font-size: 1.5rem;
+  .navbar-full-title {
+    font-size: 22px;
   }
 
   .icon-button.register,
@@ -209,10 +236,19 @@
 }
 
 /* Phones */
-@media (max-width: 480px) {
+@media (max-width: 540px) {
   .navbar {
     padding: 3px 3px 0 3px;
     height: 50px;
+  }
+
+  .navbar-short-title {
+    display: block;
+    margin-left: -5px;
+  }
+  
+  .navbar-full-title {
+    display: none;
   }
 
   .navbar-icon {

@@ -142,7 +142,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50vh; /* Adjust height as per your design */
+  height: 90vh; /* Adjust height as per your design */
   text-align: center;
   color: var(--primary-text-color); /* Adjust based on your theme */
 }

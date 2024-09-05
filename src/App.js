@@ -39,6 +39,7 @@ const AddressBook = loadable(() => import('./pages/addressBook/AddressBook'));
 const Wishlist = loadable(() => import('./pages/wishlist/Wishlist'));
 const Notifications = loadable(() => import('./pages/notifications/Notifications'));
 const AccountSettings = loadable(() => import('./pages/accountSettings.js/AccountSettings'));
+const Shops = loadable(() => import('./pages/shops/Shops'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 // Import TimeoutPage and NotFound directly
@@ -123,7 +124,15 @@ function App() {
                 }
               />
               <Route
-                path="/products"
+                path="/shops"
+                element={
+                  <ErrorBoundaryWrapper>
+                    <Shops />
+                  </ErrorBoundaryWrapper>
+                }
+              />
+              <Route
+                path="/shop/:shopId/products"
                 element={
                   <ErrorBoundaryWrapper>
                     <ProductsList />
