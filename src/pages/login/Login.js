@@ -166,9 +166,9 @@ const Login = () => {
           <div className="google-signin-container">
             <GoogleSignIn />
           </div>
-          <div className='facebook-sigin-container'>
+          {/* <div className='facebook-sigin-container'>
             <FacebookSignin />
-          </div>
+          </div> */}
         </div>
 
         <div className="login-footer">
