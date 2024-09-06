@@ -257,6 +257,14 @@ const AdminProductUpload = () => {
                     className="admin-input"
                 />
                 <input
+                    type="text"
+                    name="synonyms"
+                    placeholder="Synonyms (comma-separated)"
+                    value={singleProduct.synonyms}
+                    onChange={handleInputChange} // Capture synonym input
+                    className="admin-input"
+                />
+                <input
                     type="file"
                     multiple
                     onChange={handleImageChange}

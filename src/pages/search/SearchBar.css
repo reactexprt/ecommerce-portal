@@ -30,10 +30,22 @@
   background-color: var(--secondary-bg-color);
   border-radius: 12px;
   box-shadow: var(--box-shadow);
-  margin-top: 10px;
+  margin-top: 0px; /* Prevent unwanted space */
   position: absolute;
-  top: 70px;
+  top: calc(100% + 10px); /* Position results directly below input */
+  left: 0;
   z-index: 1000;
+  max-height: 400px; /* Add a max-height for scrolling */
+  overflow-y: auto; /* Enable scroll for results */
+}
+
+.search-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background-color: var(--primary-bg-color);
+  border-radius: 10px;
 }
 
 .search-results h2 {
