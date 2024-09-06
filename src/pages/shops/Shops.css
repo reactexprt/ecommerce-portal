@@ -25,6 +25,16 @@
   padding: 20px;
 }
 
+.shop-loading {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 50px;
+  color: var(--home-button-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Shop Card */
 .shop-card {
     max-width: 455px;

@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Shops.css'; // Import the updated CSS file
 
 const Shops = () => {
   const [shops, setShops] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchShops = async () => {
+      setLoading(true);
       try {
         const response = await api.get('/shops');
         setShops(response.data);
       } catch (err) {
         console.error('Error fetching shops:', err);
       }
+      setLoading(false);
     };
     fetchShops();
   }, []);
@@ -22,6 +27,15 @@ const Shops = () => {
   const handleShopClick = (shopId) => {
     navigate(`/shop/${shopId}/products`);  // Navigate to products page for the selected shop
   };
+
+  if (loading) {
+    return (
+      <div className="shop-loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+        <p>Loading Shops...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="shops-container">

@@ -77,12 +77,10 @@ const FacebookSignin = () => {
     };
 
     return (
-        <div id='fb-login'>
-            <button onClick={handleFacebookLogin} className="btn btn-facebook" disabled={!fbInitialized}>
-                <FontAwesomeIcon icon={faFacebook} style={{ marginRight: '10px' }} />
-                {fbInitialized ? 'Login with Facebook' : 'Loading...'}
-            </button>
-        </div>
+        <button onClick={handleFacebookLogin} className="btn btn-facebook" disabled={!fbInitialized}>
+            <FontAwesomeIcon icon={faFacebook} style={{ marginRight: '10px' }} />
+            {fbInitialized ? 'Login with Facebook' : 'Loading...'}
+        </button>
     );
 };
 
