@@ -166,6 +166,7 @@
 
 /* Facebook Button Styles */
 .btn-facebook {
+  margin-top: 0;
   background-color: #4267B2; /* Facebook's primary color */
   color: white;
   border: none;
@@ -260,7 +261,7 @@
   }
 
   .btn-facebook {
-    font-size: 13.5px;
+    font-size: 16.5px;
     padding: 12px;
   }
 
