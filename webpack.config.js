@@ -146,7 +146,8 @@ module.exports = {
       'process.env': {
         REACT_APP_CLIENT_ID: JSON.stringify(process.env.REACT_APP_CLIENT_ID), // Inject the client ID
         REACT_APP_RAZORPAY_KEY_ID: JSON.stringify(process.env.REACT_APP_RAZORPAY_KEY_ID), // Inject the Razorpay key
-        REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL), // Inject the API URL
+        REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
+        REACT_APP_FB_APP_ID: JSON.stringify(process.env.REACT_APP_FB_APP_ID)
       },
     }),
     // Conditionally add the MiniCssExtractPlugin in production mode

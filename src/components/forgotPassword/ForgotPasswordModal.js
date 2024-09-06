@@ -79,7 +79,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
                 required
               />
             </div>
-            <button type="submit" disabled={loading}>
+            <button className='login-forgot-password-buttons' type="submit" disabled={loading}>
               {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'REQUEST OTP'}
             </button>
           </form>
@@ -112,7 +112,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
                 required
               />
             </div>
-            <button type="submit">RESET PASSWORD</button>
+            <button className='login-forgot-password-buttons' type="submit">RESET PASSWORD</button>
           </form>
         )}
       </div>

@@ -50,7 +50,7 @@
   font-size: medium;
 }
 
-.login-page button {
+.login-page .login-forgot-password-buttons {
   width: 100%;
   padding: 12px;
   background-color: var(--button-bg-color);
@@ -164,21 +164,36 @@
   text-align: center;
 }
 
-#fb-login {
-  background-color: #3b5998 !important;  /* Facebook blue */
-  color: white !important;
-  border: none !important;
-  height: 20px !important;
-  max-width: 92.5% !important;
-  border-radius: 5px !important;
-  padding: 10px 8px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;  /* Shadow for effect */
-  font-weight: bold !important;
-  font-size: 16px !important;
+/* Facebook Button Styles */
+.btn-facebook {
+  background-color: #4267B2; /* Facebook's primary color */
+  color: white;
+  border: none;
+  padding: 11px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-facebook:hover {
+  background-color: #365899 !important; /* Darken the button on hover */
+}
+
+.btn-facebook:disabled {
+  background-color: #999; /* Disabled button color */
+  cursor: not-allowed;
+}
+
+/* Facebook Icon Style (Optional) */
+.fb-icon {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
 }
 
 #fb-login span {
@@ -244,11 +259,17 @@
     margin: 25px 0;
   }
 
+  .btn-facebook {
+    font-size: 13.5px;
+    padding: 12px;
+  }
+
   .login-page form {
     padding: 15px;
   }
+  
 
-  .login-page button {
+  .login-page .login-forgot-password-buttons {
     font-size: 1rem;
     padding: 10px;
   }

@@ -160,22 +160,22 @@ const Login = () => {
               autoComplete='current-password'
             />
           </div>
-          <button type="submit">LOGIN</button>
+          <button className='login-forgot-password-buttons' type="submit">LOGIN</button>
         </form>
         <div className='single-sign-in-divs'>
           <div className="google-signin-container">
             <GoogleSignIn />
           </div>
-          {/* <div className='facebook-sigin-container'>
+          <div className='facebook-sigin-container'>
             <FacebookSignin />
-          </div> */}
+          </div>
         </div>
 
         <div className="login-footer">
-          <button className="btn-link forgot-password" onClick={handleForgotPasswordClick}>
+          <button className="btn-link forgot-password login-forgot-password-buttons" onClick={handleForgotPasswordClick}>
             FORGOT PASSWORD?
           </button>
-          <button className="btn-link new-user" onClick={() => navigate('/register')}>
+          <button className="btn-link new-user login-forgot-password-buttons" onClick={() => navigate('/register')}>
             NEW USER? REGISTER
           </button>
         </div>
