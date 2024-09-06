@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import api from '../../services/api';
 import './Home.css';
 
 const Home = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get('/users/profile');
+        if (response.data && response.data.isAdmin) {
+          if (response.data.isAdmin) {
+            setIsAdmin(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user details');
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchUserData();
+    }
+  }, [isAuthenticated]);
+
   return (
     <>
       <Helmet>
@@ -14,17 +38,23 @@ const Home = () => {
         <div className="hero-section">
           <h1>Experience the Purest Gifts of the Himalayas</h1>
           <p>Authentic. Natural. From the Heart of the Himalayas.</p>
-          <Link to="/products" className="btn btn-primary">SHOP NOW</Link>
+          <div className='top-button-link-divs'>
+            <Link to="/products" className="btn btn-primary">Shop Now!</Link>
+            {isAdmin ?
+              <Link to="/admin" className="btn btn-primary">Admin Page</Link>
+              : null
+            }
+          </div>
         </div>
 
         {/* About the Himalayas Section */}
         <div className="about-himalayas">
           <h2>Why the Himalayas?</h2>
           <div className="about-content">
-            <img 
-              src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayas-hero.png" 
-              alt="Himalayas" 
-              className="about-image" 
+            <img
+              src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayas-hero.png"
+              alt="Himalayas"
+              className="about-image"
             />
             <div className="about-text">
               <p>The Himalayas are a unique source of natural ingredients, offering unparalleled purity. The pristine environment and high altitude ensure that our products are rich in minerals and nutrients, free from pollutants, and crafted using traditional methods passed down through generations.</p>

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import history from '../services/history';
 import './AdminProductUpload.css';
 
 const AdminProductUpload = () => {
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const [shops, setShops] = useState([]);
     const [selectedShop, setSelectedShop] = useState('');
@@ -47,13 +50,13 @@ const AdminProductUpload = () => {
                     if (response.data.isAdmin) {
                     setIsAdmin(true);
                 } else {
-                        history.push('/products')
+                        navigate('/shops')
                     }
                 } else {
-                    history.push('/');
+                    navigate('/shops');
                 }
             } catch (error) {
-                history.push('/');
+                navigate('/shops');
             }
         };
 
@@ -65,10 +68,13 @@ const AdminProductUpload = () => {
               console.error('Error fetching shops:', error);
             }
           };
-
-        fetchUserData();
-        fetchShops();
-    }, []);
+        if (isAuthenticated) {
+            fetchUserData();
+            fetchShops();
+        } else {
+            navigate('/login');
+        }
+    }, [isAuthenticated]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -185,9 +191,106 @@ const AdminProductUpload = () => {
         <div className="admin-upload-page">
             <h1 className="admin-page-title">Admin Dashboard</h1>
 
+            {/* Shop Creation Form */}
+            <form onSubmit={handleShopSubmit} className="admin-form admin-shop-upload-form">
+                <h2 className="admin-form-title">Add New Shop or Update Shop</h2>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Shop Name"
+                    value={shop.name}
+                    onChange={handleShopInputChange}
+                    required
+                    className="admin-input"
+                />
+                <textarea
+                    name="description"
+                    placeholder="Shop Description"
+                    value={shop.description}
+                    onChange={handleShopInputChange}
+                    required
+                    className="admin-textarea"
+                />
+                <input
+                    type="text"
+                    name="location"
+                    placeholder="Shop Location"
+                    value={shop.location}
+                    onChange={handleShopInputChange}
+                    required
+                    className="admin-input"
+                />
+                <input
+                    type="email"
+                    name="contactEmail"
+                    placeholder="Contact Email"
+                    value={shop.contactEmail}
+                    onChange={handleShopInputChange}
+                    required
+                    className="admin-input"
+                />
+                <input
+                    type="tel"
+                    name="contactPhone"
+                    placeholder="Contact Phone"
+                    value={shop.contactPhone}
+                    onChange={handleShopInputChange}
+                    className="admin-input"
+                />
+                <input
+                    type="file"
+                    multiple
+                    onChange={handleShopImageChange}
+                    className="admin-file-input"
+                />
+                {shop.images.length > 0 && (
+                    <ul className="admin-image-list">
+                        {shop.images.map((image, index) => (
+                            <li key={index} className="admin-image-list-item">{image.name}</li>
+                        ))}
+                    </ul>
+                )}
+                <h3>Social Media Links</h3>
+                <input
+                    type="text"
+                    name="socialMediaLinks.facebook"
+                    placeholder="Facebook URL"
+                    value={shop.socialMediaLinks.facebook}
+                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, facebook: e.target.value } })}
+                    className="admin-input"
+                />
+                <input
+                    type="text"
+                    name="socialMediaLinks.instagram"
+                    placeholder="Instagram URL"
+                    value={shop.socialMediaLinks.instagram}
+                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, instagram: e.target.value } })}
+                    className="admin-input"
+                />
+                <input
+                    type="text"
+                    name="socialMediaLinks.twitter"
+                    placeholder="Twitter URL"
+                    value={shop.socialMediaLinks.twitter}
+                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, twitter: e.target.value } })}
+                    className="admin-input"
+                />
+                <input
+                    type="text"
+                    name="socialMediaLinks.website"
+                    placeholder="Website URL"
+                    value={shop.socialMediaLinks.website}
+                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, website: e.target.value } })}
+                    className="admin-input"
+                />
+                <button type="submit" className="admin-submit-button" disabled={loadingShop}>
+                    {loadingShop ? 'Adding Shop...' : 'Add Shop'}
+                </button>
+            </form>
+
             {/* Product Upload Form */}
             <form onSubmit={handleSingleSubmit} className="admin-form admin-single-upload-form">
-                <h2 className="admin-form-title">Upload Single Product</h2>
+                <h2 className="admin-form-title">Upload New Product or Update Product</h2>
                 {/* Shop Selection */}
                 <select
                     name="shop"
@@ -280,103 +383,6 @@ const AdminProductUpload = () => {
                 )}
                 <button type="submit" className="admin-submit-button" disabled={loadingProduct}>
                     {loadingProduct ? 'Uploading...' : 'Upload Product'}
-                </button>
-            </form>
-
-            {/* Shop Creation Form */}
-            <form onSubmit={handleShopSubmit} className="admin-form admin-shop-upload-form">
-                <h2 className="admin-form-title">Add New Shop</h2>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Shop Name"
-                    value={shop.name}
-                    onChange={handleShopInputChange}
-                    required
-                    className="admin-input"
-                />
-                <textarea
-                    name="description"
-                    placeholder="Shop Description"
-                    value={shop.description}
-                    onChange={handleShopInputChange}
-                    required
-                    className="admin-textarea"
-                />
-                <input
-                    type="text"
-                    name="location"
-                    placeholder="Shop Location"
-                    value={shop.location}
-                    onChange={handleShopInputChange}
-                    required
-                    className="admin-input"
-                />
-                <input
-                    type="email"
-                    name="contactEmail"
-                    placeholder="Contact Email"
-                    value={shop.contactEmail}
-                    onChange={handleShopInputChange}
-                    required
-                    className="admin-input"
-                />
-                <input
-                    type="tel"
-                    name="contactPhone"
-                    placeholder="Contact Phone"
-                    value={shop.contactPhone}
-                    onChange={handleShopInputChange}
-                    className="admin-input"
-                />
-                <input
-                    type="file"
-                    multiple
-                    onChange={handleShopImageChange}
-                    className="admin-file-input"
-                />
-                {shop.images.length > 0 && (
-                    <ul className="admin-image-list">
-                        {shop.images.map((image, index) => (
-                            <li key={index} className="admin-image-list-item">{image.name}</li>
-                        ))}
-                    </ul>
-                )}
-                <h3>Social Media Links</h3>
-                <input
-                    type="text"
-                    name="socialMediaLinks.facebook"
-                    placeholder="Facebook URL"
-                    value={shop.socialMediaLinks.facebook}
-                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, facebook: e.target.value } })}
-                    className="admin-input"
-                />
-                <input
-                    type="text"
-                    name="socialMediaLinks.instagram"
-                    placeholder="Instagram URL"
-                    value={shop.socialMediaLinks.instagram}
-                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, instagram: e.target.value } })}
-                    className="admin-input"
-                />
-                <input
-                    type="text"
-                    name="socialMediaLinks.twitter"
-                    placeholder="Twitter URL"
-                    value={shop.socialMediaLinks.twitter}
-                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, twitter: e.target.value } })}
-                    className="admin-input"
-                />
-                <input
-                    type="text"
-                    name="socialMediaLinks.website"
-                    placeholder="Website URL"
-                    value={shop.socialMediaLinks.website}
-                    onChange={(e) => setShop({ ...shop, socialMediaLinks: { ...shop.socialMediaLinks, website: e.target.value } })}
-                    className="admin-input"
-                />
-                <button type="submit" className="admin-submit-button" disabled={loadingShop}>
-                    {loadingShop ? 'Adding Shop...' : 'Add Shop'}
                 </button>
             </form>
 
