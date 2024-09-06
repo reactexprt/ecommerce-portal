@@ -45,7 +45,7 @@ const FacebookSignin = () => {
         loadFacebookSDK().then(() => {
             setFbInitialized(true);
         }).catch((error) => {
-            console.error('Error loading FB SDK:', error);
+            console.error('Error loading FB SDK:');
         });
     }, []);
 
