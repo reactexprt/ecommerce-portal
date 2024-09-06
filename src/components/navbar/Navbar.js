@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -15,7 +15,7 @@ import { logout } from '../../redux/actions/authActions';
 import { fetchCart, mergeCart } from '../../redux/actions/cartActions';
 import api from '../../services/api';
 import DropdownMenu from './DropdownMenu';
-import SearchBar from '../../pages/search/SearchBar'; // Import the SearchBar component
+import SearchBar from '../../pages/search/SearchBar';
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -95,48 +95,50 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="navbar">
-      <div className="navbar-section navbar-logo-title">
-        <img
-          src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png"
-          alt="Rasa Icon"
-          className="navbar-icon"
-        />
-        <h1 className="navbar-full-title">Ħimalayan R̥asa</h1>
-        <h1 className="navbar-short-title">ĦR̥</h1>
-      </div>
+      <nav className="navbar">
+        <div className="navbar-section navbar-logo-title">
+          <Link to="/" className="navbar-link">
+            <img
+              src="https://himalayanrasa-product-images.s3.ap-south-1.amazonaws.com/uploads/WebsiteImages/himalayanrasa.png"
+              alt="Rasa Icon"
+              className="navbar-icon"
+            />
+            <h1 className="navbar-full-title">Ħimalayan R̥asa</h1>
+            <h1 className="navbar-short-title">ĦR̥</h1>
+          </Link>
+        </div>
 
-      <div className="navbar-section search-section">
-        <SearchBar /> {/* Place the search bar */}
-      </div>
+        <div className="navbar-section search-section">
+          <SearchBar /> {/* Place the search bar */}
+        </div>
 
-      <div className="navbar-section nav-buttons">
-        {buttons.filter(button => button.visible !== false).map((button, index) => (
-          <div
-            key={index}
-            className={`icon-button ${button.className || ''}`}
-            onMouseEnter={() => !showDropdown && setTooltip(button.tooltip)}
-            onMouseLeave={() => setTooltip(null)}
-            onClick={button.onClick}
-          >
-            <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
-            {tooltip === button.tooltip && !showDropdown && <span className="tooltip">{tooltip}</span>}
-            {button.tooltip === 'Cart' && cartItems.length > 0 && (
-              <span className="cart-count">{cartItems.length}</span>
-            )}
-            {button.tooltip === 'Account' && showDropdown && (
-              <DropdownMenu
-                onNavigate={handleNavigation}
-                onLogout={handleLogout}
-                unreadCount={unreadCount}
-                dropdownRef={dropdownRef}
-                isBottomNav={false}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-    </nav>
+        <div className="navbar-section nav-buttons">
+          {buttons.filter(button => button.visible !== false).map((button, index) => (
+            <div
+              key={index}
+              className={`icon-button ${button.className || ''}`}
+              onMouseEnter={() => !showDropdown && setTooltip(button.tooltip)}
+              onMouseLeave={() => setTooltip(null)}
+              onClick={button.onClick}
+            >
+              <FontAwesomeIcon icon={button.icon} className="awesome-icon" />
+              {tooltip === button.tooltip && !showDropdown && <span className="tooltip">{tooltip}</span>}
+              {button.tooltip === 'Cart' && cartItems.length > 0 && (
+                <span className="cart-count">{cartItems.length}</span>
+              )}
+              {button.tooltip === 'Account' && showDropdown && (
+                <DropdownMenu
+                  onNavigate={handleNavigation}
+                  onLogout={handleLogout}
+                  unreadCount={unreadCount}
+                  dropdownRef={dropdownRef}
+                  isBottomNav={false}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </nav>
       <div className="bottom-nav">
         {buttons.filter(button => button.visible !== false).map((button, index) => (
           <div

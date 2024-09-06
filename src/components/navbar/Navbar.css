@@ -36,6 +36,13 @@
   object-fit: contain;
 }
 
+.navbar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none; /* Remove default link underline */
+  color: inherit; /* Inherit color so that it doesn’t affect child elements */
+}
+
 .search-section {
   flex-grow: 2; /* Allows the search bar to take up available space */
   display: flex;

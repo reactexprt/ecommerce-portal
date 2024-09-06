@@ -38,7 +38,7 @@ const UserProfile = loadable(() => import('./pages/userProfile/UserProfile'));
 const AddressBook = loadable(() => import('./pages/addressBook/AddressBook'));
 const Wishlist = loadable(() => import('./pages/wishlist/Wishlist'));
 const Notifications = loadable(() => import('./pages/notifications/Notifications'));
-const AccountSettings = loadable(() => import('./pages/accountSettings.js/AccountSettings'));
+const AccountSettings = loadable(() => import('./pages/accountSettings/AccountSettings'));
 const Shops = loadable(() => import('./pages/shops/Shops'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 

@@ -39,7 +39,7 @@ const Home = () => {
           <h1>Experience the Purest Gifts of the Himalayas</h1>
           <p>Authentic. Natural. From the Heart of the Himalayas.</p>
           <div className='top-button-link-divs'>
-            <Link to="/products" className="btn btn-primary">Shop Now!</Link>
+            <Link to="/shops" className="btn btn-primary">Shop Now!</Link>
             {isAdmin ?
               <Link to="/admin" className="btn btn-primary">Admin Page</Link>
               : null
