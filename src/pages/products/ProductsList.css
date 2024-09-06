@@ -69,9 +69,16 @@
 }
 
 .product-price {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-text-color);
+  margin-bottom: 20px;
+}
+
+.product-original-price {
+  text-decoration: line-through;
   color: var(--secondary-text-color);
-  font-weight: 600;
+  margin-right: 10px;
 }
 
 /* Loading and Error Styling */
@@ -150,7 +157,7 @@
   }
 
   .product-price {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 }
 

@@ -82,7 +82,15 @@ const ProductsList = () => {
               <ImageSlider images={product.images} />
               <div className="product-info">
                 <h2 className="product-name">{product.name}</h2>
-                <p className="product-price">₹{product.price}</p>
+                <p className="product-price">
+                  {product.discountPrice ? (
+                    <>
+                      <span className="product-original-price">₹{product.price}</span> ₹{product.discountPrice}
+                    </>
+                  ) : (
+                    `₹${product.price}`
+                  )}
+                </p>
               </div>
             </div>
           ))}

@@ -32,11 +32,11 @@ const Cart = () => {
       </div>
     );
   }
-  
+
 
   const totalAmount = cartItems.reduce((sum, item) => {
-    if (item.productId && item.productId.price) {
-      return sum + item.productId.price * item.quantity;
+    if (item.productId && item.productId.discountPrice) {
+      return sum + item.productId.discountPrice * item.quantity;
     }
     return sum;
   }, 0);
@@ -65,7 +65,7 @@ const Cart = () => {
         <div className="cart-empty">
           <h2>YOUR CART IS EMPTY</h2>
           <p>Looks like you haven't added anything to your cart yet.</p>
-          <Link to="/products" className="btn btn-shop">Go Shopping</Link>
+          <Link to="/shops" className="btn btn-shop">Go Shopping</Link>
         </div>
       </>
     );
@@ -87,7 +87,15 @@ const Cart = () => {
                   <div className="cart-item-details">
                     <div className="cart-item-info">
                       <h3>{item.productId.name}</h3>
-                      <p>₹{(item.productId.price * item.quantity).toFixed(2)}</p>
+                      <p className="cart-product-price">
+                        {item.productId.discountPrice ? (
+                          <>
+                            <span className="cart-product-original-price">₹{item.productId.price}</span> ₹{item.productId.discountPrice}
+                          </>
+                        ) : (
+                          `₹${item.productId.price}`
+                        )}
+                      </p>
                     </div>
                     <div className="cart-item-controls">
                       <button
@@ -112,9 +120,9 @@ const Cart = () => {
           {/* <button className="buy-button" onClick={() => navigate('/payment', { state: { totalAmount } })}>Click to Buy</button> */}
         </div>
         <AddressManager onSelectAddress={setSelectedAddress} />
-        <button 
+        <button
           className='buy-button'  //${!selectedAddress ? 'disabled' : ''}
-          onClick={handleOrderConfirm} 
+          onClick={handleOrderConfirm}
           // disabled={!selectedAddress}
           title={!selectedAddress ? 'Please add and select an address before proceeding' : ''}
         >

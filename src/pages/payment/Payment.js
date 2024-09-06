@@ -66,7 +66,7 @@ const PaymentForm = () => {
     }
   }, [location.state]);
 
-  const totalAmount = cartItems.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
+  const totalAmount = cartItems.reduce((sum, item) => sum + item.productId.discountPrice * item.quantity, 0);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

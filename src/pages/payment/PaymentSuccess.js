@@ -26,13 +26,13 @@ const PaymentSuccess = () => {
         <ul>
           {cartItems.map((item, index) => (
             <li key={index}>
-              <strong>{item.productId.name}</strong> - Quantity: {item.quantity} - Price: ₹{item.productId.price.toFixed(2)}
+              <strong>{item.productId.name}</strong> - Quantity: {item.quantity} - Price: ₹{item.productId.discountPrice.toFixed(2)}
             </li>
           ))}
         </ul>
       </div>
 
-      <button onClick={() => navigate('/products')} className="btn">
+      <button onClick={() => navigate('/shops')} className="btn">
         Continue Shopping
       </button>
     </div>
