@@ -59,8 +59,14 @@
 }
 
 .product-details-thumbnail-image:hover {
-    border: 2px solid var(--button-hover-bg-color);
+    border: 2px solid var(--home-button-bg-color);
     transform: scale(1.1);
+}
+
+.product-details-thumbnail-image.selected {
+    transform: scale(1.06);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Make selected image visually similar to hover effect */
+    border: 2px solid var(--button-bg-color); /* Add border to indicate the selected state */
 }
 
 /* Product details and form section */

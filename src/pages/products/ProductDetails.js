@@ -185,7 +185,7 @@ const ProductDetails = () => {
                                 key={index}
                                 src={image}
                                 alt={`Thumbnail ${index + 1}`}
-                                className="product-details-thumbnail-image"
+                                className={`product-details-thumbnail-image ${image === selectedImage ? 'selected' : ''}`}
                                 onClick={() => handleImageClick(image)}
                             />
                         ))
