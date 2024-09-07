@@ -191,12 +191,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
 }
 
 .product-average-rating p {
     font-size: 1.2rem;
     color: var(--primary-text-color);
+    margin-top: 10px;
 }
 
 /* User Rating Stars */
@@ -398,7 +398,6 @@
 
     .custom-add-to-cart-button, 
     .custom-wishlist-button {
-        padding: 10px 20px; /* Adjust button padding for tablets */
         font-size: 0.9rem;
     }
 }
@@ -445,10 +444,14 @@
         font-size: 0.8rem; /* Slightly smaller for compact view */
     }
 
-    .custom-add-to-cart-button, 
     .custom-wishlist-button {
-        padding: 8px 16px;
-        font-size: 0.8rem; /* Smaller, touch-friendly buttons */
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+
+    .custom-add-to-cart-button {
+        padding: 11.5px 40px;
+        font-size: 0.8rem;
     }
 
     .product-details-comment-form textarea {

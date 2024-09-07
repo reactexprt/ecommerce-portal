@@ -221,6 +221,14 @@ const ProductDetails = () => {
                     )}
                 </p>
 
+                {/* Display Average Rating with Stars */}
+                <div className="product-average-rating">
+                    <p>Average Rating: {product.averageRating}/5</p>
+                    <div className="average-rating-stars">
+                        {renderAverageRatingStars(product.averageRating)}
+                    </div>
+                </div>
+
                 <div className="modal-button-div">
                     <button className="custom-add-to-cart-button" onClick={handleAddToCart}>
                         Add to Cart
@@ -229,14 +237,6 @@ const ProductDetails = () => {
                         <FontAwesomeIcon icon={faHeart} style={{ color: inWishlist ? 'red' : 'orange' }} />
                         {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
                     </button>
-                </div>
-
-                {/* Display Average Rating with Stars */}
-                <div className="product-average-rating">
-                    <p>Average Rating: {product.averageRating}/5</p>
-                    <div className="average-rating-stars">
-                        {renderAverageRatingStars(product.averageRating)}
-                    </div>
                 </div>
 
                 <div className="product-details-comments">
