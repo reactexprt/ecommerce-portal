@@ -63,6 +63,10 @@
   font-family: var(--font-family-secondary);
 }
 
+.login-forgot-password-buttons svg {
+  margin-right: 5px;
+}
+
 .login-page button:hover {
   background-color: var(--button-hover-bg-color);
 }

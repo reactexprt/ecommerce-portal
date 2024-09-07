@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './SearchBar.css'; // Modernized CSS
 
@@ -103,18 +105,21 @@ const SearchBar = () => {
 
   return (
     <div className="search-container" ref={searchRef}>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setLoading(true);
-          setPage(1); // Reset page when new query is entered
-          setResults({ products: [], shops: [] }); // Clear results on new query
-        }}
-        placeholder="Search for products or shops..."
-        className="search-input"
-      />
+      <div className="search-bar">
+        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setLoading(true);
+            setPage(1); // Reset page when new query is entered
+            setResults({ products: [], shops: [] }); // Clear results on new query
+          }}
+          placeholder="Search for products or shops..."
+          className="search-input"
+        />
+      </div>
 
       <div className="search-results">
         {loading && <div className="loading-spinner"></div>}

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Register.css';
 
@@ -106,7 +108,9 @@ const Register = () => {
               autoComplete='new-password'
             />
           </div>
-          <button id='register-button' type="submit">CREATE NEW ACCOUNT</button>
+          <button id='register-button' type="submit">
+            <FontAwesomeIcon icon={faUserPlus} className="icon-margin" /> CREATE NEW ACCOUNT
+          </button>
         </form>
       </div>
     </>

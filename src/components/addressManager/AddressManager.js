@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faMapMarkerAlt, faEdit, faTrash, faCheckCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './AddressManager.css';
@@ -353,12 +355,20 @@ const AddressManager = ({ onSelectAddress }) => {
           <input id="isDefault" type="checkbox" name="isDefault" checked={form.isDefault} onChange={handleChange} />
           Set as Default
         </label>
-        <button type="button" onClick={handleUseCurrentLocation} className="location-button">
+        {/* <button type="button" onClick={handleUseCurrentLocation} className="location-button">
           Use Current Location
         </button>
         <button type="submit" className="submit-button">
           {form._id ? 'Update' : 'Add'} Address
-        </button>
+        </button> */}
+        <div className='location-add-address-buttons-div'>
+          <button type="button" onClick={handleUseCurrentLocation} className="location-button">
+            <FontAwesomeIcon icon={faMapMarkerAlt} /> Use Current Location
+          </button>
+          <button type="submit" className="submit-button">
+            <FontAwesomeIcon icon={faCheck} /> {form._id ? 'Update' : 'Add'} Address
+          </button>
+        </div>
       </form>
       <ul className="address-list">
         {addresses.map((addr) => (
@@ -367,10 +377,17 @@ const AddressManager = ({ onSelectAddress }) => {
               <strong>{addr.label}</strong>: {addr.firstName} {addr.lastName}, {addr.flat}, {addr.street}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}, {addr.phoneNumber}
             </span>
             <div className="address-actions">
-              <button onClick={() => handleEdit(addr)}>Edit</button>
-              <button onClick={() => handleDeleteAddress(addr._id)}>Delete</button>
+              <button onClick={() => handleEdit(addr)}>
+                <FontAwesomeIcon icon={faEdit} className="icon-margin" /> Edit
+              </button>
+              <button onClick={() => handleDeleteAddress(addr._id)}>
+                <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Delete
+              </button>
               <button onClick={() => handleSelectAddress(addr)}>
-                {selectedAddress?._id === addr._id ? 'Selected' : 'Select'}
+                <FontAwesomeIcon
+                  icon={selectedAddress?._id === addr._id ? faCheckCircle : faCircle}
+                  className="icon-margin"
+                /> {selectedAddress?._id === addr._id ? 'Selected' : 'Select'}
               </button>
             </div>
           </li>

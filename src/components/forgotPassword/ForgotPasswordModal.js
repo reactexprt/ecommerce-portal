@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './ForgotPasswordModal.css';
-import api from '../../services/api'; // Adjust the path to your api file accordingly
+import api from '../../services/api';
 
 const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword }) => {
   const [email, setEmail] = useState('');
@@ -58,61 +58,65 @@ const ForgotPasswordModal = ({ isOpen, onClose, setLoginEmail, setLoginPassword 
   if (!isOpen) return null;
 
   return (
-    <div className="forgot-password-modal">
-      <div className="modal-content">
-        <div id="close-button-id">
-          <button className="close-button" onClick={onClose}>×</button>
+    <div className="forgot-password-modal-unique">
+      <div className="modal-content-unique">
+        <div className="close-button-container">
+          <button className="close-button-unique" onClick={onClose}>×</button>
         </div>
         <div>
-          <h2>RESET PASSWORD</h2>
+          <h2 className="modal-header-unique">RESET PASSWORD</h2>
         </div>
-        {error && <p className="error-message">{error}</p>}
-        {success && <p className="success-message">{success}</p>}
+        {error && <p className="error-message-unique">{error}</p>}
+        {success && <p className="success-message-unique">{success}</p>}
         {!otpSent ? (
           <form onSubmit={handleRequestOtp}>
-            <div className="form-group">
-              <label>EMAIL</label>
+            <div className="form-group-unique">
+              <label className="label-unique">EMAIL</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="input-unique"
               />
             </div>
-            <button className='login-forgot-password-buttons' type="submit" disabled={loading}>
+            <button className='submit-button-unique' type="submit" disabled={loading}>
               {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'REQUEST OTP'}
             </button>
           </form>
         ) : (
           <form onSubmit={handleResetPassword}>
-            <div className="form-group">
-              <label>OTP</label>
+            <div className="form-group-unique">
+              <label className="label-unique">OTP</label>
               <input
                 type="text"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 required
+                className="input-unique"
               />
             </div>
-            <div className="form-group">
-              <label>NEW PASSWORD</label>
+            <div className="form-group-unique">
+              <label className="label-unique">NEW PASSWORD</label>
               <input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
+                className="input-unique"
               />
             </div>
-            <div className="form-group">
-              <label>CONFIRM PASSWORD</label>
+            <div className="form-group-unique">
+              <label className="label-unique">CONFIRM PASSWORD</label>
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                className="input-unique"
               />
             </div>
-            <button className='login-forgot-password-buttons' type="submit">RESET PASSWORD</button>
+            <button className='submit-button-unique' type="submit">RESET PASSWORD</button>
           </form>
         )}
       </div>

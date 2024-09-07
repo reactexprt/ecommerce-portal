@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faCompass } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Shops.css'; // Import the updated CSS file
 
@@ -57,7 +57,7 @@ const Shops = () => {
               <p className="shop-location"><strong>Location:</strong> {shop.location}</p>
               <p className="shop-contact"><strong>Contact:</strong> {shop.contactEmail}</p>
               <p className="shop-contact-phone"><strong>Phone:</strong> {shop.contactPhone}</p>
-              
+
               <div className="shop-social-media">
                 {shop.socialMediaLinks?.facebook && (
                   <a href={shop.socialMediaLinks.facebook} target="_blank" rel="noopener noreferrer">
@@ -82,7 +82,9 @@ const Shops = () => {
               </div>
             </div>
             <div className='shop-buttons'>
-              <button className="shop-explore-button">Explore Products</button>
+              <button className="shop-explore-button">
+                <FontAwesomeIcon icon={faCompass} /> Explore Products
+              </button>
             </div>
           </div>
         ))}

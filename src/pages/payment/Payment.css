@@ -1,129 +1,119 @@
-@import '../../styles/variables.css'; /* Import shared variables */
+@import '../../styles/variables.css';
+/* Import shared variables */
 
 .payment-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* margin-top: 60px; */
-  padding: 20px;
-  height: 100vh;
+  min-height: 100vh;
+  /* Full viewport height */
+  padding: 30px 20px;
+  /* Increase padding for breathing room */
   background-color: var(--primary-bg-color);
 }
 
 .payment-container {
   background-color: var(--secondary-bg-color);
-  /* margin-top: 50px; */
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  /* padding: 40px; */
   width: 50%;
+  padding: 40px 50px;
+  /* More padding for cleaner, spacious feel */
   transition: all 0.3s ease;
+  margin-bottom: 50px;
+  /* Ensure it doesn’t overlap with footer */
+  text-align: center;
 }
 
 .payment-container h1 {
-  text-align: center;
   margin-bottom: 30px;
   color: var(--secondary-text-color);
-  font-size: 2rem;
+  font-size: 2.4rem;
+  /* Larger font for emphasis */
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .payment-form {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  padding: 20px;
+  width: 100%;
 }
 
 .payment-form h2 {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  /* More space to separate from form */
   color: var(--secondary-text-color);
-  font-size: 1.5rem;
-  text-align: center;
+  font-size: 1.9rem;
 }
 
 .total-amount {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  /* Increase space to enhance readability */
+  color: var(--highlight-color);
   text-align: center;
-  color: var(--secondary-text-color);
 }
 
-.payment-methods {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
 
-.payment-method {
-  background-color: var(--secondary-bg-color);
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  padding: 10px 20px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1rem;
-}
-
-.payment-method.selected,
-.payment-method:hover {
-  background-color: var(--primary-bg-color);
-  color: white;
-  border-color: var(--primary-bg-color);
-}
 
 .form-group {
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
+  align-items: flex-start;
+  margin: 20px 0;
+  /* Increase margin for cleaner separation */
 }
 
 .form-group label {
-  font-size: 1rem;
+  font-size: 1.1rem;
+  /* Larger font for better readability */
   color: var(--secondary-text-color);
-  margin-bottom: 10px;
-  display: inline-block;
+  margin-bottom: 8px;
+  /* Slightly increased spacing */
 }
 
 .form-group select,
 .form-group input,
 .form-group textarea {
-  align-self: center;
-  width: 95%;
-  padding: 12px;
+  width: 100%;
+  padding: 14px;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
-  font-size: 1rem;
+  font-size: 1.1rem;
   background-color: var(--input-bg-color);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group select:focus,
-.form-group input:focus {
+.form-group input:focus,
+.form-group textarea:focus {
   border-color: var(--primary-bg-color);
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
 .pay-button {
-  padding: 15px;
-  background-color: var(--button-bg-color) !important;
-  color: var(--button-text-color) !important;
+  padding: 16px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
+  font-size: 1.3rem;
   text-transform: uppercase;
   font-weight: bold;
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 25px;
+}
+
+.pay-button .icon-margin {
+  margin-right: 8px;
 }
 
 .pay-button:hover {
-  background: var(--button-hover-bg-color) !important;
+  background: var(--button-hover-bg-color);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
@@ -133,129 +123,227 @@
   cursor: not-allowed;
 }
 
-.pay-button:hover:not(:disabled) {
-  background-color: var(--button-hover-bg-color);
-}
-
 .error-message {
   color: #e74c3c;
   font-size: 1rem;
-  margin-top: -15px;
   text-align: center;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #e74c3c;
   border-radius: var(--border-radius);
   background-color: #fdd;
+  margin-top: 10px;
 }
 
-.success-message {
-  color: #2ecc71;
-  font-size: 1.2rem;
-  margin-top: 20px;
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #2ecc71;
+/* Payment Method Icons */
+.payment-method-icons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap; /* Wrap icons to new line on smaller screens */
+  margin: 30px 0; /* Spacing around the icon section */
+}
+
+.payment-method-icons .payment-icon {
+  font-size: 2.5rem; /* Larger icons for better visibility */
+  color: var(--primary-text-color);
+  margin: 10px 15px; /* Add spacing between icons */
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.payment-method-icons .payment-icon:hover {
+  transform: scale(1.1); /* Slight hover effect for interactivity */
+  color: var(--highlight-color);
+}
+
+/* Payment Trust Section */
+.payment-trust-section {
+  background-color: var(--primary-light-color);
   border-radius: var(--border-radius);
-  background-color: #dff0d8;
+  padding: 25px;
+  margin-bottom: 30px;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+  transition: all 0.3s ease;
+}
+
+.payment-trust-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.payment-trust-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* Increase the gap between different items like SSL Secured and 100% Secure Payment */
+  margin-bottom: 20px;
+}
+
+.payment-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Small gap between the icon and the associated text */
+}
+
+.payment-trust-item .icon {
+  font-size: 2rem;
+  color: var(--primary-text-color);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.payment-trust-item .icon:hover {
+  transform: scale(1.1);
+  color: var(--highlight-color);
+}
+
+.security-info {
+  font-size: 1.1rem;
+  color: var(--secondary-text-color);
+  margin-top: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.ssl-secure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.ssl-secure .icon {
+  font-size: 1.7rem;
+  margin-right: 10px;
+  color: var(--highlight-color);
+}
+
+.money-back-guarantee {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: var(--primary-text-color);
+  margin-top: 25px;
+}
+
+.money-back-guarantee .icon {
+  font-size: 1.6rem;
+  margin-right: 10px;
+}
+
+.contact-info {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.contact-info a {
+  color: var(--button-bg-color);
+  text-decoration: none;
+}
+
+.contact-info .icon-margin {
+  margin-right: 5px;
 }
 
 /* Media Queries for Responsiveness */
 
-/* Tablets */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .payment-container {
-    width: 70%;
-    /* padding: 0;
-    margin-top: 0; */
+    width: 95%;
+    padding: 35px;
+  }
+
+  .payment-container h1 {
+    font-size: 2rem;
+  }
+
+  .payment-form h2 {
+    font-size: 1.7rem;
+  }
+
+  .pay-button {
+    font-size: 1.2rem;
+    padding: 14px;
+  }
+
+  .payment-method-icons {
+    justify-content: center; /* Center icons on tablet */
+    margin: 20px 0;
+  }
+
+  .payment-method-icons .payment-icon {
+    font-size: 2rem; /* Smaller icons for tablets */
+    margin: 8px 10px;
+  }
+
+  .payment-trust-section {
+    padding: 15px; /* Less padding for smaller screens */
+  }
+
+  .payment-trust-icons {
+    gap: 30px;
+  }
+
+  .payment-trust-item .icon {
+    font-size: 1.7rem;
+  }
+
+  .security-info {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .payment-container {
+    width: 93%;
+    padding: 25px;
   }
 
   .payment-container h1 {
     font-size: 1.8rem;
   }
 
+  .payment-form h2 {
+    font-size: 1.6rem;
+  }
+
   .pay-button {
     font-size: 1.1rem;
     padding: 12px;
   }
-}
 
-/* Phones */
-@media (max-width: 480px) {
-  .payment-container {
+  .form-group select,
+  .form-group input,
+  .form-group textarea {
     width: 90%;
-    /* padding: 20px 20px 50px 20px; */
-    margin-top: 0px;
   }
 
-  .payment-page {
-    margin-top: 0px;
+  .payment-method-icons {
+    justify-content: center;
+    flex-direction: row; /* Stack icons vertically on mobile */
+    margin: 15px 0;
   }
 
-  .payment-container h1 {
+  .payment-method-icons .payment-icon {
+    font-size: 1.8rem; /* Smaller icons for mobile */
+    margin: 5px 8px;
+  }
+
+  .payment-trust-section {
+    padding: 10px; /* Reduce padding on mobile */
+  }
+
+  .payment-trust-icons {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .payment-trust-item .icon {
     font-size: 1.5rem;
   }
 
-  .pay-button {
-    font-size: 1rem;
-    padding: 10px;
+  .security-info {
+    font-size: 0.95rem;
   }
-}
-
-/* Payment Success Page */
-
-.success-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  background-color: var(--primary-bg-color);
-  padding: 20px;
-  text-align: center;
-}
-
-.success-page h2 {
-  color: var(--secondary-text-color);
-  font-size: 2rem;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.success-page p {
-  color: var(--secondary-text-color);
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-}
-
-.success-page .order-details {
-  background-color: var(--secondary-bg-color);
-  padding: 20px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  width: 60%;
-  text-align: left;
-}
-
-.success-page .order-details p {
-  margin: 10px 0;
-  font-size: 1rem;
-  color: var(--primary-text-color);
-}
-
-.success-page .btn {
-  padding: 12px 24px;
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: background-color 0.3s ease;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-top: 20px;
-}
-
-.success-page .btn:hover {
-  background-color: var(--button-hover-bg-color);
 }

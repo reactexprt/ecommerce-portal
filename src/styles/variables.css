@@ -7,10 +7,10 @@
   --secondary-bg-color: #ffffff;  /* Teal */
   --input-bg-color: #f9f9f9;  /* White or very light gray for inputs */
   --primary-text-color: #333333;  /* Charcoal Gray */
-  --secondary-text-color: #333;  /* White for contrast on Teal background */
+  --secondary-text-color: #555555;  /* White for contrast on Teal background */
   --button-text-color: #f9f9f9;
-  --button-bg-color: #333;
-  --button-hover-bg-color: #666;  /* Soft Golden Yellow */
+  --button-bg-color: #008080;
+  --button-hover-bg-color: #006666;  /* Soft Golden Yellow */
   --button-secondary-hover-bg-color: #f0f0f0;
   --home-button-bg-color: #e67e22;
   --home-button-hover-bg-button: #D35400;

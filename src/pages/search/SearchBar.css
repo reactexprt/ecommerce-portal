@@ -4,15 +4,24 @@
   width: 100%;
   position: relative;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  padding: 10px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center both input and icon */
+  position: relative;
+  width: 100%;
+  max-width: 800px;
 }
 
 .search-input {
   width: 70%;
-  max-width: 600px;
-  padding: 11px 20px;
-  font-size: 1.2rem;
+  padding: 11px 40px; /* Adjust left padding to create space for the icon */
+  font-size: 1.1rem;
   border: 1px solid var(--primary-text-color);
   border-radius: 25px;
   background-color: var(--input-bg-color);
@@ -20,13 +29,24 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
+/* Position the icon within the input field */
+.search-icon {
+  position: absolute;
+  left: calc(11.5%); /* This keeps the icon aligned with the input */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #888;
+}
+
+/* Input focus state */
 .search-input:focus {
   box-shadow: 0 0 10px var(--primary-bg-color);
 }
 
 .search-results {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   background-color: var(--secondary-bg-color);
   border-radius: 12px;
   box-shadow: var(--box-shadow);
@@ -122,3 +142,27 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 1024px) {
+  .search-bar {
+    width: 85%;
+  }
+  .search-icon {
+    left: calc(8%); /* Adjust icon position for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    width: 90%;
+  }
+
+  .search-input {
+    padding: 9px 40px; /* Adjust padding for better spacing */
+  }
+
+  .search-icon {
+    left: calc(5.5%); /* Adjust icon position for smaller screens */
+  }
+}
+

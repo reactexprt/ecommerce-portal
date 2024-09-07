@@ -60,6 +60,10 @@
   font-family: var(--font-family-secondary);
 }
 
+#register-button svg {
+  margin-right: 7px;
+}
+
 .register-page button:hover {
   background-color: var(--button-hover-bg-color);
 }

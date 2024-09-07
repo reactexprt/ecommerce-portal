@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { fetchCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions';
 import AddressManager from '../../components/addressManager/AddressManager';
 import './Cart.css';
@@ -53,7 +53,14 @@ const Cart = () => {
     } else {
       alert('Please add and select a delivery address before proceeding to payment page.');
     }
+  };
 
+  // Function to calculate the discount percentage
+  const calculateDiscountPercentage = product => {
+    if (product && product.discountPrice && product.price) {
+      return Math.round(((product.price - product.discountPrice) / product.price) * 100);
+    }
+    return 0;
   };
 
   if (cartItems.length === 0) {
@@ -90,25 +97,33 @@ const Cart = () => {
                       <p className="cart-product-price">
                         {item.productId.discountPrice ? (
                           <>
-                            <span className="cart-product-original-price">₹{item.productId.price}</span> ₹{item.productId.discountPrice}
+                            <span className="cart-product-original-price">₹{item.productId.price}</span>
+                            <span className="cart-product-discount-price">₹{item.productId.discountPrice}</span>
+                            <span className="cart-product-discount-percentage">
+                              ({calculateDiscountPercentage(item.productId)}% off)
+                            </span>
                           </>
                         ) : (
                           `₹${item.productId.price}`
                         )}
                       </p>
                     </div>
-                    <div className="cart-item-controls">
-                      <button
-                        onClick={() => dispatch(updateCartItem(item.productId._id, item.quantity - 1))}
-                        disabled={item.quantity === 1}
-                        className={item.quantity === 1 ? 'disabled-button' : ''}
-                      >
-                        -
+                    <div className='cart-item-all-buttons'>
+                      <div className="cart-item-controls">
+                        <button
+                          onClick={() => dispatch(updateCartItem(item.productId._id, item.quantity - 1))}
+                          disabled={item.quantity === 1}
+                          className={item.quantity === 1 ? 'disabled-button' : ''}
+                        >
+                          -
+                        </button>
+                        <span className="quantity">{item.quantity}</span>
+                        <button onClick={() => dispatch(updateCartItem(item.productId._id, item.quantity + 1))}>+</button>
+                      </div>
+                      <button className="remove-button" onClick={() => dispatch(removeFromCart(item.productId._id))}>
+                        <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Remove
                       </button>
-                      <span className="quantity">{item.quantity}</span>
-                      <button onClick={() => dispatch(updateCartItem(item.productId._id, item.quantity + 1))}>+</button>
                     </div>
-                    <button className="remove-button" onClick={() => dispatch(removeFromCart(item.productId._id))}>Remove</button>
                   </div>
                 </>
               )}
@@ -121,12 +136,12 @@ const Cart = () => {
         </div>
         <AddressManager onSelectAddress={setSelectedAddress} />
         <button
-          className='buy-button'  //${!selectedAddress ? 'disabled' : ''}
+          className={`buy-button`}
           onClick={handleOrderConfirm}
           // disabled={!selectedAddress}
           title={!selectedAddress ? 'Please add and select an address before proceeding' : ''}
         >
-          BUY NOW
+          <FontAwesomeIcon icon={faShoppingCart} /> Checkout
         </button>
       </div>
     </>

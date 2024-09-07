@@ -11,7 +11,7 @@ import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import ContactUsButton from '../../components/contactUs/ContactUsButton';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faKey, faUserPlus, faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
 
 import './Login.css';
 
@@ -21,8 +21,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
-  const emailRef = useRef(null); 
-  const biometricBtnRef = useRef(null); 
+  const emailRef = useRef(null);
+  const biometricBtnRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const Login = () => {
     };
 
     const storedEmail = getCookie('userEmail') ? decodeURIComponent(getCookie('userEmail')).trim() : '';
-    
+
     if (storedEmail) {
       setEmail(storedEmail);
 
@@ -160,7 +160,9 @@ const Login = () => {
               autoComplete='current-password'
             />
           </div>
-          <button className='login-forgot-password-buttons' type="submit">LOGIN</button>
+          <button className='login-forgot-password-buttons' type="submit">
+            <FontAwesomeIcon icon={faSignInAlt} className="icon-margin" /> LOGIN
+          </button>
         </form>
         <div className='single-sign-in-divs'>
           <div className="google-signin-container">
@@ -173,10 +175,10 @@ const Login = () => {
 
         <div className="login-footer">
           <button className="btn-link forgot-password login-forgot-password-buttons" onClick={handleForgotPasswordClick}>
-            FORGOT PASSWORD?
+            <FontAwesomeIcon icon={faKey} className="icon-margin" /> FORGOT PASSWORD?
           </button>
           <button className="btn-link new-user login-forgot-password-buttons" onClick={() => navigate('/register')}>
-            NEW USER? REGISTER
+            <FontAwesomeIcon icon={faUserPlus} className="icon-margin" /> NEW USER? REGISTER
           </button>
         </div>
 

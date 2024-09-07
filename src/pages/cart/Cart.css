@@ -29,16 +29,40 @@
 }
 
 .cart-product-price {
-  font-size: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: var(--primary-text-color);
   margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Aligns text and discount percentage in a row */
+  gap: 10px; /* Adds space between the original price, discounted price, and percentage */
 }
 
+/* Original price styling - Red with strikethrough */
 .cart-product-original-price {
   text-decoration: line-through;
-  color: var(--secondary-text-color);
+  color: red; /* Red color for the original price */
+  font-size: 0.8rem;
   margin-right: 10px;
+}
+
+/* Discounted price styling - Green and bold */
+.cart-product-discount-price {
+  color: green; /* Green color for the discounted price */
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Discount percentage styling - Modern look in green */
+.cart-product-discount-percentage {
+  color: green;
+  font-size: 1rem; /* Smaller font size for the percentage */
+  font-weight: 500;  /* Medium weight to differentiate it */
+  margin-left: 10px; /* Adds space between the price and percentage */
+  background-color: rgba(0, 255, 0, 0.1); /* Light green background for emphasis */
+  padding: 5px 8px;
+  border-radius: 5px;
 }
 
 .loading, .error {
@@ -132,6 +156,12 @@
 }
 
 /* Cart Item Controls */
+
+.cart-item-all-buttons {
+  display: flex;
+  gap: 25px;
+}
+
 .cart-item-controls {
   display: flex;
   align-items: center;
@@ -161,18 +191,26 @@
 }
 
 .remove-button {
-  background-color: #ff4d4f;
+  display: inline-flex;
+  align-items: center; /* Align the icon with the text */
+  justify-content: center;
+  padding: 8px 15px;
+  background-color: #dc3545;
   color: white;
   border: none;
-  padding: 5px 15px;
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   cursor: pointer;
-  margin-left: 20px;
-  align-self: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .remove-button:hover {
-  background-color: #d32f2f;
+  background-color: #c82333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon-margin {
+  margin-right: 8px; /* Add space between the icon and the text */
+  font-size: 1rem; /* Adjust icon size as necessary */
 }
 
 /* Cart Total */
@@ -184,29 +222,41 @@
   color: var(--primary-text-color)
 }
 
-/* Buy Button */
+/* Buy Button - Improved Styling */
 .buy-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
+  display: flex; /* Inline block to control width */
+  justify-content: center;
+  width: auto; /* Remove full width */
+  padding: 15px 30px; /* Increase padding for a more prominent button */
+  background-color: var(--button-bg-color);
   color: white;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem; /* Slightly larger text for emphasis */
+  font-weight: bold; /* Make the text bold */
   cursor: pointer;
   margin-top: 20px;
   border-radius: var(--border-radius);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  text-align: center;
+  margin-left: auto; /* Center the button */
+  margin-right: auto; /* Center the button */
 }
 
+.buy-button svg {
+  margin-right: 15px;
+}
+
+/* Hover effect with modern shadow and slight lift */
+.buy-button:hover:not(.disabled) {
+  background-color: var(--button-hover-bg-color);
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Dynamic shadow effect */
+}
+
+/* Disabled button styling */
 .buy-button.disabled {
   background-color: #ccc;
   cursor: not-allowed;
-}
-
-.buy-button:hover:not(.disabled) {
-  background-color: #218838;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Disabled Button */
@@ -238,6 +288,11 @@
   .cart-total {
     font-size: 1.3rem;
   }
+
+  .buy-button {
+    width: 80%; /* Ensure the button is not too wide on smaller devices */
+    padding: 12px 20px; /* Slightly adjust padding for smaller screens */
+  }
 }
 
 /* Phones */
@@ -246,6 +301,12 @@
   .cart-item {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .cart-item-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
 
   .cart-item-image {
@@ -260,9 +321,15 @@
 
   .cart-item-controls {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 0;
     /* justify-content: space-between; */
+  }
+
+  .buy-button {
+    text-align: center !important;
+    width: 100%; /* Full width on small devices */
+    padding: 10px 15px; /* Ensure good tap target size */
   }
 
   .cart-total {

@@ -60,6 +60,14 @@ const ProductDetails = () => {
         }
     };
 
+    // Function to calculate the discount percentage
+    const calculateDiscountPercentage = () => {
+        if (product && product.discountPrice && product.price) {
+            return Math.round(((product.price - product.discountPrice) / product.price) * 100);
+        }
+        return 0;
+    };
+
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         if (isAuthenticated) {
@@ -75,7 +83,7 @@ const ProductDetails = () => {
                 setError('Failed to add comment. Please try again.');
             }
         } else {
-            alert('Please Login to give the feedback. Thankyou!');
+            alert('Please Login to give the feedback. Thank you!');
         }
     };
 
@@ -202,7 +210,11 @@ const ProductDetails = () => {
                 <p className="product-details-price">
                     {product.discountPrice ? (
                         <>
-                            <span className="product-details-original-price">₹{product.price}</span> ₹{product.discountPrice}
+                            <span className="product-details-original-price">₹{product.price}</span> 
+                            <span className='product-details-discount-price'>₹{product.discountPrice}</span>
+                            <span className="product-details-discount-percentage">
+                                ({calculateDiscountPercentage()}% off)
+                            </span>
                         </>
                     ) : (
                         `₹${product.price}`

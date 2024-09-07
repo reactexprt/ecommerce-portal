@@ -55,8 +55,10 @@
 }
 
 .product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  text-align: center;
   background-color: var(--secondary-bg-color);
   border-top: 1px solid #ddd;
 }
@@ -69,17 +71,109 @@
 }
 
 .product-price {
+  display: flex;
+  justify-content: center;
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--primary-text-color);
   margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Aligns text and discount percentage in a row */
+  gap: 10px; /* Adds space between the original price, discounted price, and percentage */
 }
 
+/* Original price styling - Red with strikethrough */
 .product-original-price {
   text-decoration: line-through;
-  color: var(--secondary-text-color);
+  color: red; /* Red color for the original price */
+  font-size: 0.8rem;
   margin-right: 10px;
 }
+
+/* Discounted price styling - Green and bold */
+.product-discount-price {
+  color: green; /* Green color for the discounted price */
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Discount percentage styling - Modern look in green */
+.product-discount-percentage {
+  color: green;
+  font-size: 1rem; /* Smaller font size for the percentage */
+  font-weight: 500;  /* Medium weight to differentiate it */
+  margin-left: 10px; /* Adds space between the price and percentage */
+  background-color: rgba(0, 255, 0, 0.1); /* Light green background for emphasis */
+  padding: 5px 8px;
+  border-radius: 5px;
+}
+
+.product-page-add-to-cart-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--button-bg-color); /* Teal background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.product-page-add-to-cart-button:hover {
+  background-color: var(--button-hover-bg-color); /* Darker teal on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.product-page-add-to-cart-button svg {
+  margin-right: 8px; /* Adds space between the icon and text */
+}
+
+.product-page-cart-quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.product-page-cart-quantity-control .plus-minus-product {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product-page-cart-quantity-control .plus-minus-product:hover {
+  background-color: #e0e0e0;
+}
+
+.product-page-cart-quantity-control .plus-minus-product:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.product-page-cart-quantity-control span {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.product-page-remove-from-cart {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.product-page-remove-from-cart:hover {
+  background-color: darkred;
+}
+
 
 /* Loading and Error Styling */
 .loading, .error {

@@ -32,6 +32,10 @@
   justify-content: center;
 }
 
+.icon-margin {
+  margin-right: 5px;
+}
+
 .hero-section h1 {
   font-size: 3rem;
   margin-bottom: 20px;

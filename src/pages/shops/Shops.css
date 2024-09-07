@@ -140,6 +140,10 @@
   width: 100%;
 }
 
+.shop-explore-button svg {
+  margin-right: 10px;
+}
+
 .shop-explore-button:hover {
   background-color: var(--home-button-hover-bg-button);
 }

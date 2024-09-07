@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate
+import { faSpinner, faCartPlus, faCheck, faMinus, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'; // Add icons
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'; // Use dispatch to add to cart and get cart state
+import { addToCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions'; // Add necessary cart actions
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
 import './ProductsList.css';
@@ -13,9 +15,11 @@ const ProductsList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(8); // Load 8 products per page
+  const [limit] = useState(8);
   const [hasMore, setHasMore] = useState(true);
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart.cartItems) || [];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,8 +28,7 @@ const ProductsList = () => {
       try {
         const response = await api.get(`/shops/${shopId}/products?page=${currentPage}&limit=${limit}`);
         const { products, hasMore } = response.data;
-
-        // Filter out duplicates based on the product ID
+        
         setProducts(prevProducts => {
           const productMap = new Map(prevProducts.map(product => [product._id, product]));
           products.forEach(product => {
@@ -36,7 +39,7 @@ const ProductsList = () => {
           return Array.from(productMap.values());
         });
 
-        setHasMore(hasMore); // Update hasMore state
+        setHasMore(hasMore);
       } catch (error) {
         setError('Error fetching products');
       }
@@ -48,15 +51,42 @@ const ProductsList = () => {
 
   const loadMoreProducts = () => {
     if (hasMore) {
-      setCurrentPage(prevPage => prevPage + 1); // Increment the page to load more products
+      setCurrentPage(prevPage => prevPage + 1);
     }
   };
 
-  const handleProductClick = (productId) => {
-    navigate(`/products/product/${productId}`); // Navigate to the product details page using useNavigate
+  const calculateDiscountPercentage = product => {
+    if (product && product.discountPrice && product.price) {
+      return Math.round(((product.price - product.discountPrice) / product.price) * 100);
+    }
+    return 0;
   };
 
-  if (loading && currentPage === 1) { // Only show spinner during the initial load
+  // Handle adding the product to the cart
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  // Handle removing the product from the cart
+  const handleRemoveFromCart = (productId) => {
+    dispatch(removeFromCart(productId));
+  };
+
+  // Handle updating product quantity in the cart
+  const handleUpdateCartQuantity = (productId, quantity) => {
+    dispatch(updateCartItem(productId, quantity));
+  };
+
+  // Check if the product is in the cart
+  const isProductInCart = useCallback((productId) => {
+    return cartItems.find(item => item.productId._id === productId);
+  }, [cartItems]);
+
+  const handleProductClick = (productId) => {
+    navigate(`/products/product/${productId}`); // Navigate to product details
+  };
+
+  if (loading && currentPage === 1) {
     return (
       <div className="loading">
         <FontAwesomeIcon icon={faSpinner} spin size="3x" />
@@ -77,23 +107,55 @@ const ProductsList = () => {
       <div className="products-list">
         <h1>Our Products</h1>
         <div className="products-grid">
-          {products.map(product => (
-            <div className="product-card" key={product._id} onClick={() => handleProductClick(product._id)}>
-              <ImageSlider images={product.images} />
-              <div className="product-info">
-                <h2 className="product-name">{product.name}</h2>
-                <p className="product-price">
-                  {product.discountPrice ? (
-                    <>
-                      <span className="product-original-price">₹{product.price}</span> ₹{product.discountPrice}
-                    </>
+          {products.map(product => {
+            const cartItem = isProductInCart(product._id);
+            return (
+              <div className="product-card" key={product._id}>
+                <div onClick={() => handleProductClick(product._id)}>
+                  <ImageSlider images={product.images} />
+                </div>
+                <div className="product-info">
+                  <h2 className="product-name" onClick={() => handleProductClick(product._id)}>{product.name}</h2>
+                  <p className="product-price">
+                    {product.discountPrice ? (
+                      <>
+                        <span className="product-original-price">₹{product.price}</span>
+                        <span className="product-discount-price">₹{product.discountPrice}</span>
+                        <span className="product-discount-percentage">
+                          ({calculateDiscountPercentage(product)}% off)
+                        </span>
+                      </>
+                    ) : (
+                      `₹${product.price}`
+                    )}
+                  </p>
+                  {/* Add to Cart or show quantity controls if already in the cart */}
+                  {cartItem && cartItems.length > 0 ? (
+                    <div className="product-page-cart-quantity-control">
+                      <button 
+                        className="plus-minus-product" 
+                        onClick={() => handleUpdateCartQuantity(cartItem.productId._id, cartItem.quantity - 1)}
+                        disabled={cartItem.quantity === 1}
+                      >
+                        <FontAwesomeIcon icon={faMinus} />
+                      </button>
+                      <span>{cartItem.quantity}</span>
+                      <button className="plus-minus-product" onClick={() => handleUpdateCartQuantity(cartItem.productId._id, cartItem.quantity + 1)}>
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
+                      <button className="product-page-remove-from-cart" onClick={() => handleRemoveFromCart(cartItem.productId._id)}>
+                        <FontAwesomeIcon icon={faTrashAlt} /> {/* Replace text with delete icon */}
+                      </button>
+                    </div>
                   ) : (
-                    `₹${product.price}`
+                    <button className="product-page-add-to-cart-button" onClick={() => handleAddToCart(product)}>
+                      <FontAwesomeIcon icon={faCartPlus} /> Add to Cart
+                    </button>
                   )}
-                </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {hasMore && !loading && (
           <button onClick={loadMoreProducts} className="load-more-button">

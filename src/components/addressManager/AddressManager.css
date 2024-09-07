@@ -20,7 +20,7 @@
   padding: 20px;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  max-width: 800px;
+  /* max-width: 800px; */
   margin: 40px auto;
   background-color: var(--secondary-bg-color);
   color: var(--secondary-text-color);
@@ -123,9 +123,14 @@
   left: 6px;
   width: 6px;
   height: 10px;
-  border: solid var(--primary-bg-color);
+  border: solid var(--button-bg-color);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+.location-add-address-buttons-div {
+  display: flex;
+  flex-direction: column;
 }
 
 .address-form .location-button,
@@ -139,6 +144,11 @@
   margin-top: 10px;
 }
 
+.address-form .location-button svg,
+.address-form .submit-button svg {
+  margin-right: 10px;
+}
+
 .address-form .location-button {
   background-color: #17a2b8;
   color: #fff;
@@ -149,12 +159,12 @@
 }
 
 .address-form .submit-button {
-  background-color: #28a745;
+  background-color: var(--button-bg-color);
   color: #fff;
 }
 
 .address-form .submit-button:hover {
-  background-color: #218838;
+  background-color: var(--button-hover-bg-color);
 }
 
 .address-list {
@@ -185,13 +195,20 @@
 }
 
 .address-actions button {
+  display: inline-flex;
+  align-items: center; /* Ensure icon and text are aligned */
+  justify-content: center;
+  padding: 8px 15px;
   background-color: #6c757d;
   color: #fff;
   border: none;
-  padding: 8px 15px;
-  border-radius: var(--border-radius);
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.address-actions button svg {
+  margin-right: 7px;
 }
 
 .address-actions button:hover {
@@ -199,11 +216,11 @@
 }
 
 .address-actions button:nth-child(1) {
-  background-color: #ffc107;
+  background-color: var(--home-button-bg-color);
 }
 
 .address-actions button:nth-child(1):hover {
-  background-color: #e0a800;
+  background-color: var(--home-button-hover-bg-button);
 }
 
 .address-actions button:nth-child(2) {
@@ -215,11 +232,11 @@
 }
 
 .address-actions button:nth-child(3) {
-  background-color: #007bff;
+  background-color: var(--button-bg-color);
 }
 
 .address-actions button:nth-child(3):hover {
-  background-color: #0056b3;
+  background-color: var(--button-hover-bg-color);
 }
 
 .input-error {

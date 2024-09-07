@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingBag, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Home.css';
 
@@ -39,11 +41,14 @@ const Home = () => {
           <h1>Experience the Purest Gifts of the Himalayas</h1>
           <p>Authentic. Natural. From the Heart of the Himalayas.</p>
           <div className='top-button-link-divs'>
-            <Link to="/shops" className="btn btn-primary">Shop Now!</Link>
-            {isAdmin ?
-              <Link to="/admin" className="btn btn-primary">Admin Page</Link>
-              : null
-            }
+            <Link to="/shops" className="btn btn-primary">
+              <FontAwesomeIcon icon={faShoppingBag} className="icon-margin" /> Shop Now
+            </Link>
+            {isAdmin && (
+              <Link to="/admin" className="btn btn-primary">
+                <FontAwesomeIcon icon={faUserShield} className="icon-margin" /> Admin
+              </Link>
+            )}
           </div>
         </div>
 

@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faLock, faShieldAlt, faUserSecret, faUniversity, faMoneyCheckAlt, faWallet, faCreditCard, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faFacebookF, faInstagram, faTwitter, faCcVisa, faCcMastercard, faGooglePay } from '@fortawesome/free-brands-svg-icons';
+import {  } from '@fortawesome/free-solid-svg-icons'; 
 import api from '../../services/api';
 import { clearCart } from '../../redux/actions/cartActions';
 import './Payment.css';
@@ -151,6 +153,22 @@ const PaymentForm = () => {
       <h2>Complete Your Payment</h2>
       <div className="total-amount">Total Amount: ₹{totalAmount.toFixed(2)}</div>
       
+      {/* Trust Section */}
+      <div className="payment-trust-section">
+        <div className="payment-trust-icons">
+          <div className="payment-trust-item">
+            <FontAwesomeIcon icon={faLock} className="icon" /> SSL Secured
+          </div>
+          <div className="payment-trust-item">
+            <FontAwesomeIcon icon={faShieldAlt} className="icon" /> 100% Secure Payment
+          </div>
+          <div className="payment-trust-item">
+            <FontAwesomeIcon icon={faUserSecret} className="icon" /> Privacy Protected
+          </div>
+        </div>
+        <p className="security-info">We don’t save your payment details for security purposes. Your information is encrypted and secured.</p>
+      </div>
+
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input 
@@ -200,8 +218,40 @@ const PaymentForm = () => {
         />
       </div>
 
+      {/* Payment Method Icons */}
+      <div className="payment-method-icons">
+        <FontAwesomeIcon icon={faCcVisa} className="payment-icon" title="Visa" />
+        <FontAwesomeIcon icon={faCcMastercard} className="payment-icon" title="MasterCard" />
+        <FontAwesomeIcon icon={faGooglePay} className="payment-icon" title="Google Pay" />
+        <FontAwesomeIcon icon={faCreditCard} className="payment-icon" title="Credit Card" />
+        <FontAwesomeIcon icon={faMoneyCheckAlt} className="payment-icon" title="Bank Transfer" />
+        <FontAwesomeIcon icon={faUniversity} className="payment-icon" title="Net Banking" />
+        <FontAwesomeIcon icon={faWallet} className="payment-icon" title="Wallet" />
+      </div>
+
+      {/* SSL Certification Badge */}
+      <div className="ssl-secure">
+        <FontAwesomeIcon icon={faLock} className="icon" />
+        <p>Your connection is SSL secured.</p>
+      </div>
+
+      {/* Money-Back Guarantee */}
+      <div className="money-back-guarantee">
+        <FontAwesomeIcon icon={faShieldAlt} className="icon" />
+        <p>7-day Money-Back Guarantee</p>
+      </div>
+
+      {/* Contact Information */}
+      <div className="contact-info">
+        <p>
+          <FontAwesomeIcon icon={faEnvelope} className="icon-margin" /> Need Help? Contact us at 
+          <a href="mailto:contact@himalayanrasa.com"> contact@himalayanrasa.com </a> 
+          or <FontAwesomeIcon icon={faPhone} className="icon-margin" /> call +91-8588-904-438.
+        </p>
+      </div>
+
       <button type="submit" className="pay-button" disabled={processing || succeeded} onClick={handleSubmit}>
-        {processing ? <FontAwesomeIcon icon={faSpinner} spin /> : "Pay Now"}
+        {processing ? <FontAwesomeIcon icon={faSpinner} spin /> : <><FontAwesomeIcon icon={faLock} className="icon-margin" /> Order Now</>}
       </button>
       {error && <div className="error-message">{error}</div>}
     </div>
