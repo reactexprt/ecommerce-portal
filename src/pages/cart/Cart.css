@@ -155,6 +155,11 @@
   color: var(--secondary-text-color);
 }
 
+.link-decoration-common {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Cart Item Controls */
 
 .cart-item-all-buttons {

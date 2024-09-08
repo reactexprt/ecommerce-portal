@@ -90,10 +90,14 @@ const Cart = () => {
             <div className="cart-item" key={index}>
               {item.productId && (
                 <>
-                  <img src={item.productId.images[0]} alt={item.productId.name} className="cart-item-image" />
+                  <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
+                    <img src={item.productId.images[0]} alt={item.productId.name} className="cart-item-image" />
+                  </Link>
                   <div className="cart-item-details">
                     <div className="cart-item-info">
-                      <h3>{item.productId.name}</h3>
+                      <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
+                        <h3>{item.productId.name}</h3>
+                      </Link>
                       <p className="cart-product-price">
                         {item.productId.discountPrice ? (
                           <>

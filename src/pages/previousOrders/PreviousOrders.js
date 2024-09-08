@@ -1,6 +1,7 @@
 // src/components/PreviousOrders.js
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
@@ -57,7 +58,7 @@ const PreviousOrders = () => {
       <div className="po-previous-orders-container">
         <h2 className="po-heading">Your Previous Orders</h2>
         <div className="po-orders-list">
-          {orders.map(order => (
+          {orders?.map(order => (
             <div key={order._id} className="po-order-card">
               <div className="po-order-header">
                 <p className="po-order-id">Order ID: {order._id}</p>
@@ -72,11 +73,15 @@ const PreviousOrders = () => {
                     <li key={item.productId._id} className="po-order-item">
                       <div className="po-item-image">
                         {item.productId.images && item.productId.images.length > 0 && (
-                          <img src={item.productId.images[0]} alt={item.productId.name} />
+                          <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
+                            <img src={item.productId.images[0]} alt={item.productId.name} />
+                          </Link>
                         )}
                       </div>
                       <div className="po-item-details">
-                        <p className="po-item-name">{item.productId.name}</p>
+                      <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
+                          <p className="po-item-name">{item.productId.name}</p>
+                        </Link>
                         <p className="po-item-quantity">Qty: {item.quantity}</p>
                       </div>
                     </li>

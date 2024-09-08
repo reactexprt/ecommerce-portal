@@ -157,13 +157,13 @@ const PaymentForm = () => {
       <div className="payment-trust-section">
         <div className="payment-trust-icons">
           <div className="payment-trust-item">
-            <FontAwesomeIcon icon={faLock} className="icon" /> SSL Secured
+            <FontAwesomeIcon icon={faLock} className="payment-trust-item-icon" /> SSL Secured
           </div>
           <div className="payment-trust-item">
-            <FontAwesomeIcon icon={faShieldAlt} className="icon" /> 100% Secure Payment
+            <FontAwesomeIcon icon={faShieldAlt} className="payment-trust-item-icon" /> 100% Secure Payment
           </div>
           <div className="payment-trust-item">
-            <FontAwesomeIcon icon={faUserSecret} className="icon" /> Privacy Protected
+            <FontAwesomeIcon icon={faUserSecret} className="payment-trust-item-icon" /> Privacy Protected
           </div>
         </div>
         <p className="security-info">We don’t save your payment details for security purposes. Your information is encrypted and secured.</p>

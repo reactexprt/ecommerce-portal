@@ -145,7 +145,7 @@
 
 .payment-method-icons .payment-icon {
   font-size: 2.5rem; /* Larger icons for better visibility */
-  color: var(--primary-text-color);
+  color: var(--button-bg-color);
   margin: 10px 15px; /* Add spacing between icons */
   transition: transform 0.3s ease, color 0.3s ease;
 }
@@ -185,13 +185,13 @@
   gap: 10px; /* Small gap between the icon and the associated text */
 }
 
-.payment-trust-item .icon {
+.payment-trust-item .payment-trust-item-icon {
   font-size: 2rem;
-  color: var(--primary-text-color);
+  color: var(--button-bg-color);
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.payment-trust-item .icon:hover {
+.payment-trust-item .payment-trust-item-icon:hover {
   transform: scale(1.1);
   color: var(--highlight-color);
 }
@@ -214,7 +214,7 @@
 .ssl-secure .icon {
   font-size: 1.7rem;
   margin-right: 10px;
-  color: var(--highlight-color);
+  color: var(--button-bg-color);
 }
 
 .money-back-guarantee {
@@ -229,6 +229,7 @@
 .money-back-guarantee .icon {
   font-size: 1.6rem;
   margin-right: 10px;
+  color: var(--button-bg-color);
 }
 
 .contact-info {
@@ -244,6 +245,7 @@
 
 .contact-info .icon-margin {
   margin-right: 5px;
+  color: var(--button-bg-color);
 }
 
 /* Media Queries for Responsiveness */
@@ -285,7 +287,7 @@
     gap: 30px;
   }
 
-  .payment-trust-item .icon {
+  .payment-trust-item .payment-trust-item-icon {
     font-size: 1.7rem;
   }
 
@@ -339,7 +341,7 @@
     gap: 20px;
   }
 
-  .payment-trust-item .icon {
+  .payment-trust-item .payment-trust-item-icon {
     font-size: 1.5rem;
   }
 
