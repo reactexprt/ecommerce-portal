@@ -27,8 +27,8 @@ const Cart = () => {
   if (isLoading) {
     return (
       <div className="loading">
-        <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-        <p>Loading Cart...</p>
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Almost there... prepping your awesome cart!</p>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 // src/components/Notifications.js
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Notifications.css';
 
@@ -14,11 +14,10 @@ const Notifications = () => {
       try {
         const response = await api.get('/notifications');
         setNotifications(response.data);
-        setLoading(false);
       } catch (err) {
         console.log('Error fetching notifications');
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchNotifications();
@@ -35,9 +34,9 @@ const Notifications = () => {
 
   if (loading) {
     return (
-      <div className="notifications-page-loading">
-        <FontAwesomeIcon icon={faBell} spin size="2x" />
-        <p>Loading your notifications...</p>
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Loading notifications... let’s see what’s new!</p>
       </div>
     );
   }

@@ -58,8 +58,8 @@ const PrivateRoute = ({ children }) => {
 
 const Spinner = () => (
   <div className="loading">
-    <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-    <p>Loading...</p>
+    <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+    <p>Good things come to those who wait...</p>
   </div>
 );
 

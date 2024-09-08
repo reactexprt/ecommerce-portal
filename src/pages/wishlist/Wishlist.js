@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faShoppingCart, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { addToCart } from '../../redux/actions/cartActions';
 import api from '../../services/api';
 import './Wishlist.css';
@@ -20,8 +20,8 @@ const Wishlist = () => {
         setLoading(false);
       } catch (err) {
         console.error('Error getting wishlist');
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchWishlistItems();
@@ -37,7 +37,14 @@ const Wishlist = () => {
     }
   };
 
-  if (loading) return <div className="wishlist-page-loading">Loading your wishlist...</div>;
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Hold tight... we’re loading your favorite picks!</p>
+      </div>
+    );
+  }
 
   if (!wishlistItems.length) return (
     <div className="wishlist-page-empty">

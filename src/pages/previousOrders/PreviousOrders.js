@@ -1,9 +1,9 @@
 // src/components/PreviousOrders.js
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './PreviousOrders.css'; // Import the CSS file for styling
 
@@ -12,7 +12,8 @@ const PreviousOrders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1); // Current page number
-  const [totalPages, setTotalPages] = useState(0); // Total number of pages
+  const [totalPages, setTotalPages] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async (page) => {
@@ -29,6 +30,7 @@ const PreviousOrders = () => {
       } catch (err) {
         setError(err.response?.data?.message || 'An error occurred');
         setLoading(false);
+        navigate('/technicalError');
       }
     };
 
@@ -39,8 +41,17 @@ const PreviousOrders = () => {
     setPage(prevPage => prevPage + 1); // Increment the page number
   };
 
-  if (loading && page === 1) return <div className="po-loading">Loading your previous orders...</div>;
   if (error) return <div className="po-error">{error}</div>;
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Fetching your previous orders... hold tight!</p>
+      </div>
+    );
+  }
+
   if (!orders.length && !loading) {
     return (
         <div className="po-no-orders">

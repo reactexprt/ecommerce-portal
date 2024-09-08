@@ -18,6 +18,7 @@ const Shops = () => {
         setShops(response.data);
       } catch (err) {
         console.error('Error fetching shops:', err);
+        navigate('/technicalError');
       }
       setLoading(false);
     };
@@ -30,9 +31,9 @@ const Shops = () => {
 
   if (loading) {
     return (
-      <div className="shop-loading">
-        <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-        <p>Loading Shops...</p>
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Hold on... loading amazing shops for you!</p>
       </div>
     );
   }

@@ -146,7 +146,7 @@
 
 .address-form .location-button svg,
 .address-form .submit-button svg {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .address-form .location-button {
@@ -208,7 +208,7 @@
 }
 
 .address-actions button svg {
-  margin-right: 7px;
+  margin-right: 5px;
 }
 
 .address-actions button:hover {

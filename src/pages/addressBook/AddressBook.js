@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner, faCheck, faMapMarkerAlt, faEdit, faTrash, faCheckCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import '../../components/addressManager/AddressManager.css';
 
-const AddressManager = ({ onSelectAddress }) => {
+const AddressBook = ({ onSelectAddress }) => {
   const [addresses, setAddresses] = useState([]);
   const [form, setForm] = useState({
     label: '',
@@ -17,13 +19,25 @@ const AddressManager = ({ onSelectAddress }) => {
     state: '',
     zip: '',
     country: '',
-    countryCode: 'in', // Default country code
+    countryCode: 'in',
     phoneNumber: '',
     isDefault: false
   });
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const inputRefs = useRef({});
+
+  const fetchAddresses = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/users/addresses');
+      setAddresses(response.data);
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchAddresses();
@@ -76,15 +90,6 @@ const AddressManager = ({ onSelectAddress }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const fetchAddresses = async () => {
-    try {
-      const response = await api.get('/users/addresses');
-      setAddresses(response.data);
-    } catch (error) {
-      console.error('Error fetching addresses:', error);
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prevForm) => ({
@@ -99,6 +104,15 @@ const AddressManager = ({ onSelectAddress }) => {
       phoneNumber: value
     }));
   };
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Hang tight... we’re fetching your addresses!</p>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -203,8 +217,14 @@ const AddressManager = ({ onSelectAddress }) => {
               <strong>{addr.label}</strong>: {addr.firstName} {addr.lastName}, {addr.flat}, {addr.street}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}, {addr.phoneNumber}
             </span>
             <div className="address-actions">
-              <button onClick={() => handleEdit(addr)}>Edit</button>
-              <button onClick={() => handleDeleteAddress(addr._id)}>Delete</button>
+              {/* Edit Button with Icon */}
+              <button onClick={() => handleEdit(addr)} className="edit-button">
+                <FontAwesomeIcon icon={faEdit} className="icon-margin" /> Edit
+              </button>
+              {/* Delete Button with Icon */}
+              <button onClick={() => handleDeleteAddress(addr._id)} className="delete-button">
+                <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Delete
+              </button>
             </div>
           </li>
         ))}
@@ -356,15 +376,25 @@ const AddressManager = ({ onSelectAddress }) => {
           <input id="isDefault" type="checkbox" name="isDefault" checked={form.isDefault} onChange={handleChange} />
           Set as Default
         </label>
+        {/* Use Current Location Button with Icon */}
         <button type="button" onClick={handleUseCurrentLocation} className="location-button">
-          Use Current Location
+          <FontAwesomeIcon icon={faMapMarkerAlt} className="icon-margin" /> Use Current Location
         </button>
+        {/* Add or Update Address Button with Icon */}
         <button type="submit" className="submit-button">
-          {form._id ? 'Update' : 'Add'} Address
+          {form._id ? (
+            <>
+              <FontAwesomeIcon icon={faEdit} className="icon-margin" /> Update Address
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon icon={faCheckCircle} className="icon-margin" /> Add Address
+            </>
+          )}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddressManager;
+export default AddressBook;

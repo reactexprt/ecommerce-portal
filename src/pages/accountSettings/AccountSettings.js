@@ -1,5 +1,7 @@
 // src/components/AccountSettings.js
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './AccountSettings.css';
 
@@ -20,11 +22,10 @@ const AccountSettings = () => {
       try {
         const response = await api.get('/users/profile');
         setUserData(response.data);
-        setLoading(false);
       } catch (err) {
         setError('Failed to load user data');
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchUserData();
@@ -55,7 +56,14 @@ const AccountSettings = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Loading your settings... making it personal!</p>
+      </div>
+    );
+  }
   if (error) return <div>{error}</div>;
 
   return (

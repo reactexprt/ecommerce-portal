@@ -57,8 +57,6 @@
   text-align: center;
 }
 
-
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -152,12 +150,12 @@
 
 .payment-method-icons .payment-icon:hover {
   transform: scale(1.1); /* Slight hover effect for interactivity */
-  color: var(--highlight-color);
+  color: var(--button-hover-bg-color);
 }
 
 /* Payment Trust Section */
 .payment-trust-section {
-  background-color: var(--primary-light-color);
+  background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   padding: 25px;
   margin-bottom: 30px;
@@ -193,7 +191,7 @@
 
 .payment-trust-item .payment-trust-item-icon:hover {
   transform: scale(1.1);
-  color: var(--highlight-color);
+  color: var(--button-hover-bg-color);
 }
 
 .security-info {
@@ -229,7 +227,7 @@
 .money-back-guarantee .icon {
   font-size: 1.6rem;
   margin-right: 10px;
-  color: var(--button-bg-color);
+  color: var(--button-hover-bg-color);
 }
 
 .contact-info {

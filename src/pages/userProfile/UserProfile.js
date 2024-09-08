@@ -1,6 +1,8 @@
 // src/components/UserProfile.js
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './UserProfile.css'; // Import the CSS file for styling
 
@@ -14,18 +16,25 @@ const UserProfile = () => {
       try {
         const response = await api.get('/users/user-details'); // Fetch user details from API
         setUser(response.data.user);
-        setLoading(false);
       } catch (err) {
         setError(err.response?.data?.message || 'An error occurred');
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchUserDetails();
   }, []);
 
-  if (loading) return <div className="up-loading">Loading your profile...</div>;
   if (error) return <div className="up-error">{error}</div>;
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>We’re getting your profile ready in no time!</p>
+      </div>
+    );
+  }
 
   return (
     <>

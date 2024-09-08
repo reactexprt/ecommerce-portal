@@ -19,8 +19,98 @@ body {
   font-size: 1.5rem;
   text-align: center;
   padding: 50px;
-  color: var(--home-button-bg-color);
+  color: var(--button-bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
+  background-blend-mode: overlay;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Light border to complement glassmorphism */
+  animation: gradientShift 5s ease infinite; /* Animate background */
+  overflow: hidden; /* Ensures smooth border-radius with blur */
 }
+
+/* Refined gradient background animation */
+/* @keyframes gradientShift {
+  0% {
+    background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
+  }
+  50% {
+    background: linear-gradient(135deg, #e0e0e0, #d4d4d4);
+  }
+  100% {
+    background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
+  }
+} */
+
+.loading p {
+  margin-top: 20px;
+  font-weight: 600;
+  font-family: var(--font-family-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--button-bg-color);
+  animation: textColorShift 2s ease-in-out infinite;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15); /* Subtle text shadow */
+}
+
+/* Dynamic text gradient animation */
+@keyframes textColorShift {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+.common-loading-spinner {
+  animation: rotate 1.5s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55), glow 1.5s infinite ease-in-out;
+  color: var(--button-bg-color);
+  transform-origin: center;
+  perspective: 1000px; /* 3D rotation */
+  transition: transform 0.3s ease; /* Adds smooth transitions */
+}
+
+/* Refined 3D rotation with smooth ease-in-out */
+@keyframes rotate {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(180deg) rotateY(180deg); /* Smooth halfway */
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg); /* Full rotation */
+  }
+}
+
+/* Glow effect for the spinner */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px var(--button-bg-color);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--button-bg-color);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--button-bg-color);
+  }
+}
+
+/* Micro-interactions for subtle scaling */
+.loading:hover {
+  transform: scale(1.02); /* Subtle zoom-in effect */
+}
+
+.common-loading-spinner:hover {
+  transform: scale(1.1); /* Slight spinner enlargement on hover */
+}
+
+
+

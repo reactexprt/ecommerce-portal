@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faCartPlus, faCheck, faMinus, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'; // Add icons
+import { faSpinner, faCartPlus, faCheck, faMinus, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; // Use dispatch to add to cart and get cart state
 import { addToCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions'; // Add necessary cart actions
@@ -42,6 +42,7 @@ const ProductsList = () => {
         setHasMore(hasMore);
       } catch (error) {
         setError('Error fetching products');
+        navigate('/technicalError');
       }
       setLoading(false);
     };
@@ -89,8 +90,8 @@ const ProductsList = () => {
   if (loading && currentPage === 1) {
     return (
       <div className="loading">
-        <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-        <p>Loading Products...</p>
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Sit back, we’re loading some fantastic products for you!</p>
       </div>
     );
   }

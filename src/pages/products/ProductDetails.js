@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faHeart, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import { addToCart } from '../../redux/actions/cartActions';
 import './ProductDetails.css';
@@ -12,16 +12,19 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [newComment, setNewComment] = useState('');
+    const [loading, setLoading] = useState(true);
     const [newRating, setNewRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(null);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [inWishlist, setInWishlist] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchProduct = async () => {
+            setLoading(true);
             try {
                 const response = await api.get(`/products/${productId}`);
                 setProduct(response.data);
@@ -35,7 +38,9 @@ const ProductDetails = () => {
             } catch (error) {
                 setError('Error fetching product. Please try again.');
                 console.error('Error fetching product:', error);
+                navigate('/technicalError');
             }
+            setLoading(false);
         };
         fetchProduct();
     }, [productId, isAuthenticated]);
@@ -165,7 +170,14 @@ const ProductDetails = () => {
 
     if (error) return <div>{error}</div>;
 
-    if (!product) return <div>Loading...</div>;
+    if (loading || !product) {
+        return (
+            <div className="loading">
+                <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+                <p>Just a moment... diving into the product details!</p>
+            </div>
+        );
+    }
 
     return (
         <div className="product-details-page">
@@ -210,7 +222,7 @@ const ProductDetails = () => {
                 <p className="product-details-price">
                     {product.discountPrice ? (
                         <>
-                            <span className="product-details-original-price">₹{product.price}</span> 
+                            <span className="product-details-original-price">₹{product.price}</span>
                             <span className='product-details-discount-price'>₹{product.discountPrice}</span>
                             <span className="product-details-discount-percentage">
                                 ({calculateDiscountPercentage()}% off)

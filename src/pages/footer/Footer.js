@@ -16,7 +16,7 @@ const ReturnPolicyButton = lazy(() => import('../../components/returnPolicy/Retu
 
 const Spinner = () => (
   <div className="spinner-container">
-    <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+    <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
     <p>Loading, please wait...</p>
   </div>
 );

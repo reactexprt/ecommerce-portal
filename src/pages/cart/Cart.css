@@ -65,23 +65,6 @@
   border-radius: 5px;
 }
 
-.loading, .error {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-top: 20px;
-  color: #c0392b;
-}
-
-.loading {
-  font-size: 1.5rem;
-  text-align: center;
-  padding: 50px;
-  color: var(--home-button-bg-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .cart-empty p {
   margin: 10px 0;
   font-size: 1.2rem;

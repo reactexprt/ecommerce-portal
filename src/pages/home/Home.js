@@ -3,16 +3,18 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingBag, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingBag, faUserShield, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Home.css';
 
 const Home = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setLoading(true);
       try {
         const response = await api.get('/users/profile');
         if (response.data && response.data.isAdmin) {
@@ -23,12 +25,22 @@ const Home = () => {
       } catch (error) {
         console.error('Error fetching user details');
       }
+      setLoading(false);
     };
 
     if (isAuthenticated) {
       fetchUserData();
     }
   }, [isAuthenticated]);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Welcome! We’re getting everything ready for you...</p>
+      </div>
+    );
+  }
 
   return (
     <>
