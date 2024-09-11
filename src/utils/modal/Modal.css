@@ -62,7 +62,7 @@
 }
 
 .common-modal-button {
-  background-color: var(--home-button-bg-color);
+  background-color: var(--navbar-bg-color);
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -74,7 +74,7 @@
 }
 
 .common-modal-button:hover {
-  background-color: var(--home-button-hover-bg-button);
+  background-color: var(--button-bg-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
