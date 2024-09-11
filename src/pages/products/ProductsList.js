@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Use dispatch to add t
 import { addToCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions'; // Add necessary cart actions
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
+import Popup from '../../utils/alert/Popup'; // Importing Popup component
 import './ProductsList.css';
 
 const ProductsList = () => {
@@ -17,9 +18,12 @@ const ProductsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(8);
   const [hasMore, setHasMore] = useState(true);
+  const [showPopUp, setShowPopUp] = useState(false); // State for showing popup
+  const [popupMessage, setPopupMessage] = useState(''); // Message to display in popup
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cart.cartItems) || [];
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,13 +46,15 @@ const ProductsList = () => {
         setHasMore(hasMore);
       } catch (error) {
         setError('Error fetching products');
+        setPopupMessage('Error fetching products. Please try again later.');
+        setShowPopUp(true); // Show error popup
         navigate('/technicalError');
       }
       setLoading(false);
     };
 
     fetchProducts();
-  }, [currentPage, shopId]);
+  }, [currentPage, shopId, navigate]);
 
   const loadMoreProducts = () => {
     if (hasMore) {
@@ -170,6 +176,14 @@ const ProductsList = () => {
           </div>
         )}
       </div>
+
+      {/* Show the popup when an alert is needed */}
+      {showPopUp && (
+        <Popup
+          message={popupMessage}
+          onClose={() => setShowPopUp(false)} // Close popup when 'Okay' is clicked
+        />
+      )}
     </>
   );
 };

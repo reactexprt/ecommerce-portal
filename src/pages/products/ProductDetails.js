@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import { addToCart } from '../../redux/actions/cartActions';
+import Popup from '../../utils/alert/Popup'; // Import Popup component
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -17,6 +18,8 @@ const ProductDetails = () => {
     const [hoverRating, setHoverRating] = useState(null);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [inWishlist, setInWishlist] = useState(false);
+    const [showPopUp, setShowPopUp] = useState(false); // State for popup
+    const [popupMessage, setPopupMessage] = useState(''); // State for popup message
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -37,16 +40,19 @@ const ProductDetails = () => {
                 }
             } catch (error) {
                 setError('Error fetching product. Please try again.');
-                console.error('Error fetching product:', error);
-                navigate('/technicalError');
+                setPopupMessage('Error fetching product. Please try again.');
+                setShowPopUp(true); // Show error popup
+                console.error('Error fetching product:');
             }
             setLoading(false);
         };
         fetchProduct();
     }, [productId, isAuthenticated]);
 
-    const handleAddToCart = () => {
-        dispatch(addToCart(product));
+    const handleAddToCart = async () => {
+        await dispatch(addToCart(product));
+        setPopupMessage('Product added to cart successfully!');
+        setShowPopUp(true); // Show success popup
     };
 
     const toggleWishlist = async () => {
@@ -55,13 +61,21 @@ const ProductDetails = () => {
                 if (inWishlist) {
                     await api.post('/wishlist/remove', { productId });
                     setInWishlist(false);
+                    setPopupMessage('Product removed from wishlist.');
                 } else {
                     await api.post('/wishlist/add', { productId });
                     setInWishlist(true);
+                    setPopupMessage('Product added to wishlist.');
                 }
+                setShowPopUp(true); // Show wishlist update popup
             } catch (error) {
+                setPopupMessage('Error updating wishlist. Please try again.');
+                setShowPopUp(true); // Show error popup
                 console.error('Error toggling wishlist:', error);
             }
+        } else {
+            setPopupMessage('Please login to manage your wishlist.');
+            setShowPopUp(true); // Show login required popup
         }
     };
 
@@ -84,11 +98,15 @@ const ProductDetails = () => {
                 setProduct(response.data.product);
                 setNewComment('');
                 setNewRating(0);
+                setPopupMessage('Comment added successfully!');
+                setShowPopUp(true); // Show success popup
             } catch (error) {
-                setError('Failed to add comment. Please try again.');
+                setPopupMessage('Failed to add comment. Please try again.');
+                setShowPopUp(true); // Show error popup
             }
         } else {
-            alert('Please Login to give the feedback. Thank you!');
+            setPopupMessage('Please login to add a review.');
+            setShowPopUp(true); // Show login required popup
         }
     };
 
@@ -286,6 +304,14 @@ const ProductDetails = () => {
                     {error && <p className="product-details-error">{error}</p>}
                 </form>
             </div>
+
+            {/* Show the popup when an alert is needed */}
+            {showPopUp && (
+                <Popup
+                    message={popupMessage}
+                    onClose={() => setShowPopUp(false)} // Close popup when 'Okay' is clicked
+                />
+            )}
         </div>
     );
 };

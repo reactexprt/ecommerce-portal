@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Register.css';
+import Popup from '../../utils/alert/Popup'; // Importing Popup component
 
 // WebAuthn library for registration
 import { startRegistration } from '@simplewebauthn/browser';
@@ -15,40 +16,59 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false); // For general popups
+  const [popupMessage, setPopupMessage] = useState(''); // For holding popup message
+  const [showConfirm, setShowConfirm] = useState(false); // For confirmation popups
+  const [isRegistrationComplete, setIsRegistrationComplete] = useState(false); // Track registration completion
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setPopupMessage('Passwords do not match');
+      setShowPopUp(true);
       return;
     }
     try {
       // Step 1: Register the user in the backend
       await api.post('/users/register', { username, email, password });
 
-      // Step 2: Optionally prompt user to enable biometric login
-      if (window.confirm('Do you want to enable biometric login for future logins?')) {
-        try {
-          // Get registration options from the server
-          const optionsResponse = await api.post('/webauthn/registration-options', { email });
-          // Start the registration process on the client
-          const attestationResponse = await startRegistration(optionsResponse.data);
-          // Send the attestation response back to the server to verify and store credentials
-          await api.post('/webauthn/register', { email, credential: attestationResponse });
-
-          alert('Biometric registration successful!');
-        } catch (error) {
-          console.error('Error during WebAuthn registration:', error);
-          alert('Biometric registration failed. Please try again later.');
-        }
-      }
-
-      // Redirect to login page after successful registration
-      navigate('/login');
+      // Registration is successful, show biometric confirmation popup
+      setIsRegistrationComplete(true); // Registration succeeded, mark as complete
+      setShowConfirm(true); // Show confirmation for enabling biometric login
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Failed to register. Please try again.';
-      setError(errorMessage);
+      setPopupMessage(errorMessage);
+      setShowPopUp(true); // Display error popup
+    }
+  };
+
+  const handleConfirmBiometric = async () => {
+    try {
+      const optionsResponse = await api.post('/webauthn/registration-options', { email });
+      const attestationResponse = await startRegistration(optionsResponse.data);
+      await api.post('/webauthn/register', { email, credential: attestationResponse });
+
+      setPopupMessage('Biometric registration successful, redirecting to Login page');
+      setShowPopUp(true); // Show success message
+    } catch (error) {
+      setPopupMessage('Biometric registration failed. Please try again later.');
+      setShowPopUp(true); // Show failure message
+    } finally {
+      setShowConfirm(false); // Close confirmation popup
+      if (isRegistrationComplete) {
+        // Only navigate if registration was successful
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000); // Add a delay to show the success/failure message before navigating
+      }
+    }
+  };
+
+  const handleCancelConfirm = () => {
+    setShowConfirm(false); // Close confirmation popup
+    if (isRegistrationComplete) {
+      navigate('/login'); // Redirect to login if registration is complete and canceled
     }
   };
 
@@ -59,7 +79,7 @@ const Register = () => {
       </Helmet>
       <div className="register-page">
         <h2>R̥EGISTER</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+
         <form onSubmit={handleRegister}>
           <div className='inputDiv'>
             <label htmlFor='username'>USERNAME</label>
@@ -112,6 +132,23 @@ const Register = () => {
             <FontAwesomeIcon icon={faUserPlus} className="icon-margin" /> CREATE NEW ACCOUNT
           </button>
         </form>
+
+        {/* Show general alert popup */}
+        {showPopUp && (
+          <Popup
+            message={popupMessage}
+            onClose={() => setShowPopUp(false)}
+          />
+        )}
+
+        {/* Show confirm biometric login popup */}
+        {showConfirm && (
+          <Popup
+            message="Do you want to enable biometric login for future logins?"
+            onConfirm={handleConfirmBiometric}
+            onCancel={handleCancelConfirm}
+          />
+        )}
       </div>
     </>
   );

@@ -30,7 +30,6 @@ const sendOrder = async (address, totalAmount, cartItems) => {
     });
   } catch (error) {
     console.error('Error sending order');
-    // navigate('/technicalError');
   }
 };
 

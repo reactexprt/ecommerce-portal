@@ -24,8 +24,9 @@ const Home = () => {
         }
       } catch (error) {
         console.error('Error fetching user details');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     if (isAuthenticated) {

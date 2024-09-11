@@ -8,7 +8,7 @@ import { login } from '../../redux/actions/authActions';
 import GoogleSignIn from '../../components/GoogleSignIn';
 import FacebookSignin from '../../components/FacebookSignin';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
-import ContactUsButton from '../../components/contactUs/ContactUsButton';
+import Popup from '../../utils/alert/Popup'; // Importing Popup component
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faKey, faUserPlus, faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
@@ -19,8 +19,12 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [isLoggedin, setIsLoggedin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const [showPopUp, setShowPopUp] = useState(false); // State for general popups
+  const [popupMessage, setPopupMessage] = useState(''); // State to hold popup message
+  const [showConfirm, setShowConfirm] = useState(false); // State for confirm popup
   const emailRef = useRef(null);
   const biometricBtnRef = useRef(null);
   const dispatch = useDispatch();
@@ -73,29 +77,25 @@ const Login = () => {
       dispatch(login(response.data.token, response.data.userId));
 
       const biometricStatusResponse = await api.get(`/users/biometric-status`, { params: { email } });
-      if (!biometricStatusResponse.data.biometricEnabled && window.confirm('Would you like to enable biometric login for future logins?')) {
-        try {
-          const optionsResponse = await api.post('/webauthn/registration-options', { email });
-          const attestationResponse = await startRegistration(optionsResponse.data);
-          await api.post('/webauthn/register', { email, credential: attestationResponse });
-          alert('Biometric registration successful!');
-        } catch (error) {
-          console.error('Error during WebAuthn registration:', error);
-          alert('Biometric registration failed. Please try again later.');
-        }
+      setIsLoggedin(true);
+      if (!biometricStatusResponse.data.biometricEnabled) {
+        setShowConfirm(true); // Show confirmation popup
+      } else {
+        navigate('/cart');
       }
-
-      navigate('/cart');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Invalid email or password. Please try again.';
-      setError(errorMessage);
+      setPopupMessage(errorMessage);
+      setShowPopUp(true); // Show error popup
     }
   };
 
   const handleBiometricLogin = async () => {
     try {
       if (!email) {
-        return setError('Email is required for biometric login. Please log in using your password first.');
+        setPopupMessage('Email is required for biometric login. Please log in using your password first.');
+        setShowPopUp(true); // Show popup for missing email
+        return;
       }
       const optionsResponse = await api.post('/webauthn/authentication-options', { email });
       const authResponse = await startAuthentication(optionsResponse.data);
@@ -106,10 +106,10 @@ const Login = () => {
 
       dispatch(login(verificationResponse.data.token, verificationResponse.data.userId));
       navigate('/cart');
-
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Biometric authentication failed. Please try again.';
-      setError(errorMessage);
+      setPopupMessage(errorMessage); // Display error in the popup
+      setShowPopUp(true);
     }
   };
 
@@ -119,6 +119,35 @@ const Login = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const optionsResponse = await api.post('/webauthn/registration-options', { email });
+      const attestationResponse = await startRegistration(optionsResponse.data);
+      await api.post('/webauthn/register', { email, credential: attestationResponse });
+      setPopupMessage('Biometric registration successful!'); // Show success message
+
+      setShowPopUp(true); // Display success popup
+    } catch (error) {
+      setPopupMessage('Biometric registration failed. Please try again later.');
+      setShowPopUp(true); // Show failure popup
+    } finally {
+      setShowConfirm(false); // Close confirmation popup
+      if (isLoggedin) {
+        // Only navigate if login was successful
+        setTimeout(() => {
+          navigate('/cart');
+        }, 2000); // Add a delay to show the success/failure message before navigating
+      }
+    }
+  };
+
+  const handleCancelConfirm = () => {
+    setShowConfirm(false); // Close confirmation popup
+    if (isLoggedin) {
+      navigate('/cart');
+    }
   };
 
   return (
@@ -164,6 +193,7 @@ const Login = () => {
             <FontAwesomeIcon icon={faSignInAlt} className="icon-margin" /> LOGIN
           </button>
         </form>
+
         <div className='single-sign-in-divs'>
           <div className="google-signin-container">
             <GoogleSignIn />
@@ -182,6 +212,7 @@ const Login = () => {
           </button>
         </div>
 
+        {/* Other UI elements */}
         <div className="trust-badges">
           <FontAwesomeIcon icon={faLock} /> Secure Checkout
           <FontAwesomeIcon icon={faShieldAlt} /> Protected by SSL
@@ -196,12 +227,30 @@ const Login = () => {
           <FontAwesomeIcon icon={faHeadset} /> Need Help? <a href="/support">Contact Us</a>
         </div>
 
+        {/* Forgot Password Modal */}
         {isModalOpen && (
           <ForgotPasswordModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             setLoginEmail={setEmail}
             setLoginPassword={setPassword}
+          />
+        )}
+
+        {/* Show the generic alert popup */}
+        {showPopUp && (
+          <Popup
+            message={popupMessage}
+            onClose={() => setShowPopUp(false)}
+          />
+        )}
+
+        {/* Show the confirmation popup */}
+        {showConfirm && (
+          <Popup
+            message="Would you like to enable biometric login for future logins?"
+            onConfirm={handleConfirm}
+            onCancel={handleCancelConfirm}
           />
         )}
       </div>

@@ -115,10 +115,22 @@ export const mergeCart = () => async (dispatch, getState) => {
 };
 
 // Action to remove a product from the cart
-export const removeFromCart = productId => async dispatch => {
+export const removeFromCart = productId => async (dispatch, getState) => {
   try {
+    const { cart, auth } = getState();
+    
+    if (auth.isAuthenticated) {
+      // Remove the item from the server-side cart
+      await api.delete(`/cart/${productId}`);
+    } else {
+      // Remove the item from the local storage cart
+      const updatedCartItems = cart.cartItems.filter(item => item.productId._id !== productId);
+      saveCartToLocal(updatedCartItems);
+      dispatch(updateCart(updatedCartItems));
+    }
+
+    // Dispatch the action to remove the item from the Redux state
     dispatch({ type: REMOVE_FROM_CART, payload: productId });
-    await api.delete(`/cart/${productId}`);
   } catch (error) {
     console.error('Failed to remove from cart:', error);
   }

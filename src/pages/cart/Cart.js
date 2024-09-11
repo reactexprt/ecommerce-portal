@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { fetchCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions';
 import AddressManager from '../../components/addressManager/AddressManager';
+import Popup from '../../utils/alert/Popup';
 import './Cart.css';
 
 const Cart = () => {
@@ -14,6 +15,7 @@ const Cart = () => {
   const cartItems = useSelector(state => state.cart.cartItems) || [];
   const isLoading = useSelector(state => state.cart.isLoading);
   const navigate = useNavigate();
+  const [showPopUp, setShowPopUp] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const Cart = () => {
         }
       });
     } else {
-      alert('Please add and select a delivery address before proceeding to payment page.');
+      setShowPopUp(true);
     }
   };
 
@@ -147,6 +149,12 @@ const Cart = () => {
         >
           <FontAwesomeIcon icon={faShoppingCart} /> Checkout
         </button>
+        {showPopUp && (
+        <Popup 
+          message="Please add and select a delivery address before proceeding to Checkout page."
+          onClose={() => setShowPopUp(false)}
+        />
+      )}
       </div>
     </>
   );

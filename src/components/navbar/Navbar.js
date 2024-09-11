@@ -49,9 +49,9 @@ const Navbar = () => {
   }, [isAuthenticated, unreadCount]);
 
   const handleLogout = async () => {
-    await dispatch(logout());
-    navigate('/');
+    dispatch(logout());
     setShowDropdown(false);
+    navigate('/login');
   };
 
   const handleProfileClick = () => {
