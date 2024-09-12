@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faLock, faShieldAlt, faUserSecret, faUniversity, faMoneyCheckAlt, faWallet, faCreditCard, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faCcVisa, faCcMastercard, faGooglePay } from '@fortawesome/free-brands-svg-icons';
-import {  } from '@fortawesome/free-solid-svg-icons'; 
 import api from '../../services/api';
 import { clearCart } from '../../redux/actions/cartActions';
 import './Payment.css';
@@ -33,7 +32,7 @@ const sendOrder = async (address, totalAmount, cartItems) => {
   }
 };
 
-const PaymentForm = ({ setLoading }) => {
+const PaymentForm = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const location = useLocation();
@@ -47,34 +46,37 @@ const PaymentForm = ({ setLoading }) => {
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch user profile when the component mounts if the user is authenticated.
   useEffect(() => {
     const fetchUserProfile = async () => {
-      setLoading(true);
       try {
         const { data } = await api.get('/users/profile');
-        setEmail(data.email || '');
+        setEmail(data?.email || '');
       } catch (error) {
         console.error('Error fetching user profile:', error);
       } finally {
         setLoading(false);
       }
     };
-  
+
     if (isAuthenticated) {
       fetchUserProfile();
-  
-      if (location.state && location.state.selectedAddress) {
-        const addr = location.state.selectedAddress;
-        setName(`${addr.firstName} ${addr.lastName}`);
-        setContact(addr.phoneNumber || '');
-        setAddress(`${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state}, ${addr.zip}, ${addr.country}`);
-      }
     } else {
       setLoading(false);
     }
+  }, [isAuthenticated]);
+
+  // Set selected address when location.state changes.
+  useEffect(() => {
+    if (location.state && location.state.selectedAddress) {
+      const addr = location.state.selectedAddress;
+      setName(`${addr.firstName} ${addr.lastName}`);
+      setContact(addr.phoneNumber || '');
+      setAddress(`${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state}, ${addr.zip}, ${addr.country}`);
+    }
   }, [location.state]);
-  
 
   const totalAmount = cartItems.reduce((sum, item) => sum + item.productId.discountPrice * item.quantity, 0);
 
@@ -119,17 +121,12 @@ const PaymentForm = ({ setLoading }) => {
           if (result.data.status === 'success') {
             setLoading(true);
             try {
-              // Clear the cart
               await api.post('/cart/clear');
               dispatch(clearCart());
-              // Send order details
               await sendOrder(location.state.selectedAddress, totalAmount, cartItems);
-              // Mark payment as successful
               setSucceeded(true);
               setError(null);
-              // Set loading to false before navigating to another page
               setLoading(false);
-              // Navigate to payment success page
               navigate('/payment-success', {
                 state: {
                   orderId: data.id,
@@ -142,11 +139,11 @@ const PaymentForm = ({ setLoading }) => {
               });
             } catch (err) {
               setError('Something went wrong while processing your order. Please try again.');
-              setLoading(false); // Ensure loading is stopped even if an error occurs
+              setLoading(false);
             }
           } else {
             setError('Payment verification failed. Please contact support.');
-          }          
+          }
         },
         prefill: {
           name: name,
@@ -168,11 +165,22 @@ const PaymentForm = ({ setLoading }) => {
     setProcessing(false);
   };
 
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Yay! Your order is scaling the Himalayan peaks...</p>
+        <p>Soon, your treasures will arrive at your doorstep!</p>
+      </div>
+    );
+  }
+
   return (
     <div className="payment-form">
+      <h1>Checkout</h1>
       <h2>Complete Your Payment</h2>
       <div className="total-amount">Total Amount: ₹{totalAmount.toFixed(2)}</div>
-      
+
       {/* Trust Section */}
       <div className="payment-trust-section">
         <div className="payment-trust-icons">
@@ -189,38 +197,39 @@ const PaymentForm = ({ setLoading }) => {
         <p className="security-info">We don’t save your payment details for security purposes. Your information is encrypted and secured.</p>
       </div>
 
+      {/* Form fields for payment */}
       <div className="form-group">
         <label htmlFor="name">Name</label>
-        <input 
-          type="text" 
-          id="name" 
+        <input
+          type="text"
+          id="name"
           value={name}
-          onChange={(e) => setName(e.target.value)} 
-          required 
+          onChange={(e) => setName(e.target.value)}
+          required
           disabled
           autoComplete='name'
         />
       </div>
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
+        <input
+          type="email"
+          id="email"
           value={email || ''}
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
+          onChange={(e) => setEmail(e.target.value)}
+          required
           disabled
           autoComplete='email'
         />
       </div>
       <div className="form-group">
         <label htmlFor="contact">Contact Number</label>
-        <input 
-          type="tel" 
-          id="contact" 
+        <input
+          type="tel"
+          id="contact"
           value={contact || ''}
-          onChange={(e) => setContact(e.target.value)} 
-          required 
+          onChange={(e) => setContact(e.target.value)}
+          required
           disabled
           autoComplete='tel'
         />
@@ -264,8 +273,8 @@ const PaymentForm = ({ setLoading }) => {
       {/* Contact Information */}
       <div className="contact-info">
         <p>
-          <FontAwesomeIcon icon={faEnvelope} className="icon-margin" /> Need Help? Contact us at 
-          <a href="mailto:contact@himalayanrasa.com"> contact@himalayanrasa.com </a> 
+          <FontAwesomeIcon icon={faEnvelope} className="icon-margin" /> Need Help? Contact us at
+          <a href="mailto:contact@himalayanrasa.com"> contact@himalayanrasa.com </a>
           or <FontAwesomeIcon icon={faPhone} className="icon-margin" /> call +91-8588-904-438.
         </p>
       </div>
@@ -279,18 +288,6 @@ const PaymentForm = ({ setLoading }) => {
 };
 
 const Payment = () => {
-  const [loading, setLoading] = useState(false);
-
-  if (loading) {
-    return (
-      <div className="loading">
-        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
-        <p>Yay! Your order is scaling the Himalayan peaks...</p>
-        <p>Soon, your treasures will arrive at your doorstep!</p>
-      </div>
-    );
-  }
-
   return (
     <>
       <Helmet>
@@ -298,8 +295,7 @@ const Payment = () => {
       </Helmet>
       <div className="payment-page">
         <div className="payment-container">
-          <h1>Checkout</h1>
-          <PaymentForm setLoading={setLoading} />
+          <PaymentForm />
         </div>
       </div>
     </>
