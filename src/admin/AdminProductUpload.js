@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import Popup from '../utils/alert/Popup';
 import './AdminProductUpload.css';
 
 const AdminProductUpload = () => {
@@ -40,16 +41,16 @@ const AdminProductUpload = () => {
     const [loadingProduct, setLoadingProduct] = useState(false);
     const [loadingNotification, setLoadingNotification] = useState(false);
     const [loadingShop, setLoadingShop] = useState(false);
-    const [message, setMessage] = useState('');
-
+    const [popupMessage, setPopupMessage] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const response = await api.get('/users/profile');
                 if (response.data && response.data.isAdmin) {
                     if (response.data.isAdmin) {
-                    setIsAdmin(true);
-                } else {
+                        setIsAdmin(true);
+                    } else {
                         navigate('/shops')
                     }
                 } else {
@@ -62,12 +63,13 @@ const AdminProductUpload = () => {
 
         const fetchShops = async () => {
             try {
-              const response = await api.get('/shops');
-              setShops(response.data);
+                const response = await api.get('/shops');
+                setShops(response.data);
             } catch (error) {
-              console.error('Error fetching shops:', error);
+                console.error('Error fetching shops:', error);
             }
-          };
+        };
+
         if (isAuthenticated) {
             fetchUserData();
             fetchShops();
@@ -128,9 +130,11 @@ const AdminProductUpload = () => {
             const response = await api.post('/products', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setMessage(`Product ${response.data.name} uploaded successfully!`);
+            setPopupMessage(`Yayyy!! Product ${response.data.name} uploaded successfully!`);
+            setShowPopup(true);
         } catch (error) {
-            setMessage('Error uploading product');
+            setPopupMessage('Ooops!! Error uploading product, please try again later');
+            setShowPopup(true);
         } finally {
             setLoadingProduct(false);
         }
@@ -157,7 +161,8 @@ const AdminProductUpload = () => {
             const response = await api.post('/shops', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setMessage(`Shop ${response.data.name} added successfully!`);
+            setPopupMessage(`Yayyy!! Shop ${response.data.name} added successfully!`);
+            setShowPopup(true);
             setShop({
                 name: '',
                 description: '',
@@ -168,7 +173,8 @@ const AdminProductUpload = () => {
                 images: []
             });
         } catch (error) {
-            setMessage('Error adding shop');
+            setPopupMessage('Ooops!! Error adding shop, please try again later');
+            setShowPopup(true);
         } finally {
             setLoadingShop(false);
         }
@@ -179,9 +185,11 @@ const AdminProductUpload = () => {
         setLoadingNotification(true);
         try {
             await api.post('/notifications/send', notification);
-            setMessage('Notification sent successfully!');
+            setPopupMessage('Yayyy!! Notification sent successfully to all customers!');
+            setShowPopup(true);
         } catch (error) {
-            setMessage('Error sending notification');
+            setPopupMessage('Ooops!! Error sending notification, please try again later');
+            setShowPopup(true);
         } finally {
             setLoadingNotification(false);
         }
@@ -414,7 +422,13 @@ const AdminProductUpload = () => {
                 </button>
             </form>
 
-            {message && <p className="admin-message">{message}</p>}
+            {/* Popup for Notifications */}
+            {showPopup && (
+                <Popup
+                    message={popupMessage}
+                    onClose={() => setShowPopup(false)}
+                />
+            )}
         </div>
     );
 };

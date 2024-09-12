@@ -45,7 +45,7 @@ const Cart = () => {
 
   const handleOrderConfirm = () => {
     if (selectedAddress) {
-      navigate('/payment', {
+      navigate('/checkout', {
         state: {
           selectedAddress,
           totalAmount,
@@ -138,7 +138,6 @@ const Cart = () => {
         </div>
         <div className="cart-total">
           <h3>TOTAL AMOUNT: ₹{(totalAmount).toFixed(2)}</h3>
-          {/* <button className="buy-button" onClick={() => navigate('/payment', { state: { totalAmount } })}>Click to Buy</button> */}
         </div>
         <AddressManager onSelectAddress={setSelectedAddress} />
         <button

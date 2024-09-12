@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faLock, faShieldAlt, faUserSecret, faUniversity, faMoneyCheckAlt, faWallet, faCreditCard, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faFacebookF, faInstagram, faTwitter, faCcVisa, faCcMastercard, faGooglePay } from '@fortawesome/free-brands-svg-icons';
+import { faCcVisa, faCcMastercard, faGooglePay } from '@fortawesome/free-brands-svg-icons';
 import {  } from '@fortawesome/free-solid-svg-icons'; 
 import api from '../../services/api';
 import { clearCart } from '../../redux/actions/cartActions';
@@ -33,8 +33,9 @@ const sendOrder = async (address, totalAmount, cartItems) => {
   }
 };
 
-const PaymentForm = () => {
+const PaymentForm = ({ setLoading }) => {
   const cartItems = useSelector(state => state.cart.cartItems);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,23 +50,31 @@ const PaymentForm = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      setLoading(true);
       try {
         const { data } = await api.get('/users/profile');
         setEmail(data.email || '');
       } catch (error) {
         console.error('Error fetching user profile:', error);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchUserProfile();
-
-    if (location.state && location.state.selectedAddress) {
-      const addr = location.state.selectedAddress;
-      setName(`${addr.firstName} ${addr.lastName}`);
-      setContact(addr.phoneNumber || '');
-      setAddress(`${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state}, ${addr.zip}, ${addr.country}`);
+  
+    if (isAuthenticated) {
+      fetchUserProfile();
+  
+      if (location.state && location.state.selectedAddress) {
+        const addr = location.state.selectedAddress;
+        setName(`${addr.firstName} ${addr.lastName}`);
+        setContact(addr.phoneNumber || '');
+        setAddress(`${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state}, ${addr.zip}, ${addr.country}`);
+      }
+    } else {
+      setLoading(false);
     }
   }, [location.state]);
+  
 
   const totalAmount = cartItems.reduce((sum, item) => sum + item.productId.discountPrice * item.quantity, 0);
 
@@ -108,24 +117,36 @@ const PaymentForm = () => {
           const result = await api.post('/payment/verify-razorpay-payment', paymentData);
 
           if (result.data.status === 'success') {
-            await api.post('/cart/clear');
-            setSucceeded(true);
-            setError(null);
-            sendOrder(location.state.selectedAddress, totalAmount, cartItems);
-            dispatch(clearCart());
-            navigate('/payment-success', {
-              state: {
-                orderId: data.id,
-                amount: totalAmount,
-                name: name,
-                contact: contact,
-                address: location.state.selectedAddress,
-                cartItems: cartItems
-              }
-            });
+            setLoading(true);
+            try {
+              // Clear the cart
+              await api.post('/cart/clear');
+              dispatch(clearCart());
+              // Send order details
+              await sendOrder(location.state.selectedAddress, totalAmount, cartItems);
+              // Mark payment as successful
+              setSucceeded(true);
+              setError(null);
+              // Set loading to false before navigating to another page
+              setLoading(false);
+              // Navigate to payment success page
+              navigate('/payment-success', {
+                state: {
+                  orderId: data.id,
+                  amount: totalAmount,
+                  name: name,
+                  contact: contact,
+                  address: location.state.selectedAddress,
+                  cartItems: cartItems
+                }
+              });
+            } catch (err) {
+              setError('Something went wrong while processing your order. Please try again.');
+              setLoading(false); // Ensure loading is stopped even if an error occurs
+            }
           } else {
             setError('Payment verification failed. Please contact support.');
-          }
+          }          
         },
         prefill: {
           name: name,
@@ -258,6 +279,18 @@ const PaymentForm = () => {
 };
 
 const Payment = () => {
+  const [loading, setLoading] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Yay! Your order is scaling the Himalayan peaks...</p>
+        <p>Soon, your treasures will arrive at your doorstep!</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -266,7 +299,7 @@ const Payment = () => {
       <div className="payment-page">
         <div className="payment-container">
           <h1>Checkout</h1>
-          <PaymentForm />
+          <PaymentForm setLoading={setLoading} />
         </div>
       </div>
     </>

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import history from './history';
 import store from '../redux/store';
 import { logout, loginSuccess } from '../redux/actions/authActions';
-import Popup from '../utils/alert/Popup'; // Import the Popup component
+import Popup from '../utils/alert/Popup';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -17,10 +17,9 @@ let isRefreshing = false;
 let refreshSubscribers = [];
 let hasLoggedOut = false;
 const MAX_RETRIES = 1; // Limit the number of retries
-// Create a small state management for popup visibility
 let popUpRoot = null;
 
-// Helper to subscribe to token refresh event
+// Subscribe to token refresh event
 function subscribeTokenRefresh(callback) {
   refreshSubscribers.push(callback);
 }
@@ -31,11 +30,10 @@ function onRefreshed(token) {
   refreshSubscribers = [];
 }
 
-// Reset the logout flag
+// Reset state after logout
 function resetLogoutFlags() {
   refreshSubscribers = [];
   hasLoggedOut = false;
-  popUpRoot = null;
   isRefreshing = false;
 }
 
@@ -43,34 +41,32 @@ function resetLogoutFlags() {
 function getOrCreatePopUpRoot() {
   if (!popUpRoot) {
     let popupElement = document.getElementById('popup-root');
-    
-    // Create a new root if it doesn't exist
     if (!popupElement) {
       popupElement = document.createElement('div');
       popupElement.id = 'popup-root';
       document.body.appendChild(popupElement);
     }
-    
     popUpRoot = ReactDOM.createRoot(popupElement); // Create root for React 18
   }
   return popUpRoot;
 }
 
-// Function to update pop-up state and render accordingly
 const setShowPopUp = (value) => {
   renderPopUp(value);
 };
 
 const closePopup = () => {
-    setShowPopUp(false);
-    history.push('/login');
-    resetLogoutFlags();
+  setShowPopUp(false);
+  history.push('/login');
+  resetLogoutFlags();
+  if (popUpRoot) {
+    popUpRoot.unmount();
+    popUpRoot = null;
+  }
 };
 
-// Function to render the pop-up using ReactDOM
 function renderPopUp(showPopUp) {
   const root = getOrCreatePopUpRoot();
-
   if (showPopUp) {
     root.render(
       <Popup
@@ -78,27 +74,27 @@ function renderPopUp(showPopUp) {
         onClose={closePopup}
       />
     );
-  } else {
-    root.unmount(); // Unmount the pop-up when closed
+  } else if (popUpRoot) {
+    popUpRoot.unmount();
+    popUpRoot = null;
   }
 }
 
-// Force user logout and display the popup
 function forceLogout() {
   if (!hasLoggedOut) {
-    hasLoggedOut = true; // Prevent multiple alerts
+    hasLoggedOut = true;
     store.dispatch(logout());
     localStorage.removeItem('token');
-    setShowPopUp(true); // Show the pop-up instead of alert
+    setShowPopUp(true);
   }
 }
-
 
 // Axios interceptors
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    if (token) {
+    // Avoid attaching a token to the logout request or triggering unnecessary logout loops
+    if (token && !config.url.endsWith('/logout') && !config.url.endsWith('/users/token')) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -111,50 +107,46 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If 403 error (Forbidden)
-    if (error.response?.status === 403) {
+    // Handle 403 Forbidden response, indicating invalid or expired refresh token
+    if (error.response?.status === 403 && !originalRequest.url.endsWith('/logout')) {
       console.error('403 Forbidden - Invalid or expired refresh token.');
       forceLogout();
       return Promise.reject(error);
     }
 
-    // If 401 error (Unauthorized) and request hasn't retried yet, and below max retries
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Handle 401 Unauthorized response (token expiration), skip if it's for logout
+    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.endsWith('/logout')) {
       originalRequest._retry = true;
       originalRequest._retryCount = originalRequest._retryCount || 0;
 
-      // Check if the request has exceeded the maximum retry limit
+      // Prevent multiple refreshes at once
       if (originalRequest._retryCount >= MAX_RETRIES) {
         return Promise.reject(new Error('Max retries reached for this request.'));
       }
-
-      originalRequest._retryCount += 1;
 
       if (!isRefreshing) {
         isRefreshing = true;
 
         try {
           const response = await api.post('/users/token');
-          const appAccessToken = response?.data?.accessToken;
+          const newAccessToken = response?.data?.accessToken;
 
-          store.dispatch(loginSuccess(appAccessToken, response.data.userId));
-          localStorage.setItem('token', appAccessToken);
-          api.defaults.headers.common['Authorization'] = `Bearer ${appAccessToken}`;
+          store.dispatch(loginSuccess(newAccessToken, response.data.userId));
+          localStorage.setItem('token', newAccessToken);
+          api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
 
-          // Notify all subscribers with the new token
-          onRefreshed(appAccessToken);
-
+          onRefreshed(newAccessToken); // Notify subscribers with the new token
           isRefreshing = false;
 
           // Retry the original request with the new token
           return api(originalRequest);
         } catch (refreshError) {
           isRefreshing = false;
-          forceLogout();  // Trigger forceLogout on token refresh failure
+          forceLogout(); // Trigger forceLogout on token refresh failure
           return Promise.reject(refreshError);
         }
       } else {
-        // Add all failed requests to the queue and retry them once the token is refreshed
+        // Queue the request until the token is refreshed
         return new Promise((resolve, reject) => {
           subscribeTokenRefresh((newToken) => {
             originalRequest.headers['Authorization'] = `Bearer ${newToken}`;

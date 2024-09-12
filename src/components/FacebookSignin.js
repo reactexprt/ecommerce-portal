@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import LogRocket from 'logrocket';
 import { login } from '../redux/actions/authActions';
 import api from '../services/api';
 import '../pages/login/Login.css';
@@ -55,7 +56,17 @@ const FacebookSignin = () => {
             const backendResponse = await api.post('/auth/facebook', { accessToken });
             const data = backendResponse.data;
             dispatch(login(data.authToken, data.userId));
+
+            if (process.env.NODE_ENV === 'production') {
+                LogRocket.startNewSession();
+                LogRocket.identify(data.userId, {
+                    name: data.username,
+                    email: data.email
+                });
+            }
+
             navigate('/cart');
+            
         } catch (error) {
             console.error('Facebook Sign-In Error:');
         }

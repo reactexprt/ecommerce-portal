@@ -51,7 +51,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     dispatch(logout());
     setShowDropdown(false);
-    navigate('/login');
+    navigate('/');
   };
 
   const handleProfileClick = () => {

@@ -31,8 +31,10 @@ const Home = () => {
 
     if (isAuthenticated) {
       fetchUserData();
+    } else {
+      setLoading(false);
     }
-  }, [isAuthenticated]);
+  }, []);
 
   if (loading) {
     return (

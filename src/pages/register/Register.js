@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Register.css';
 import Popup from '../../utils/alert/Popup'; // Importing Popup component
@@ -14,6 +14,7 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
   const [showPopUp, setShowPopUp] = useState(false); // For general popups
@@ -29,8 +30,9 @@ const Register = () => {
       setShowPopUp(true);
       return;
     }
+    setIsLoading(true);
     try {
-      // Step 1: Register the user in the backend
+      // Step 1: Register the user in the backend using username and email
       await api.post('/users/register', { username, email, password });
 
       // Registration is successful, show biometric confirmation popup
@@ -40,14 +42,18 @@ const Register = () => {
       const errorMessage = err.response?.data?.message || 'Failed to register. Please try again.';
       setPopupMessage(errorMessage);
       setShowPopUp(true); // Display error popup
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleConfirmBiometric = async () => {
+    setIsLoading(true);
     try {
-      const optionsResponse = await api.post('/webauthn/registration-options', { email });
+      // Send both username and email for biometric registration
+      const optionsResponse = await api.post('/webauthn/registration-options', { identifier: email || username });
       const attestationResponse = await startRegistration(optionsResponse.data);
-      await api.post('/webauthn/register', { email, credential: attestationResponse });
+      await api.post('/webauthn/register', { identifier: email || username, credential: attestationResponse });
 
       setPopupMessage('Biometric registration successful, redirecting to Login page');
       setShowPopUp(true); // Show success message
@@ -62,15 +68,26 @@ const Register = () => {
           navigate('/login');
         }, 2000); // Add a delay to show the success/failure message before navigating
       }
+      setIsLoading(false);
     }
   };
 
   const handleCancelConfirm = () => {
     setShowConfirm(false); // Close confirmation popup
+    setIsLoading(false);
     if (isRegistrationComplete) {
       navigate('/login'); // Redirect to login if registration is complete and canceled
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Hang tight, adventurer! We're preparing your VIP pass to the magical world of Ħimalayan R̥asa. Your journey is about to begin!</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -128,8 +145,13 @@ const Register = () => {
               autoComplete='new-password'
             />
           </div>
-          <button id='register-button' type="submit">
-            <FontAwesomeIcon icon={faUserPlus} className="icon-margin" /> CREATE NEW ACCOUNT
+          <button id='register-button' type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <FontAwesomeIcon icon={faSpinner} spin className="icon-margin" />
+            ) : (
+              <FontAwesomeIcon icon={faUserPlus} className="icon-margin" />
+            )}
+            {isLoading ? 'Registering...' : 'Create New Account'}
           </button>
         </form>
 

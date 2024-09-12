@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import LogRocket from 'logrocket';
 import api from '../../services/api';
 import ForgotPasswordModal from '../../components/forgotPassword/ForgotPasswordModal';
 import { login } from '../../redux/actions/authActions';
@@ -11,21 +12,22 @@ import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import Popup from '../../utils/alert/Popup'; // Importing Popup component
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faKey, faUserPlus, faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faSignInAlt, faKey, faUserPlus, faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';
 
 import './Login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState(''); // Updated to handle either email or username
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [isLoggedin, setIsLoggedin] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false); // State for general popups
   const [popupMessage, setPopupMessage] = useState(''); // State to hold popup message
   const [showConfirm, setShowConfirm] = useState(false); // State for confirm popup
-  const emailRef = useRef(null);
+  const identifierRef = useRef(null); // Ref for email/username input
   const biometricBtnRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,33 +39,35 @@ const Login = () => {
       if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
-    const storedEmail = getCookie('userEmail') ? decodeURIComponent(getCookie('userEmail')).trim() : '';
+    const storedIdentifier = getCookie('userIdentifier') ? decodeURIComponent(getCookie('userIdentifier')).trim() : '';
 
-    if (storedEmail) {
-      setEmail(storedEmail);
+    if (storedIdentifier) {
+      setIdentifier(storedIdentifier);
 
       const checkBiometricStatus = async () => {
+        setLoading(true);
         try {
-          const response = await api.get(`/users/biometric-status`, { params: { email: storedEmail } });
+          const response = await api.get(`/users/biometric-status`, { params: { identifier: storedIdentifier } });
           if (response.data.biometricEnabled) {
             setBiometricEnabled(true);
           } else {
-            emailRef.current?.focus(); // Focus the email input if biometric is not enabled
+            identifierRef.current?.focus(); // Focus the input if biometric is not enabled
           }
         } catch (err) {
           console.error('Error checking biometric status:', err);
-          emailRef.current?.focus(); // Fallback to focusing the email input in case of an error
+          identifierRef.current?.focus(); // Fallback to focusing the input in case of an error
+        } finally {
+          setLoading(false);
         }
       };
 
       checkBiometricStatus();
     } else {
-      emailRef.current?.focus(); // Focus the email input if no stored email
+      identifierRef.current?.focus(); // Focus the input if no stored identifier
     }
   }, []);
 
   useEffect(() => {
-    // Separate useEffect to ensure biometricBtnRef is available before accessing
     if (biometricEnabled && biometricBtnRef.current) {
       biometricBtnRef.current.focus(); // Focus the biometric button
       biometricBtnRef.current.click(); // Simulate a click on the biometric button
@@ -72,40 +76,63 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const response = await api.post('/users/login', { email, password });
+      const response = await api.post('/users/login', { identifier, password }); // Use identifier instead of email
       dispatch(login(response.data.token, response.data.userId));
 
-      const biometricStatusResponse = await api.get(`/users/biometric-status`, { params: { email } });
+      if (process.env.NODE_ENV === 'production') {
+        LogRocket.startNewSession();
+        LogRocket.identify(response.data.userId, {
+          name: response.data.username,
+          email: response.data.email
+        });
+      }
+
+      const biometricStatusResponse = await api.get(`/users/biometric-status`, { params: { identifier } });
       setIsLoggedin(true);
+
       if (!biometricStatusResponse.data.biometricEnabled) {
         setShowConfirm(true); // Show confirmation popup
       } else {
         navigate('/cart');
       }
+
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Invalid email or password. Please try again.';
+      const errorMessage = err.response?.data?.message || 'Invalid email/username or password. Please try again.';
       setPopupMessage(errorMessage);
       setShowPopUp(true); // Show error popup
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleBiometricLogin = async () => {
     try {
-      if (!email) {
-        setPopupMessage('Email is required for biometric login. Please log in using your password first.');
-        setShowPopUp(true); // Show popup for missing email
+      if (!identifier) {
+        setPopupMessage('Email or Username is required for biometric login. Please log in using your password first.');
+        setShowPopUp(true); // Show popup for missing identifier
         return;
       }
-      const optionsResponse = await api.post('/webauthn/authentication-options', { email });
+      const optionsResponse = await api.post('/webauthn/authentication-options', { identifier });
       const authResponse = await startAuthentication(optionsResponse.data);
       const verificationResponse = await api.post('/webauthn/verify-authentication', {
-        email,
+        identifier,
         credential: authResponse
       });
 
       dispatch(login(verificationResponse.data.token, verificationResponse.data.userId));
+
+      if (process.env.NODE_ENV === 'production') {
+        LogRocket.startNewSession();
+        LogRocket.identify(verificationResponse.data.userId, {
+          name: verificationResponse.data.username,
+          email: verificationResponse.data.email
+        });
+      }
+
       navigate('/cart');
+      
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Biometric authentication failed. Please try again.';
       setPopupMessage(errorMessage); // Display error in the popup
@@ -123,9 +150,9 @@ const Login = () => {
 
   const handleConfirm = async () => {
     try {
-      const optionsResponse = await api.post('/webauthn/registration-options', { email });
+      const optionsResponse = await api.post('/webauthn/registration-options', { identifier });
       const attestationResponse = await startRegistration(optionsResponse.data);
-      await api.post('/webauthn/register', { email, credential: attestationResponse });
+      await api.post('/webauthn/register', { identifier, credential: attestationResponse });
       setPopupMessage('Biometric registration successful!'); // Show success message
 
       setShowPopUp(true); // Display success popup
@@ -135,7 +162,6 @@ const Login = () => {
     } finally {
       setShowConfirm(false); // Close confirmation popup
       if (isLoggedin) {
-        // Only navigate if login was successful
         setTimeout(() => {
           navigate('/cart');
         }, 2000); // Add a delay to show the success/failure message before navigating
@@ -149,6 +175,15 @@ const Login = () => {
       navigate('/cart');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
+        <p>Hold tight, we're getting you in... Your adventure with the Ħimalayan R̥asa is just a click away!</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -167,15 +202,15 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <div>
-            <label htmlFor='email'>EMAIL</label>
+            <label htmlFor='identifier'>EMAIL OR USERNAME</label> {/* Updated label */}
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              ref={emailRef} // Assign ref to the email input
+              id="identifier"
+              type="text" // Changed to text to accept both email and username
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              ref={identifierRef} // Assign ref to the input
               required
-              autoComplete='email'
+              autoComplete='username'
             />
           </div>
           <div>
@@ -189,17 +224,22 @@ const Login = () => {
               autoComplete='current-password'
             />
           </div>
-          <button className='login-forgot-password-buttons' type="submit">
-            <FontAwesomeIcon icon={faSignInAlt} className="icon-margin" /> LOGIN
-          </button>
+          <button className='login-forgot-password-buttons' type="submit" disabled={loading}>
+          {loading ? (
+            <FontAwesomeIcon icon={faSpinner} spin />
+          ) : (
+            <FontAwesomeIcon icon={faSignInAlt} className="icon-margin" />
+          )}
+          Login
+        </button>
         </form>
 
         <div className='single-sign-in-divs'>
           <div className="google-signin-container">
-            <GoogleSignIn />
+            <GoogleSignIn setLoading={setLoading} />
           </div>
           <div className='facebook-sigin-container'>
-            <FacebookSignin />
+            <FacebookSignin setLoading={setLoading} />
           </div>
         </div>
 
@@ -212,7 +252,6 @@ const Login = () => {
           </button>
         </div>
 
-        {/* Other UI elements */}
         <div className="trust-badges">
           <FontAwesomeIcon icon={faLock} /> Secure Checkout
           <FontAwesomeIcon icon={faShieldAlt} /> Protected by SSL
@@ -227,17 +266,15 @@ const Login = () => {
           <FontAwesomeIcon icon={faHeadset} /> Need Help? <a href="/support">Contact Us</a>
         </div>
 
-        {/* Forgot Password Modal */}
         {isModalOpen && (
           <ForgotPasswordModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
-            setLoginEmail={setEmail}
+            setLoginEmail={setIdentifier} // Updated to use identifier
             setLoginPassword={setPassword}
           />
         )}
 
-        {/* Show the generic alert popup */}
         {showPopUp && (
           <Popup
             message={popupMessage}
@@ -245,7 +282,6 @@ const Login = () => {
           />
         )}
 
-        {/* Show the confirmation popup */}
         {showConfirm && (
           <Popup
             message="Would you like to enable biometric login for future logins?"
