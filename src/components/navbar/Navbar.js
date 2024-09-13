@@ -11,11 +11,12 @@ import {
   faStore
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
+import DropdownMenu from './DropdownMenu';
 import { logout } from '../../redux/actions/authActions';
 import api from '../../services/api';
 
 // Lazy load the DropdownMenu and SearchBar components
-const DropdownMenu = lazy(() => import('./DropdownMenu'));
+// const DropdownMenu = lazy(() => import('./DropdownMenu'));
 const SearchBar = lazy(() => import('../../pages/search/SearchBar'));
 
 

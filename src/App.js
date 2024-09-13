@@ -271,7 +271,16 @@ function App() {
                 }
               />
 
-              <Route path="/admin" element={<AdminProductUpload />} />
+              <Route 
+                path="/admin" 
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <AdminProductUpload />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                } 
+              />
 
               <Route
                 path="/previousOrders"
