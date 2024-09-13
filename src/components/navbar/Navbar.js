@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,10 +12,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { logout } from '../../redux/actions/authActions';
-import { fetchCart, mergeCart } from '../../redux/actions/cartActions';
 import api from '../../services/api';
-import DropdownMenu from './DropdownMenu';
-import SearchBar from '../../pages/search/SearchBar';
+
+// Lazy load the DropdownMenu and SearchBar components
+const DropdownMenu = lazy(() => import('./DropdownMenu'));
+const SearchBar = lazy(() => import('../../pages/search/SearchBar'));
+
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -29,8 +31,14 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(fetchCart());
-      dispatch(mergeCart());
+      // Lazy load the fetchCart and mergeCart actions
+      const loadActions = async () => {
+        const { fetchCart, mergeCart } = await import('../../redux/actions/cartActions');
+        dispatch(fetchCart());
+        dispatch(mergeCart());
+      };
+
+      loadActions();
     }
   }, [dispatch, isAuthenticated]);
 

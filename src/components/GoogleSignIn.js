@@ -23,15 +23,21 @@ const GoogleSignIn = ({ setLoading }) => {
       dispatch(login(authToken, userId));
 
       if (process.env.NODE_ENV === 'production') {
-        LogRocket.startNewSession();
-        LogRocket.identify(userId, {
-          name: username,
-          email: email
-        });
+        try {
+          LogRocket.startNewSession();
+          LogRocket.identify(userId, {
+            name: username,
+            email: email
+          });
+        } catch (error) {
+          console.error('Error initializing LogRocket session:', error);
+          // Optionally, log the error to LogRocket as well
+          LogRocket.captureException(error);
+        }
       }
 
       navigate('/cart');
-      
+
     } catch (error) {
       console.error('Google Sign-In Error:', error);
     } finally {
@@ -51,7 +57,7 @@ const GoogleSignIn = ({ setLoading }) => {
         onError={handleError}
         // redirectUri="http://localhost"
         scope="profile"
-        // useOneTap
+      // useOneTap
       />
     </GoogleOAuthProvider>
   );

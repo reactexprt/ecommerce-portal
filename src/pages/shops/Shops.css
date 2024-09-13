@@ -4,30 +4,30 @@
 .shops-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px;
   background-color: var(--primary-bg-color);
 }
 
 .shops-title {
   font-family: var(--font-family-primary);
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: var(--primary-text-color);
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   letter-spacing: 1px;
 }
 
 /* Grid System */
 .shops-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for better responsiveness */
+  gap: 20px;
   padding: 20px;
 }
 
 /* Shop Card */
 .shop-card {
-    max-width: 455px;
+  max-width: 455px;
   background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -45,7 +45,7 @@
 
 /* Image Handling */
 .shop-image-container {
-  height: 240px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -56,7 +56,7 @@
 }
 
 .shop-image-placeholder {
-  height: 240px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +67,7 @@
 
 /* Shop Content */
 .shop-card-content {
-  padding: 20px;
+  padding: 15px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -77,17 +77,17 @@
 
 .shop-name {
   font-family: var(--font-family-secondary);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--primary-text-color);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .shop-description {
   font-family: var(--font-family-secondary);
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--primary-text-color);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   flex-grow: 1;
 }
 
@@ -95,20 +95,20 @@
 .shop-contact,
 .shop-contact-phone {
   font-family: var(--font-family-secondary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--primary-text-color);
   margin-bottom: 5px;
 }
 
 /* Social Media Icons */
 .shop-social-media {
-  margin-top: 15px;
+  margin-top: 10px;
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .shop-social-media a {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: var(--primary-text-color);
   transition: color 0.3s ease;
 }
@@ -128,7 +128,8 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%;
+  width: 100%; /* Ensures button stays within the container */
+  box-sizing: border-box; /* Prevents button overflow by including padding in the width */
 }
 
 .shop-explore-button svg {
@@ -141,11 +142,60 @@
 
 .shop-buttons {
   margin-top: auto;
-  padding: 20px;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for smaller devices */
+@media (max-width: 768px) {
+  .shops-title {
+    font-size: 2rem;
+  }
+
+  .shops-grid {
+    gap: 15px;
+  }
+
+  .shop-card-content {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .shop-buttons {
+    padding: 10px;
+  }
+
+  .shop-explore-button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
 }
 
 @media (max-width: 540px) {
+  .shops-grid {
+    grid-template-columns: 1fr;
+  }
+
   .shop-card-content {
+    padding: 10px;
     align-items: flex-start;
+  }
+
+  .shop-name {
+    font-size: 1.4rem;
+  }
+
+  .shop-description {
+    font-size: 0.9rem;
+  }
+
+  .shop-explore-button {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  .shop-buttons {
+    padding: 10px;
   }
 }

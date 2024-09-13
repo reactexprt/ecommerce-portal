@@ -47,8 +47,8 @@ const AdminProductUpload = () => {
         const fetchUserData = async () => {
             try {
                 const response = await api.get('/users/profile');
-                if (response.data && response.data.isAdmin) {
-                    if (response.data.isAdmin) {
+                if (response?.data && response.data?.isAdmin) {
+                    if (response.data?.isAdmin) {
                         setIsAdmin(true);
                     } else {
                         navigate('/shops')

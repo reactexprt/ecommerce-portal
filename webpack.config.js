@@ -3,10 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { DefinePlugin } = require('webpack');
+const { DefinePlugin, HotModuleReplacementPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // Ensures clean builds
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // Minifies CSS files
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 require('dotenv').config();
 
@@ -36,7 +37,8 @@ module.exports = {
     filename: '[name].[contenthash].js', // Use contenthash for cache busting
     path: path.resolve(__dirname, 'dist'), // Output directory as an absolute path
     clean: true, // Clean the output directory before each build
-    publicPath: '/'
+    publicPath: '/',
+    assetModuleFilename: 'assets/[name].[hash][ext]', // Cache-busting for assets (images, fonts, etc.)
   },
 
   // Optimization settings for better performance
@@ -69,6 +71,7 @@ module.exports = {
     },
     compress: true, // Enable gzip compression for everything served
     port: 3000, // Port to run the development server on
+    hot: true, // Enable HMR in dev mode
   },
 
   // Module rules for different file types
@@ -94,12 +97,18 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i, // Match image files
-        type: 'asset/resource', // Use asset modules to manage images
+        test: /\.(png|svg|jpg|jpeg|gif)$/i, // Asset handling for images
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[name].[hash][ext]', // Cache-busting for images
+        },
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i, // Match font files
-        type: 'asset/resource', // Use asset modules to manage fonts
+        test: /\.(woff|woff2|eot|ttf|otf)$/i, // Asset handling for fonts
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[name].[hash][ext]', // Cache-busting for fonts
+        },
       },
     ],
   },
@@ -115,13 +124,13 @@ module.exports = {
     // Conditionally add the Bundle Analyzer Plugin in production mode
     ...(isProduction
       ? [
-          new BundleAnalyzerPlugin({
-            analyzerMode: 'static', // Generate a static HTML report
-            openAnalyzer: true, // Automatically open the report after build
-            reportFilename: 'bundle-report.html', // Output filename for the report
-          }),
-        ]
-      : []),
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static', // Generate a static HTML report
+          openAnalyzer: true, // Automatically open the report after build
+          reportFilename: 'bundle-report.html', // Output filename for the report
+        }),
+      ]
+      : [new HotModuleReplacementPlugin()]), // Only add HMR in development mode
     // Compress assets in production using gzip
     new CompressionPlugin({
       algorithm: 'gzip', // Use gzip compression
@@ -144,6 +153,7 @@ module.exports = {
     // Define environment variables for use in the application
     new DefinePlugin({
       'process.env': {
+        NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
         REACT_APP_CLIENT_ID: JSON.stringify(process.env.REACT_APP_CLIENT_ID), // Inject the client ID
         REACT_APP_RAZORPAY_KEY_ID: JSON.stringify(process.env.REACT_APP_RAZORPAY_KEY_ID), // Inject the Razorpay key
         REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
@@ -153,10 +163,37 @@ module.exports = {
     // Conditionally add the MiniCssExtractPlugin in production mode
     ...(isProduction
       ? [
-          new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css', // Extracted CSS filenames with content hash
-          }),
-        ]
+        new MiniCssExtractPlugin({
+          filename: '[name].[contenthash].css', // Extracted CSS filenames with content hash
+        }),
+      ]
       : []),
+    ...(isProduction ? [
+      new GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true,
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB limit for catching
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/, // Cache images
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 Days
+              },
+            },
+          },
+          {
+            urlPattern: /\.(?:js|css)$/, // Cache JS and CSS
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-resources',
+            },
+          },
+        ],
+      }),
+    ] : [])
   ],
 };

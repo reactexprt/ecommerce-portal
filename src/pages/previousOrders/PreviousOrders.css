@@ -27,10 +27,12 @@
   box-shadow: var(--box-shadow);
   padding: 20px;
   transition: transform 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .po-order-card:hover {
   transform: translateY(-5px);
+  cursor: pointer;
 }
 
 .po-order-header {

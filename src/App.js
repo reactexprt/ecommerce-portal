@@ -15,9 +15,45 @@ import history from './services/history';
 import './App.css';
 
 if (process.env.NODE_ENV === 'production') {
-  // Initialize LogRocket only in production
-  LogRocket.init('65vbkg/rasa');
+  // Initialize LogRocket with custom settings
+  LogRocket.init('65vbkg/rasa', {
+    release: 'v2.0.0',       // Set release version for tracking
+    shouldCaptureIP: false,   // Disable IP capture if not needed
+    console: true,            // Capture console logs
+    network: {
+      isEnabled: true,        // Enable network request tracking
+      requestSanitizer: (request) => {
+        if (request.url.includes('sensitive')) {
+          // Mask sensitive information from requests
+          return null;
+        }
+        return request;
+      },
+    },
+    dom: {
+      isEnabled: true, // Enable DOM tracking
+    },
+  });
+
+  // Capture custom errors or event types and log them
+  window.addEventListener('error', (errorEvent) => {
+    LogRocket.captureException(errorEvent.error);
+  });
+
+  // Capture unhandled promise rejections
+  window.addEventListener('unhandledrejection', (event) => {
+    LogRocket.captureException(event.reason);
+  });
+
+  // Handle service worker or Web Worker events if applicable
+  navigator.serviceWorker?.addEventListener('message', (event) => {
+    console.log('Service Worker Event:', event);
+    if (!event.data || !event.data.action) {
+      LogRocket.log('Invalid event type from worker:', event);
+    }
+  });
 }
+
 
 const loadable = (importFunc) => {
   return lazy(() =>
@@ -47,6 +83,7 @@ const Wishlist = loadable(() => import('./pages/wishlist/Wishlist'));
 const Notifications = loadable(() => import('./pages/notifications/Notifications'));
 const AccountSettings = loadable(() => import('./pages/accountSettings/AccountSettings'));
 const Shops = loadable(() => import('./pages/shops/Shops'));
+const OrderDetails = loadable(() => import('./pages/previousOrders/OrderDetails'));
 const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
 
 const useAuth = () => {
@@ -69,6 +106,58 @@ const Spinner = () => (
 
 function App() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const TIME_LIMIT = 30 * 60 * 1000; // 30 minutes
+  let lastInactiveTime = new Date().getTime();
+
+  const handleInactivityCheck = () => {
+    const currentTime = new Date().getTime();
+    const lastInactive = localStorage.getItem('lastInactiveTime');
+    if (lastInactive && currentTime - lastInactive > TIME_LIMIT) {
+      window.location.reload();
+    }
+  };
+
+  // Auto-refresh only if the user has been inactive for more than the time limit
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        handleInactivityCheck();
+      } else {
+        lastInactiveTime = new Date().getTime();
+        localStorage.setItem('lastInactiveTime', lastInactiveTime);
+      }
+    };
+
+    const handleWindowFocus = () => {
+      setTimeout(() => {
+        handleInactivityCheck();
+      }, 100);
+    };
+
+    const handleWindowBlur = () => {
+      setTimeout(() => {
+        lastInactiveTime = new Date().getTime();
+        localStorage.setItem('lastInactiveTime', lastInactiveTime);
+      }, 100);
+    };
+
+    // Periodic check for inactivity every 10 seconds
+    const interval = setInterval(() => {
+      handleInactivityCheck();
+    }, 10 * 1000); // 10 seconds interval
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleWindowFocus); // Detect when user switches back to browser
+    window.addEventListener('blur', handleWindowBlur);   // Detect when user switches out of browser
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleWindowFocus);
+      window.removeEventListener('blur', handleWindowBlur);
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -92,7 +181,7 @@ function App() {
           clearInterval(retryInterval);
         }
       }, 5000); // Retry every 5 seconds
-  
+
       return () => clearInterval(retryInterval);
     }
   }, [isOffline]);
@@ -102,7 +191,7 @@ function App() {
       <ScrollToTop />
       <div className="App">
         {isOffline && (
-          <Popup 
+          <Popup
             message='No Internet Connection. You are currently offline. Please check your internet connection and try again.'
             onClose={() => setIsOffline(false)}
           />
@@ -185,75 +274,85 @@ function App() {
 
               <Route path="/admin" element={<AdminProductUpload />} />
 
-              <Route 
-                path="/previousOrders" 
+              <Route
+                path="/previousOrders"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <PreviousOrders />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/profile" 
+              <Route
+                path="/previousOrders/:orderId"
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <OrderDetails />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/profile"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <UserProfile />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/addressBook" 
+              <Route
+                path="/addressBook"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <AddressBook />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/wishlist" 
+              <Route
+                path="/wishlist"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <Wishlist />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/notifications" 
+              <Route
+                path="/notifications"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <Notifications />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/accountSettings" 
+              <Route
+                path="/accountSettings"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <AccountSettings />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route 
-                path="/payment-success" 
+              <Route
+                path="/payment-success"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <PaymentSuccess />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
               />
               <Route path="*" element={<NotFound />} />
             </Routes>

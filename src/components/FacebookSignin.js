@@ -58,15 +58,21 @@ const FacebookSignin = () => {
             dispatch(login(data.authToken, data.userId));
 
             if (process.env.NODE_ENV === 'production') {
-                LogRocket.startNewSession();
-                LogRocket.identify(data.userId, {
-                    name: data.username,
-                    email: data.email
-                });
+                try {
+                    LogRocket.startNewSession();
+                    LogRocket.identify(data.userId, {
+                        name: data.username,
+                        email: data.email
+                    });
+                } catch (error) {
+                    console.error('Error initializing LogRocket session:', error);
+                    // Optionally, log the error to LogRocket as well
+                    LogRocket.captureException(error);
+                }
             }
 
             navigate('/cart');
-            
+
         } catch (error) {
             console.error('Facebook Sign-In Error:');
         }

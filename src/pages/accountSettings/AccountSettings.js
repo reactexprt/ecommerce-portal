@@ -21,7 +21,7 @@ const AccountSettings = () => {
     const fetchUserData = async () => {
       try {
         const response = await api.get('/users/profile');
-        setUserData(response.data);
+        setUserData(response?.data);
       } catch (err) {
         setError('Failed to load user data');
       }

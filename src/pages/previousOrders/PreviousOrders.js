@@ -1,4 +1,3 @@
-// src/components/PreviousOrders.js
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
@@ -41,6 +40,10 @@ const PreviousOrders = () => {
     setPage(prevPage => prevPage + 1); // Increment the page number
   };
 
+  const handleOrderClick = (orderId) => {
+    navigate(`/previousOrders/${orderId}`);
+  };
+
   if (error) return <div className="po-error">{error}</div>;
 
   if (loading) {
@@ -54,10 +57,10 @@ const PreviousOrders = () => {
 
   if (!orders.length && !loading) {
     return (
-        <div className="po-no-orders">
-            <FontAwesomeIcon icon={faBoxOpen} size="4x" />
-            <p>No previous orders found.</p>
-        </div>
+      <div className="po-no-orders">
+        <FontAwesomeIcon icon={faBoxOpen} size="4x" />
+        <p>No previous orders found.</p>
+      </div>
     );
   }
 
@@ -70,7 +73,11 @@ const PreviousOrders = () => {
         <h2 className="po-heading">Your Previous Orders</h2>
         <div className="po-orders-list">
           {orders?.map(order => (
-            <div key={order._id} className="po-order-card">
+            <div 
+              key={order._id} 
+              className="po-order-card"
+              onClick={() => handleOrderClick(order._id)}
+            >
               <div className="po-order-header">
                 <p className="po-order-id">Order ID: {order._id}</p>
                 <p className="po-order-date">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
@@ -81,7 +88,11 @@ const PreviousOrders = () => {
                 <h4 className="po-items-heading">Items:</h4>
                 <ul className="po-items-list">
                   {order.products.map(item => (
-                    <li key={item.productId._id} className="po-order-item">
+                    <li 
+                      key={item.productId._id} 
+                      className="po-order-item"
+                      onClick={(e) => e.stopPropagation()} // Prevent click propagation when clicking on product image or name
+                    >
                       <div className="po-item-image">
                         {item.productId.images && item.productId.images.length > 0 && (
                           <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
@@ -90,7 +101,7 @@ const PreviousOrders = () => {
                         )}
                       </div>
                       <div className="po-item-details">
-                      <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
+                        <Link to={`/products/product/${item.productId._id}`} className='link-decoration-common'>
                           <p className="po-item-name">{item.productId.name}</p>
                         </Link>
                         <p className="po-item-quantity">Qty: {item.quantity}</p>

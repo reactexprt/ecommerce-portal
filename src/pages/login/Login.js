@@ -82,11 +82,17 @@ const Login = () => {
       dispatch(login(response.data.token, response.data.userId));
 
       if (process.env.NODE_ENV === 'production') {
-        LogRocket.startNewSession();
-        LogRocket.identify(response.data.userId, {
-          name: response.data.username,
-          email: response.data.email
-        });
+        try {
+          LogRocket.startNewSession();
+          LogRocket.identify(response.data.userId, {
+            name: response.data.username,
+            email: response.data.email
+          });
+        } catch (error) {
+          console.error('Error initializing LogRocket session:', error);
+          // Optionally, log the error to LogRocket as well
+          LogRocket.captureException(error);
+        }
       }
 
       const biometricStatusResponse = await api.get(`/users/biometric-status`, { params: { identifier } });
@@ -124,11 +130,17 @@ const Login = () => {
       dispatch(login(verificationResponse.data.token, verificationResponse.data.userId));
 
       if (process.env.NODE_ENV === 'production') {
-        LogRocket.startNewSession();
-        LogRocket.identify(verificationResponse.data.userId, {
-          name: verificationResponse.data.username,
-          email: verificationResponse.data.email
-        });
+        try {
+          LogRocket.startNewSession();
+          LogRocket.identify(verificationResponse.data.userId, {
+            name: verificationResponse.data.username,
+            email: verificationResponse.data.email
+          });
+        } catch (error) {
+          console.error('Error initializing LogRocket session:', error);
+          // Optionally, log the error to LogRocket as well
+          LogRocket.captureException(error);
+        }
       }
 
       navigate('/cart');

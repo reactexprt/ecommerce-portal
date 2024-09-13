@@ -23,7 +23,6 @@ const ProductDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -38,11 +37,10 @@ const ProductDetails = () => {
                     const wishlistResponse = await api.get('/wishlist');
                     setInWishlist(wishlistResponse.data.some(item => item._id === productId));
                 }
-            } catch (error) {
-                setError('Error fetching product. Please try again.');
+            } catch (err) {
                 setPopupMessage('Error fetching product. Please try again.');
-                setShowPopUp(true); // Show error popup
-                console.error('Error fetching product:');
+                setShowPopUp(true);
+                navigate('/shops');
             }
             setLoading(false);
         };
@@ -68,10 +66,9 @@ const ProductDetails = () => {
                     setPopupMessage('Product added to wishlist.');
                 }
                 setShowPopUp(true); // Show wishlist update popup
-            } catch (error) {
+            } catch (err) {
                 setPopupMessage('Error updating wishlist. Please try again.');
-                setShowPopUp(true); // Show error popup
-                console.error('Error toggling wishlist:', error);
+                setShowPopUp(true);
             }
         } else {
             setPopupMessage('Please login to manage your wishlist.');
@@ -100,9 +97,9 @@ const ProductDetails = () => {
                 setNewRating(0);
                 setPopupMessage('Comment added successfully!');
                 setShowPopUp(true); // Show success popup
-            } catch (error) {
+            } catch (err) {
                 setPopupMessage('Failed to add comment. Please try again.');
-                setShowPopUp(true); // Show error popup
+                setShowPopUp(true);
             }
         } else {
             setPopupMessage('Please login to add a review.');
@@ -185,8 +182,6 @@ const ProductDetails = () => {
             );
         });
     };
-
-    if (error) return <div>{error}</div>;
 
     if (loading || !product) {
         return (
@@ -301,7 +296,6 @@ const ProductDetails = () => {
                     </div>
 
                     <button type="submit">Submit Review</button>
-                    {error && <p className="product-details-error">{error}</p>}
                 </form>
             </div>
 

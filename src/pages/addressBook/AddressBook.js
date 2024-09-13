@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faCheck, faMapMarkerAlt, faEdit, faTrash, faCheckCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faCheck, faMapMarkerAlt, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import '../../components/addressManager/AddressManager.css';
+import Popup from '../../utils/alert/Popup';  // Import the Popup component
 
-const AddressBook = ({ onSelectAddress }) => {
+const AddressBook = () => {
   const [addresses, setAddresses] = useState([]);
+  const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [form, setForm] = useState({
     label: '',
     firstName: '',
@@ -23,7 +26,6 @@ const AddressBook = ({ onSelectAddress }) => {
     phoneNumber: '',
     isDefault: false
   });
-  const [selectedAddress, setSelectedAddress] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const inputRefs = useRef({});
@@ -34,9 +36,12 @@ const AddressBook = ({ onSelectAddress }) => {
       const response = await api.get('/users/addresses');
       setAddresses(response.data);
     } catch (error) {
+      setPopupMessage('Error fetching addresses.');
+      setShowPopup(true);  // Show the popup when an error occurs
       console.error('Error fetching addresses:', error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -118,6 +123,8 @@ const AddressBook = ({ onSelectAddress }) => {
     e.preventDefault();
     const isValid = validateForm();
     if (!isValid) {
+      setPopupMessage('Please fill in the highlighted empty fields.');
+      setShowPopup(true);
       return;
     }
 
@@ -127,13 +134,17 @@ const AddressBook = ({ onSelectAddress }) => {
       fullPhoneNumber = `+${numericCountryCode}${form.phoneNumber}`;
     }
 
+    setLoadingSubmit(true);
     try {
       const submitData = { ...form, phoneNumber: fullPhoneNumber };
       if (form._id) {
         await api.put(`/users/addresses/${form._id}`, submitData);
+        setPopupMessage('Address updated successfully!');
       } else {
         await api.post('/users/addresses', submitData);
+        setPopupMessage('Address added successfully!');
       }
+      setShowPopup(true);  // Show success popup
       setForm({
         label: '',
         firstName: '',
@@ -151,7 +162,11 @@ const AddressBook = ({ onSelectAddress }) => {
       setErrors({});
       fetchAddresses();
     } catch (error) {
-      console.error('Error adding or updating address');
+      setPopupMessage('Error adding or updating address.');
+      setShowPopup(true);
+      console.error('Error adding or updating address', error);
+    } finally {
+      setLoadingSubmit(false);
     }
   };
 
@@ -159,42 +174,61 @@ const AddressBook = ({ onSelectAddress }) => {
     try {
       await api.delete(`/users/addresses/${id}`);
       setAddresses(addresses.filter((addr) => addr._id !== id));
-      if (selectedAddress?._id === id) {
-        setSelectedAddress(null); // Unselect if the selected address is deleted
-        onSelectAddress(null);
-      }
+      setPopupMessage('Address deleted successfully.');
+      setShowPopup(true);  // Show success popup
     } catch (error) {
+      setPopupMessage('Error deleting address.');
+      setShowPopup(true);
       console.error('Error deleting address:', error);
     }
   };
 
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const { latitude, longitude } = position.coords;
-        try {
-          const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-          const address = response.data.address;
-          setForm({
-            label: form.label || '',
-            firstName: form.firstName || '',
-            lastName: form.lastName || '',
-            flat: form.flat || '',
-            street: address.road || address.street || address.residential || '',
-            city: address.city || address.state_district || address.town || '',
-            state: address.state || '',
-            zip: address.postcode || '',
-            country: address.country || '',
-            countryCode: 'in',
-            phoneNumber: form.phoneNumber,
-            isDefault: false
-          });
-        } catch (error) {
-          console.error('Error fetching current location:', error);
+      setLoadingCurrentLocation(true);
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+            const address = response.data.address;
+
+            setForm({
+              label: form.label || '',
+              firstName: form.firstName || '',
+              lastName: form.lastName || '',
+              flat: form.flat || '',
+              street: address.road || address.street || address.residential || '',
+              city: address.city || address.state_district || address.town || '',
+              state: address.state || '',
+              zip: address.postcode || '',
+              country: address.country || '',
+              countryCode: 'in',
+              phoneNumber: form.phoneNumber,
+              isDefault: false
+            });
+            setPopupMessage('Current location fetched successfully!');
+            setShowPopup(true);  // Show success popup
+          } catch (error) {
+            setPopupMessage('Error fetching current location.');
+            setShowPopup(true);
+            console.error('Error fetching address from API:', error);
+          } finally {
+            setLoadingCurrentLocation(false);  // Always executed after API call
+          }
+        },
+        (error) => {
+          setPopupMessage('Geolocation error. Please try again.');
+          setShowPopup(true);
+          console.error('Geolocation error:', error);
+          setLoadingCurrentLocation(false); // Make sure to stop the loading even on error
         }
-      });
+      );
     } else {
-      console.error('Geolocation is not supported by this browser.');
+      setPopupMessage('Geolocation is not supported by this browser.');
+      setShowPopup(true);
+      setLoadingCurrentLocation(false);  // Make sure to stop loading if geolocation isn't supported
     }
   };
 
@@ -209,10 +243,19 @@ const AddressBook = ({ onSelectAddress }) => {
 
   return (
     <div className="address-manager">
+      {/* Render Popup only when showPopup is true */}
+      {showPopup && (
+        <Popup
+          message={popupMessage}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
+
       <h2>Manage Delivery Addresses</h2>
+
       <ul className="address-list">
         {addresses.map((addr) => (
-          <li key={addr._id} className={selectedAddress?._id === addr._id ? 'selected' : ''}>
+          <li key={addr._id}>
             <span>
               <strong>{addr.label}</strong>: {addr.firstName} {addr.lastName}, {addr.flat}, {addr.street}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}, {addr.phoneNumber}
             </span>
@@ -230,7 +273,7 @@ const AddressBook = ({ onSelectAddress }) => {
         ))}
       </ul>
 
-      <form id="address-form" onSubmit={handleSubmit} className="address-form">
+      <form id="address-form" onSubmit={handleSubmit} className="address-form" noValidate>
         {/* Form Fields */}
         <input
           type="text"
@@ -281,7 +324,7 @@ const AddressBook = ({ onSelectAddress }) => {
           name="flat"
           value={form.flat}
           onChange={handleChange}
-          placeholder="Flat"
+          placeholder="Flat Number / House Number"
           className={errors.flat ? 'input-error' : ''}
           ref={(el) => (inputRefs.current.flat = el)}
           required
@@ -376,22 +419,40 @@ const AddressBook = ({ onSelectAddress }) => {
           <input id="isDefault" type="checkbox" name="isDefault" checked={form.isDefault} onChange={handleChange} />
           Set as Default
         </label>
-        {/* Use Current Location Button with Icon */}
-        <button type="button" onClick={handleUseCurrentLocation} className="location-button">
-          <FontAwesomeIcon icon={faMapMarkerAlt} className="icon-margin" /> Use Current Location
-        </button>
-        {/* Add or Update Address Button with Icon */}
-        <button type="submit" className="submit-button">
-          {form._id ? (
-            <>
-              <FontAwesomeIcon icon={faEdit} className="icon-margin" /> Update Address
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faCheckCircle} className="icon-margin" /> Add Address
-            </>
-          )}
-        </button>
+
+        <div className='location-add-address-buttons-div'>
+          <button
+            type="button"
+            onClick={handleUseCurrentLocation}
+            className="location-button"
+            disabled={loadingCurrentLocation}
+          >
+            {loadingCurrentLocation ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> Fetching, Please wait...
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faMapMarkerAlt} /> Use Current Location
+              </>
+            )}
+          </button>
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={loadingSubmit}
+          >
+            {loadingSubmit ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> {form._id ? 'Updating' : 'Saving'} Address...
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faCheck} /> {form._id ? 'Update' : 'Add'} Address
+              </>
+            )}
+          </button>
+        </div>
       </form>
     </div>
   );

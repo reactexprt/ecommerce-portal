@@ -17,8 +17,8 @@ const Home = () => {
       setLoading(true);
       try {
         const response = await api.get('/users/profile');
-        if (response.data && response.data.isAdmin) {
-          if (response.data.isAdmin) {
+        if (response?.data && response.data?.isAdmin) {
+          if (response.data?.isAdmin) {
             setIsAdmin(true);
           }
         }
@@ -34,7 +34,7 @@ const Home = () => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   if (loading) {
     return (

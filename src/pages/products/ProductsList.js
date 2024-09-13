@@ -14,7 +14,6 @@ const ProductsList = () => {
   const { shopId } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(8);
   const [hasMore, setHasMore] = useState(true);
@@ -44,11 +43,10 @@ const ProductsList = () => {
         });
 
         setHasMore(hasMore);
-      } catch (error) {
-        setError('Error fetching products');
+      } catch (err) {
         setPopupMessage('Error fetching products. Please try again later.');
-        setShowPopUp(true); // Show error popup
-        navigate('/technicalError');
+        setShowPopUp(true);
+        navigate('/shops');
       }
       setLoading(false);
     };
@@ -100,10 +98,6 @@ const ProductsList = () => {
         <p>Sit back, we’re loading some fantastic products for you!</p>
       </div>
     );
-  }
-
-  if (error) {
-    return <div className="error">{error}</div>;
   }
 
   return (

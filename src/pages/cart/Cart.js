@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { fetchCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions';
-import AddressManager from '../../components/addressManager/AddressManager';
-import Popup from '../../utils/alert/Popup';
 import './Cart.css';
+
+// Lazy loaded components
+const AddressManager = lazy(() => import('../../components/addressManager/AddressManager'));
+const Popup = lazy(() => import('../../utils/alert/Popup'));
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -18,11 +19,19 @@ const Cart = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
+  // Lazy-load Redux actions
+  const lazyLoadActions = async () => {
+    const { fetchCart, removeFromCart, updateCartItem } = await import('../../redux/actions/cartActions');
+    return { fetchCart, removeFromCart, updateCartItem };
+  };
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login'); // Redirect to login if not authenticated when trying to access cart
     } else {
-      dispatch(fetchCart());
+      lazyLoadActions().then(actions => {
+        dispatch(actions.fetchCart());
+      });
     }
   }, [dispatch, isAuthenticated]);
 
@@ -63,6 +72,16 @@ const Cart = () => {
       return Math.round(((product.price - product.discountPrice) / product.price) * 100);
     }
     return 0;
+  };
+
+  const handleUpdateCartItem = async (productId, quantity) => {
+    const actions = await lazyLoadActions();
+    dispatch(actions.updateCartItem(productId, quantity));
+  };
+
+  const handleRemoveFromCart = async (productId) => {
+    const actions = await lazyLoadActions();
+    dispatch(actions.removeFromCart(productId));
   };
 
   if (cartItems.length === 0) {
@@ -117,16 +136,16 @@ const Cart = () => {
                     <div className='cart-item-all-buttons'>
                       <div className="cart-item-controls">
                         <button
-                          onClick={() => dispatch(updateCartItem(item.productId._id, item.quantity - 1))}
+                          onClick={() => handleUpdateCartItem(item.productId._id, item.quantity - 1)}
                           disabled={item.quantity === 1}
                           className={item.quantity === 1 ? 'disabled-button' : ''}
                         >
                           -
                         </button>
                         <span className="quantity">{item.quantity}</span>
-                        <button onClick={() => dispatch(updateCartItem(item.productId._id, item.quantity + 1))}>+</button>
+                        <button onClick={() => handleUpdateCartItem(item.productId._id, item.quantity + 1)}>+</button>
                       </div>
-                      <button className="remove-button" onClick={() => dispatch(removeFromCart(item.productId._id))}>
+                      <button className="remove-button" onClick={() => handleRemoveFromCart(item.productId._id)}>
                         <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Remove
                       </button>
                     </div>
@@ -139,7 +158,10 @@ const Cart = () => {
         <div className="cart-total">
           <h3>TOTAL AMOUNT: ₹{(totalAmount).toFixed(2)}</h3>
         </div>
-        <AddressManager onSelectAddress={setSelectedAddress} />
+        {/* Suspense for lazy-loaded components */}
+        <Suspense fallback={<div>Loading address manager...</div>}>
+          <AddressManager onSelectAddress={setSelectedAddress} />
+        </Suspense>
         <button
           className={`buy-button`}
           onClick={handleOrderConfirm}
@@ -149,11 +171,13 @@ const Cart = () => {
           <FontAwesomeIcon icon={faShoppingCart} /> Checkout
         </button>
         {showPopUp && (
-        <Popup 
-          message="Please add and select a delivery address before proceeding to Checkout page."
-          onClose={() => setShowPopUp(false)}
-        />
-      )}
+          <Suspense fallback={<div>Loading popup...</div>}>
+            <Popup 
+              message="Please add and select a delivery address before proceeding to Checkout page."
+              onClose={() => setShowPopUp(false)}
+            />
+          </Suspense>
+        )}
       </div>
     </>
   );
