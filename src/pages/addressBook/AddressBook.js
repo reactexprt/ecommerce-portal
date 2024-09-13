@@ -123,8 +123,6 @@ const AddressBook = () => {
     e.preventDefault();
     const isValid = validateForm();
     if (!isValid) {
-      setPopupMessage('Please fill in the highlighted empty fields.');
-      setShowPopup(true);
       return;
     }
 

@@ -54,7 +54,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-
 const loadable = (importFunc) => {
   return lazy(() =>
     importFunc().catch((err) => {
