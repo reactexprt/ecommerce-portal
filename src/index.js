@@ -5,15 +5,6 @@ import store from './redux/store';
 import App from './App';
 import './index.css';
 
-if (process.env.NODE_ENV === 'production') {
-  // Remove React DevTools in production
-  if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
-    for (const [key, value] of Object.entries(window.__REACT_DEVTOOLS_GLOBAL_HOOK__)) {
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__[key] = typeof value === 'function' ? () => {} : null;
-    }
-  }
-}
-
 // Dynamically import `createRoot` from `react-dom/client`
 import(/* webpackChunkName: "react-dom" */ 'react-dom/client')
   .then(({ createRoot }) => {
