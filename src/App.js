@@ -14,16 +14,14 @@ import ScrollToTop from './utils/ScrollToTop';
 import history from './services/history';
 import './App.css';
 
-self.addEventListener('message', function(event) {
-  console.log('Service Worker received a message:', event.data);
-});
-
 if (process.env.NODE_ENV === 'production') {
   // Initialize LogRocket with custom settings
   LogRocket.init('65vbkg/rasa', {
     release: 'v2.0.0',       // Set release version for tracking
     shouldCaptureIP: false,   // Disable IP capture if not needed
-    console: true,            // Capture console logs
+    console: {
+      isEnabled: true,
+    },
     network: {
       isEnabled: true,        // Enable network request tracking
       requestSanitizer: (request) => {
