@@ -153,7 +153,6 @@ module.exports = {
     // Define environment variables for use in the application
     new DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
         REACT_APP_CLIENT_ID: JSON.stringify(process.env.REACT_APP_CLIENT_ID), // Inject the client ID
         REACT_APP_RAZORPAY_KEY_ID: JSON.stringify(process.env.REACT_APP_RAZORPAY_KEY_ID), // Inject the Razorpay key
         REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
