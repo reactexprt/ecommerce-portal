@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faCheck, faMapMarkerAlt, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
@@ -6,7 +6,7 @@ import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import '../../components/addressManager/AddressManager.css';
-import Popup from '../../utils/alert/Popup';  // Import the Popup component
+const Popup = lazy(() => import('../../utils/alert/Popup'));  // Import the Popup component
 
 const AddressBook = () => {
   const [addresses, setAddresses] = useState([]);

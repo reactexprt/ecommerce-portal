@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -9,7 +9,7 @@ import { login } from '../../redux/actions/authActions';
 import GoogleSignIn from '../../components/GoogleSignIn';
 import FacebookSignin from '../../components/FacebookSignin';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
-import Popup from '../../utils/alert/Popup'; // Importing Popup component
+const Popup = lazy(() => import('../../utils/alert/Popup')); // Importing Popup component
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faSignInAlt, faKey, faUserPlus, faFingerprint, faLock, faShieldAlt, faQuoteLeft, faQuoteRight, faHeadset } from '@fortawesome/free-solid-svg-icons';

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './Register.css';
-import Popup from '../../utils/alert/Popup'; // Importing Popup component
+const Popup = lazy(() => import('../../utils/alert/Popup')); // Importing Popup component
 
 // WebAuthn library for registration
 import { startRegistration } from '@simplewebauthn/browser';
@@ -16,7 +16,6 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState(null);
   const [showPopUp, setShowPopUp] = useState(false); // For general popups
   const [popupMessage, setPopupMessage] = useState(''); // For holding popup message
   const [showConfirm, setShowConfirm] = useState(false); // For confirmation popups

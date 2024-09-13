@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy } from 'react';
 import api from '../../services/api';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +6,7 @@ import { faCheck, faMapMarkerAlt, faEdit, faTrash, faCheckCircle, faCircle, faSp
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './AddressManager.css';
-import Popup from '../../utils/alert/Popup';  // Import the Popup component
+const Popup = lazy(() => import('../../utils/alert/Popup'));  // Import the Popup component
 
 const AddressManager = ({ onSelectAddress }) => {
   const [addresses, setAddresses] = useState([]);
@@ -113,8 +113,8 @@ const AddressManager = ({ onSelectAddress }) => {
     e.preventDefault();
     const isValid = validateForm();
     if (!isValid) {
-      setPopupMessage('Please fill in the highlighted empty fields.');
-      setShowPopup(true);
+      // setPopupMessage('Please fill in the highlighted empty fields.');
+      // setShowPopup(true);
       return;
     }
 

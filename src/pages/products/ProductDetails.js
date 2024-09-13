@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import { addToCart } from '../../redux/actions/cartActions';
-import Popup from '../../utils/alert/Popup'; // Import Popup component
+const Popup = lazy(() => import('../../utils/alert/Popup')); // Import Popup component
 import './ProductDetails.css';
 
 const ProductDetails = () => {

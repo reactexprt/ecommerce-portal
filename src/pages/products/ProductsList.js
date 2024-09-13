@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faCartPlus, faCheck, faMinus, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Use dispatch to add t
 import { addToCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions'; // Add necessary cart actions
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
-import Popup from '../../utils/alert/Popup'; // Importing Popup component
+const Popup = lazy(() => import('../../utils/alert/Popup')); // Importing Popup component
 import './ProductsList.css';
 
 const ProductsList = () => {
