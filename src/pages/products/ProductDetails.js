@@ -84,6 +84,10 @@ const ProductDetails = () => {
         return 0;
     };
 
+    const calculateSavings = () => {
+        return Math.round(product.price - product.discountPrice);
+    };
+
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         if (isAuthenticated) {
@@ -231,21 +235,6 @@ const ProductDetails = () => {
 
             <div className="product-details-info">
                 <h1>{product.name}</h1>
-                <p>{product.description}</p>
-                <p className="product-details-price">
-                    {product.discountPrice ? (
-                        <>
-                            <span className="product-details-original-price">₹{product.price}</span>
-                            <span className='product-details-discount-price'>₹{product.discountPrice}</span>
-                            <span className="product-details-discount-percentage">
-                                ({calculateDiscountPercentage()}% off)
-                            </span>
-                        </>
-                    ) : (
-                        `₹${product.price}`
-                    )}
-                </p>
-
                 {/* Display Average Rating with Stars */}
                 <div className="product-average-rating">
                     <p>Average Rating: {product.averageRating}/5</p>
@@ -254,6 +243,24 @@ const ProductDetails = () => {
                     </div>
                 </div>
 
+                <p className="product-details-price">
+                {product.discountPrice ? (
+                    <>
+                        <span className="product-details-original-price">₹{product.price}</span>
+                        <span className='product-details-discount-price'>₹{product.discountPrice}</span>
+                        <span className="product-details-discount-percentage">
+                            ({calculateDiscountPercentage()}% off)
+                        </span>
+                        <span className="product-details-savings">
+                            You could save ₹{calculateSavings()}! on this product ✨ This deal is hotter than a summer day! Grab it now and save big!
+                        </span>
+                    </>
+                ) : (
+                    `₹${product.price}`
+                )}
+                </p>
+
+                {/* Buttons */}
                 <div className="modal-button-div">
                     <button className="custom-add-to-cart-button" onClick={handleAddToCart}>
                         Add to Cart
@@ -262,6 +269,11 @@ const ProductDetails = () => {
                         <FontAwesomeIcon icon={faHeart} style={{ color: inWishlist ? 'red' : 'orange' }} />
                         {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
                     </button>
+                </div>
+
+                <div id='product-description'>
+                    <h3>Product Details</h3>
+                    <p>{product.description}</p>
                 </div>
 
                 <div className="product-details-comments">

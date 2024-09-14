@@ -96,13 +96,25 @@
     margin-bottom: 10px;
 }
 
+#product-description {
+    margin-top: 50px;
+    margin-bottom: 0;
+}
+
+#product-description h3 {
+    font-size: .9rem;
+    color: var(--primary-text-color);
+    margin-bottom: 10px;
+}
+
 .product-details-price {
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 20px;
     display: flex;
     align-items: center; /* Aligns text and discount percentage in a row */
-    gap: 10px; /* Adds space between the original price, discounted price, and percentage */
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 /* Original price styling - Red with strikethrough */
@@ -129,6 +141,17 @@
     background-color: rgba(0, 255, 0, 0.1); /* Light green background for emphasis */
     padding: 5px 8px;
     border-radius: 5px;
+}
+
+.product-details-savings {
+    color: green;
+    font-size: .8rem;
+    font-weight: 500;
+    /* margin-left: 10px; */
+    background-color: rgba(0, 255, 0, 0.1);
+    padding: 5px 8px;
+    border-radius: 5px;
+    display: inline-block;
 }
 
 /* Add to Cart and Wishlist Buttons */
@@ -446,7 +469,8 @@
     .product-details-info p,
     .product-details-price,
     .product-details-comments h3,
-    .product-details-comment-form h3 {
+    .product-details-comment-form h3,
+    #product-description h3 {
         font-size: 0.8rem; /* Slightly smaller for compact view */
     }
 

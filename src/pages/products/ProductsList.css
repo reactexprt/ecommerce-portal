@@ -73,38 +73,51 @@
 .product-price {
   display: flex;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 20px;
   display: flex;
   align-items: center; /* Aligns text and discount percentage in a row */
-  gap: 10px; /* Adds space between the original price, discounted price, and percentage */
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* Original price styling - Red with strikethrough */
 .product-original-price {
   text-decoration: line-through;
   color: red; /* Red color for the original price */
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   margin-right: 10px;
 }
 
 /* Discounted price styling - Green and bold */
 .product-discount-price {
   color: green; /* Green color for the discounted price */
-  font-size: 1rem;
+  font-size: .9rem;
   font-weight: bold;
 }
 
 /* Discount percentage styling - Modern look in green */
 .product-discount-percentage {
   color: green;
-  font-size: 1rem; /* Smaller font size for the percentage */
+  font-size: .9rem; /* Smaller font size for the percentage */
   font-weight: 500;  /* Medium weight to differentiate it */
   margin-left: 10px; /* Adds space between the price and percentage */
   background-color: rgba(0, 255, 0, 0.1); /* Light green background for emphasis */
   padding: 5px 8px;
   border-radius: 5px;
+}
+
+.product-savings {
+  color: green;
+  font-size: .7rem;
+  font-weight: 500;
+  max-width: 60%;
+  text-align: center;
+  background-color: rgba(0, 255, 0, 0.1);
+  padding: 5px 8px;
+  border-radius: 5px;
+  display: inline-block;
 }
 
 .product-page-add-to-cart-button {

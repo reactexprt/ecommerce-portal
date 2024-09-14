@@ -44,13 +44,26 @@ const Cart = () => {
     );
   }
 
-
+  // Calculate total amount, savings, and discount percentage
   const totalAmount = cartItems.reduce((sum, item) => {
     if (item.productId && item.productId.discountPrice) {
       return sum + item.productId.discountPrice * item.quantity;
     }
+    return sum + item.productId.price * item.quantity;
+  }, 0);
+
+  const totalSavings = cartItems.reduce((sum, item) => {
+    if (item.productId && item.productId.price && item.productId.discountPrice) {
+      return sum + (item.productId.price - item.productId.discountPrice) * item.quantity;
+    }
     return sum;
   }, 0);
+
+  const originalTotal = cartItems.reduce((sum, item) => {
+    return sum + item.productId.price * item.quantity;
+  }, 0);
+
+  const totalDiscountPercentage = Math.round((totalSavings / originalTotal) * 100);
 
   const handleOrderConfirm = () => {
     if (selectedAddress) {
@@ -64,14 +77,6 @@ const Cart = () => {
     } else {
       setShowPopUp(true);
     }
-  };
-
-  // Function to calculate the discount percentage
-  const calculateDiscountPercentage = product => {
-    if (product && product.discountPrice && product.price) {
-      return Math.round(((product.price - product.discountPrice) / product.price) * 100);
-    }
-    return 0;
   };
 
   const handleUpdateCartItem = async (productId, quantity) => {
@@ -125,8 +130,11 @@ const Cart = () => {
                             <span className="cart-product-original-price">₹{item.productId.price}</span>
                             <span className="cart-product-discount-price">₹{item.productId.discountPrice}</span>
                             <span className="cart-product-discount-percentage">
-                              ({calculateDiscountPercentage(item.productId)}% off)
+                              ({Math.round(((item.productId.price - item.productId.discountPrice) / item.productId.price) * 100)}% off)
                             </span>
+                            <span className="cart-product-savings">
+                            💰 Jackpot! You will save a whopping ₹{Math.round(item.productId.price - item.productId.discountPrice)} on this product. Treat yourself!
+                        </span>
                           </>
                         ) : (
                           `₹${item.productId.price}`
@@ -134,6 +142,9 @@ const Cart = () => {
                       </p>
                     </div>
                     <div className='cart-item-all-buttons'>
+                      <button className="remove-button" onClick={() => handleRemoveFromCart(item.productId._id)}>
+                        <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Remove
+                      </button>
                       <div className="cart-item-controls">
                         <button
                           onClick={() => handleUpdateCartItem(item.productId._id, item.quantity - 1)}
@@ -145,9 +156,6 @@ const Cart = () => {
                         <span className="quantity">{item.quantity}</span>
                         <button onClick={() => handleUpdateCartItem(item.productId._id, item.quantity + 1)}>+</button>
                       </div>
-                      <button className="remove-button" onClick={() => handleRemoveFromCart(item.productId._id)}>
-                        <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Remove
-                      </button>
                     </div>
                   </div>
                 </>
@@ -156,7 +164,10 @@ const Cart = () => {
           ))}
         </div>
         <div className="cart-total">
-          <h3>TOTAL AMOUNT: ₹{(totalAmount).toFixed(2)}</h3>
+          <p className="total-discount-details">
+          🎉 Boom! You just pocketed ₹{totalSavings.toFixed(2)} in savings! That's a massive {totalDiscountPercentage}% off on your entire cart! Time to celebrate!
+          </p>
+          <h3 id='cart-total-amount'>TOTAL AMOUNT: ₹{(totalAmount).toFixed(2)}</h3>
         </div>
         {/* Suspense for lazy-loaded components */}
         <Suspense fallback={<div>Loading address manager...</div>}>

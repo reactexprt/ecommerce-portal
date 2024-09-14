@@ -19,7 +19,6 @@ const FacebookSignin = () => {
             return new Promise((resolve) => {
                 if (window.FB) {
                     window.FB.getLoginStatus(() => {
-                        console.log('FB SDK already initialized');
                         resolve(true);
                     });
                 } else {
@@ -34,8 +33,13 @@ const FacebookSignin = () => {
                             xfbml: true,
                             version: 'v16.0',
                         });
-                        window.FB.getLoginStatus(() => {
-                            resolve(true);
+                        window.FB.getLoginStatus((response) => {
+                            if (response.status === 'connected') {
+                              resolve(true);
+                            } else {
+                              console.log('User not logged into Facebook');
+                              resolve(false);
+                            }
                         });
                     };
                     document.body.appendChild(script);
@@ -43,11 +47,13 @@ const FacebookSignin = () => {
             });
         };
 
-        loadFacebookSDK().then(() => {
-            setFbInitialized(true);
-        }).catch((error) => {
-            console.error('Error loading FB SDK:');
-        });
+        if (process.env.NODE_ENV === 'production') {
+            loadFacebookSDK().then(() => {
+                setFbInitialized(true);
+            }).catch((error) => {
+                console.error('Error loading FB SDK:');
+            });
+        }
     }, []);
 
     // Define an async function to process Facebook login
@@ -74,8 +80,12 @@ const FacebookSignin = () => {
             navigate('/cart');
 
         } catch (error) {
-            console.error('Facebook Sign-In Error:');
+            console.error('Facebook Sign-In Error:', error);
+            if (process.env.NODE_ENV === 'production') {
+              LogRocket.captureException(error);
+            }
         }
+          
     };
 
     // Handle Facebook login
@@ -96,7 +106,7 @@ const FacebookSignin = () => {
     return (
         <button onClick={handleFacebookLogin} className="btn btn-facebook" disabled={!fbInitialized}>
             <FontAwesomeIcon icon={faFacebook} style={{ marginRight: '10px' }} />
-            {fbInitialized ? 'Login with Facebook' : 'Loading...'}
+            {fbInitialized ? 'Login with Facebook' : 'Loading Facebook...'}
         </button>
     );
 };

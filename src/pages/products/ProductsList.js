@@ -87,8 +87,12 @@ const ProductsList = () => {
     return cartItems.find(item => item.productId._id === productId);
   }, [cartItems]);
 
-  const handleProductClick = (productId) => {
+  const handleProductClick = productId => {
     navigate(`/products/product/${productId}`); // Navigate to product details
+  };
+
+  const calculateSavings = product => {
+    return Math.round(product.price - product.discountPrice);
   };
 
   if (loading && currentPage === 1) {
@@ -124,6 +128,9 @@ const ProductsList = () => {
                         <span className="product-discount-price">₹{product.discountPrice}</span>
                         <span className="product-discount-percentage">
                           ({calculateDiscountPercentage(product)}% off)
+                        </span>
+                        <span className="product-savings">
+                        🤑 Ka-boom! You can save ₹{calculateSavings(product)}! on this product
                         </span>
                       </>
                     ) : (

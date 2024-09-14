@@ -36,7 +36,8 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center; /* Aligns text and discount percentage in a row */
-  gap: 10px; /* Adds space between the original price, discounted price, and percentage */
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* Original price styling - Red with strikethrough */
@@ -63,6 +64,18 @@
   background-color: rgba(0, 255, 0, 0.1); /* Light green background for emphasis */
   padding: 5px 8px;
   border-radius: 5px;
+}
+
+.cart-product-savings {
+  color: green;
+  font-size: .8rem;
+  font-weight: 500;
+  /* margin-left: 10px; */
+  background-color: rgba(0, 255, 0, 0.1);
+  padding: 5px 8px;
+  border-radius: 5px;
+  width: 80%;
+  display: inline-block;
 }
 
 .cart-empty p {
@@ -153,7 +166,7 @@
 .cart-item-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .cart-item-controls button {
@@ -203,11 +216,28 @@
 
 /* Cart Total */
 .cart-total {
-  text-align: right;
-  margin-top: 20px;
-  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 1.3rem;
   font-weight: bold;
-  color: var(--primary-text-color)
+  width: 100%;
+  color: var(--primary-text-color);
+}
+#cart-total-amount {
+  margin-top: 5px;
+}
+/* Styling for the total discount details */
+.total-discount-details {
+  font-size: .9rem;
+  color: green;
+  font-weight: 500;
+  /* margin-top: 10px; */
+  background-color: rgba(0, 255, 0, 0.1); /* Light green background for emphasis */
+  padding: 10px;
+  max-width: 70%;
+  border-radius: 8px;
+  /* display: inline-block; */
 }
 
 /* Buy Button - Improved Styling */
@@ -274,7 +304,7 @@
   }
 
   .cart-total {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 
   .buy-button {
@@ -307,20 +337,31 @@
     font-size: 1rem;
   }
 
-  .cart-item-controls {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 0;
-    /* justify-content: space-between; */
-  }
-
   .buy-button {
     text-align: center !important;
     width: 100%; /* Full width on small devices */
     padding: 10px 15px; /* Ensure good tap target size */
   }
 
+  /* Cart Total */
   .cart-total {
-    font-size: 1.2rem;
+    align-items: flex-start;
+    font-size: 1rem;
+    width: 100%;
+  }
+  /* Styling for the total discount details */
+  .total-discount-details {
+    font-size: .8rem;
+    font-weight: bold;
+    max-width: 100%;
+  }
+
+  .cart-product-savings {
+    width: 100%;
+  }
+
+  .cart-item-all-buttons {
+    width: 100%;
+    justify-content: space-between;
   }
 }
