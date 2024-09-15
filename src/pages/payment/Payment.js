@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faLock, faShieldAlt, faUserSecret, faUniversity, faMoneyCheckAlt, faWallet, faCreditCard, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faLock, faShieldAlt, faUserSecret, faUniversity, faMoneyCheckAlt, faWallet, faCreditCard, faEnvelope, faPhone, faShoppingCart, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faCcVisa, faCcMastercard, faGooglePay } from '@fortawesome/free-brands-svg-icons';
 import api from '../../services/api';
 import { clearCart } from '../../redux/actions/cartActions';
+import CheckoutProgress from '../../utils/progressbar/CheckoutProgress';
 import './Payment.css';
+
+const Popup = lazy(() => import('../../utils/alert/Popup'));
 
 const loadRazorpay = () => {
   return new Promise((resolve) => {
@@ -47,6 +50,7 @@ const PaymentForm = () => {
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   // Fetch user profile when the component mounts if the user is authenticated.
   useEffect(() => {
@@ -94,6 +98,7 @@ const PaymentForm = () => {
 
     if (!res) {
       setError('Razorpay SDK failed to load. Are you online?');
+      setShowPopup(true);  // Trigger popup when Razorpay fails to load
       setProcessing(false);
       return;
     }
@@ -122,10 +127,10 @@ const PaymentForm = () => {
             setLoading(true);
             try {
               await api.post('/cart/clear');
-              dispatch(clearCart());
               await sendOrder(location.state.selectedAddress, totalAmount, cartItems);
               setSucceeded(true);
               setError(null);
+              dispatch(clearCart());
               setLoading(false);
               navigate('/payment-success', {
                 state: {
@@ -139,10 +144,12 @@ const PaymentForm = () => {
               });
             } catch (err) {
               setError('Something went wrong while processing your order. Please try again.');
+              setShowPopup(true);
               setLoading(false);
             }
           } else {
             setError('Payment verification failed. Please contact support.');
+            setShowPopup(true);
           }
         },
         prefill: {
@@ -159,10 +166,15 @@ const PaymentForm = () => {
       paymentObject.open();
     } catch (error) {
       setError('Something went wrong. Please try again.');
+      setShowPopup(true);
       setProcessing(false);
     }
 
     setProcessing(false);
+  };
+
+  const handleBackToAddress = () => {
+    navigate('/addresses');
   };
 
   if (loading) {
@@ -176,114 +188,132 @@ const PaymentForm = () => {
   }
 
   return (
-    <div className="payment-form">
-      <h1>Checkout</h1>
-      <h2>Complete Your Payment</h2>
-      <div className="total-amount">Total Amount: ₹{totalAmount.toFixed(2)}</div>
+    <>
+      {showPopup && (
+        <Suspense fallback={<div>Loading popup...</div>}>
+          <Popup
+            message={error}
+            onClose={() => setShowPopup(false)}
+          />
+        </Suspense>
+      )}
 
-      {/* Trust Section */}
-      <div className="payment-trust-section">
-        <div className="payment-trust-icons">
-          <div className="payment-trust-item">
-            <FontAwesomeIcon icon={faLock} className="payment-trust-item-icon" /> SSL Secured
+      {/* Payment Form (checkout) */}
+      <div className="payment-form">
+        <h1>Checkout</h1>
+        <h2>Complete Your Payment</h2>
+        <div className="total-amount">Total Amount: ₹{totalAmount.toFixed(2)}</div>
+
+        {/* Trust Section */}
+        <div className="payment-trust-section">
+          <div className="payment-trust-icons">
+            <div className="payment-trust-item">
+              <FontAwesomeIcon icon={faLock} className="payment-trust-item-icon" /> SSL Secured
+            </div>
+            <div className="payment-trust-item">
+              <FontAwesomeIcon icon={faShieldAlt} className="payment-trust-item-icon" /> 100% Secure Payment
+            </div>
+            <div className="payment-trust-item">
+              <FontAwesomeIcon icon={faUserSecret} className="payment-trust-item-icon" /> Privacy Protected
+            </div>
           </div>
-          <div className="payment-trust-item">
-            <FontAwesomeIcon icon={faShieldAlt} className="payment-trust-item-icon" /> 100% Secure Payment
-          </div>
-          <div className="payment-trust-item">
-            <FontAwesomeIcon icon={faUserSecret} className="payment-trust-item-icon" /> Privacy Protected
-          </div>
+          <p className="security-info">We don’t save your payment details for security purposes. Your information is encrypted and secured.</p>
         </div>
-        <p className="security-info">We don’t save your payment details for security purposes. Your information is encrypted and secured.</p>
-      </div>
 
-      {/* Form fields for payment */}
-      <div className="form-group">
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          disabled
-          autoComplete='name'
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          value={email || ''}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          disabled
-          autoComplete='email'
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="contact">Contact Number</label>
-        <input
-          type="tel"
-          id="contact"
-          value={contact || ''}
-          onChange={(e) => setContact(e.target.value)}
-          required
-          disabled
-          autoComplete='tel'
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="address">Shipping Address</label>
-        <textarea
-          id="address"
-          value={address || ''}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-          rows="3"
-          disabled
-          autoComplete='street-address'
-        />
-      </div>
+        {/* Form fields for payment */}
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            disabled
+            autoComplete='name'
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email || ''}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled
+            autoComplete='email'
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="contact">Contact Number</label>
+          <input
+            type="tel"
+            id="contact"
+            value={contact || ''}
+            onChange={(e) => setContact(e.target.value)}
+            required
+            disabled
+            autoComplete='tel'
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="address">Shipping Address</label>
+          <textarea
+            id="address"
+            value={address || ''}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+            rows="3"
+            disabled
+            autoComplete='street-address'
+          />
+        </div>
 
-      {/* Payment Method Icons */}
-      <div className="payment-method-icons">
-        <FontAwesomeIcon icon={faCcVisa} className="payment-icon" title="Visa" />
-        <FontAwesomeIcon icon={faCcMastercard} className="payment-icon" title="MasterCard" />
-        <FontAwesomeIcon icon={faGooglePay} className="payment-icon" title="Google Pay" />
-        <FontAwesomeIcon icon={faCreditCard} className="payment-icon" title="Credit Card" />
-        <FontAwesomeIcon icon={faMoneyCheckAlt} className="payment-icon" title="Bank Transfer" />
-        <FontAwesomeIcon icon={faUniversity} className="payment-icon" title="Net Banking" />
-        <FontAwesomeIcon icon={faWallet} className="payment-icon" title="Wallet" />
-      </div>
+        {/* Payment Method Icons */}
+        <div className="payment-method-icons">
+          <FontAwesomeIcon icon={faCcVisa} className="payment-icon" title="Visa" />
+          <FontAwesomeIcon icon={faCcMastercard} className="payment-icon" title="MasterCard" />
+          <FontAwesomeIcon icon={faGooglePay} className="payment-icon" title="Google Pay" />
+          <FontAwesomeIcon icon={faCreditCard} className="payment-icon" title="Credit Card" />
+          <FontAwesomeIcon icon={faMoneyCheckAlt} className="payment-icon" title="Bank Transfer" />
+          <FontAwesomeIcon icon={faUniversity} className="payment-icon" title="Net Banking" />
+          <FontAwesomeIcon icon={faWallet} className="payment-icon" title="Wallet" />
+        </div>
 
-      {/* SSL Certification Badge */}
-      <div className="ssl-secure">
-        <FontAwesomeIcon icon={faLock} className="icon" />
-        <p>Your connection is SSL secured.</p>
-      </div>
+        {/* SSL Certification Badge */}
+        <div className="ssl-secure">
+          <FontAwesomeIcon icon={faLock} className="icon" />
+          <p>Your connection is SSL secured.</p>
+        </div>
 
-      {/* Money-Back Guarantee */}
-      <div className="money-back-guarantee">
-        <FontAwesomeIcon icon={faShieldAlt} className="icon" />
-        <p>7-day Money-Back Guarantee</p>
-      </div>
+        {/* Money-Back Guarantee */}
+        <div className="money-back-guarantee">
+          <FontAwesomeIcon icon={faShieldAlt} className="icon" />
+          <p>7-day Money-Back Guarantee</p>
+        </div>
 
-      {/* Contact Information */}
-      <div className="contact-info">
-        <p>
-          <FontAwesomeIcon icon={faEnvelope} className="icon-margin" /> Need Help? Contact us at
-          <a href="mailto:contact@himalayanrasa.com"> contact@himalayanrasa.com </a>
-          or <FontAwesomeIcon icon={faPhone} className="icon-margin" /> call +91-8588-904-438.
-        </p>
-      </div>
+        {/* Contact Information */}
+        <div className="contact-info">
+          <p>
+            <FontAwesomeIcon icon={faEnvelope} className="icon-margin" /> Need Help? Contact us at
+            <a href="mailto:contact@himalayanrasa.com"> contact@himalayanrasa.com </a>
+            or <FontAwesomeIcon icon={faPhone} className="icon-margin" /> call +91-8588-904-438.
+          </p>
+        </div>
 
-      <button type="submit" className="pay-button" disabled={processing || succeeded} onClick={handleSubmit}>
-        {processing ? <FontAwesomeIcon icon={faSpinner} spin /> : <><FontAwesomeIcon icon={faLock} className="icon-margin" /> Order Now</>}
-      </button>
-      {error && <div className="error-message">{error}</div>}
-    </div>
+        <div className="payemnt-page-button-group">
+          <button className="payment-back-button" onClick={handleBackToAddress}>
+            <FontAwesomeIcon icon={faMapMarkerAlt} className='icon-margin' /> Back to Address
+          </button>
+          <button type="submit" className="pay-button" disabled={processing || succeeded} onClick={handleSubmit}>
+            {processing ? <FontAwesomeIcon icon={faSpinner} spin /> : <><FontAwesomeIcon icon={faLock} className="icon-margin" /> Order Now</>}
+          </button>
+        </div>
+
+        {error && <div className="error-message">{error}</div>}
+      </div>
+    </>
   );
 };
 
@@ -293,6 +323,8 @@ const Payment = () => {
       <Helmet>
         <title>Payment - Ħimalayan R̥asa</title>
       </Helmet>
+      {/* Integrating CheckoutProgress Component */}
+      <CheckoutProgress currentStep={3} />
       <div className="payment-page">
         <div className="payment-container">
           <PaymentForm />

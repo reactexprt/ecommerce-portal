@@ -1,0 +1,97 @@
+@import '../../styles/variables.css';
+
+/* Progressive Checkout Container */
+.checkout-progress {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+  }
+  
+  .checkout-progress ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+  }
+  
+  /* Step Style */
+  .checkout-progress .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    width: 33.33%; /* Ensure equal width for each step */
+    position: relative;
+    text-align: center; /* Centers text under the icon */
+  }
+  
+  .checkout-progress .step .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ccc; /* Default background */
+    color: #fff;
+    font-size: 1.5rem;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 1; /* Ensure icons stay above the bar */
+  }
+  
+  .checkout-progress .step .label {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #b5abab;
+    font-weight: 600;
+  }
+  
+  /* Connecting bar between steps */
+  .checkout-progress .step::before {
+    content: "";
+    position: absolute;
+    top: 32%; /* Align the bar to be centered vertically with the icons */
+    left: 50%;
+    transform: translateX(-100%); 
+    width: 100%; /* Adjust the width dynamically to bridge the gap */
+    height: 4px;
+    background-color: #ccc; /* Default background for the bar */
+    z-index: 0; /* Keep it behind the icon */
+  }
+  
+  .checkout-progress .step:first-child::before {
+    content: none;
+  }
+  
+  /* Active and Completed Steps */
+  .checkout-progress .step.completed .icon {
+    background-color: var(--button-bg-color); /* Customize color for active/completed icons */
+    color: white;
+  
+  }
+  .checkout-progress .step.active .icon {
+    background-color: var(--button-hover-bg-color); /* Customize color for active/completed icons */
+    color: white;
+  }
+  
+  .checkout-progress .step.completed .label {
+    color: var(--button-bg-color);/* Lighter color for the completed step label */
+  }
+  
+  .checkout-progress .step.completed::before {
+    background-color: var(--button-bg-color);
+    /* animation: fillProgressBar 0.6s ease forwards; */
+  }
+  
+  .checkout-progress .step.active .label {
+    color: var(--button-hover-bg-color);
+    font-weight: bold;
+  }
+  
+  /* Incomplete steps retain the default bar color */
+  .checkout-progress .step:not(.completed)::before {
+    background-color: #ccc; /* Gray bar for incomplete steps */
+  }

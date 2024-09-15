@@ -86,3 +86,39 @@ body {
   transform: scale(1.02);
   transition: transform 0.3s ease-out;
 }
+
+/* Stock styles */
+.stock-status {
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 500;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.stock-status.in-stock {
+  color: #28a745; /* Green for in-stock */
+}
+
+.stock-status.low-stock {
+  color: #ffc107; /* Yellow for low stock */
+  font-weight: bold;
+}
+
+.stock-status.out-of-stock {
+  color: #dc3545; /* Red for out-of-stock */
+  font-weight: bold;
+}
+
+.stock-status::before {
+  content: '🛒 '; /* Add a shopping cart icon */
+}
+
+.low-stock::before {
+  content: '⚠️ '; /* Add a warning icon for low stock */
+}
+
+.out-of-stock::before {
+  content: '❌ '; /* Add a cross icon for out-of-stock */
+}
+

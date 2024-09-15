@@ -244,20 +244,28 @@ const ProductDetails = () => {
                 </div>
 
                 <p className="product-details-price">
-                {product.discountPrice ? (
-                    <>
-                        <span className="product-details-original-price">₹{product.price}</span>
-                        <span className='product-details-discount-price'>₹{product.discountPrice}</span>
-                        <span className="product-details-discount-percentage">
-                            ({calculateDiscountPercentage()}% off)
-                        </span>
-                        <span className="product-details-savings">
-                            You could save ₹{calculateSavings()}! on this product ✨ This deal is hotter than a summer day! Grab it now and save big!
-                        </span>
-                    </>
-                ) : (
-                    `₹${product.price}`
-                )}
+                    {product.discountPrice ? (
+                        <>
+                            <span className="product-details-original-price">₹{product.price}</span>
+                            <span className='product-details-discount-price'>₹{product.discountPrice}</span>
+                            <span className="product-details-discount-percentage">
+                                ({calculateDiscountPercentage()}% off)
+                            </span>
+                            <span className="product-details-savings">
+                                You could save ₹{calculateSavings()}! on this product ✨ This deal is hotter than a summer day! Grab it now and save big!
+                            </span>
+                        </>
+                    ) : (
+                        `₹${product.price}`
+                    )}
+                </p>
+
+                <p className={`stock-status ${product.stock === 0 ? 'out-of-stock' : ''} ${product.stock < 5 && product.stock > 0 ? 'low-stock' : ''}`}>
+                    {product.stock > 0
+                        ? product.stock < 5
+                            ? `Only ${product.stock} left!`
+                            : `In stock: ${product.stock}`
+                        : 'Out of stock'}
                 </p>
 
                 {/* Buttons */}

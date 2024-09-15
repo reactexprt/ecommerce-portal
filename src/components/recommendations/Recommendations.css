@@ -1,0 +1,54 @@
+.recommendations-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .recommendations-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .recommended-products {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .recommended-product {
+    width: 150px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommended-product img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .recommended-product h4 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .recommended-product p {
+    font-size: 0.9rem;
+    margin: 5px 0;
+  }
+  
+  .in-stock {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .out-of-stock {
+    color: red;
+    font-weight: bold;
+  }
+  

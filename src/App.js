@@ -80,6 +80,7 @@ const Footer = loadable(() => import('./pages/footer/Footer'));
 const PreviousOrders = loadable(() => import('./pages/previousOrders/PreviousOrders'));
 const UserProfile = loadable(() => import('./pages/userProfile/UserProfile'));
 const AddressBook = loadable(() => import('./pages/addressBook/AddressBook'));
+const AddressManager = loadable(() => import('./components/addressManager/AddressManager'));
 const Wishlist = loadable(() => import('./pages/wishlist/Wishlist'));
 const Notifications = loadable(() => import('./pages/notifications/Notifications'));
 const AccountSettings = loadable(() => import('./pages/accountSettings/AccountSettings'));
@@ -234,6 +235,16 @@ function App() {
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
                       <Cart />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/addresses"
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <AddressManager />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
                 }
