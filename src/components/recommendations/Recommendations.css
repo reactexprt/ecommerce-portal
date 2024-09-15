@@ -1,54 +1,193 @@
 .recommendations-section {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-  }
-  
-  .recommendations-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .recommended-products {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Style for the message when no recommendations are available */
+.no-recommendations-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.no-recommendations-message {
+  font-size: 1.2rem;
+  color: #666;
+  padding: 10px;
+}
+
+/* Recommendations section heading */
+.recommendations-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.recommended-products {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Recommended product cards */
+.recommended-product {
+  width: 150px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover effect for product cards */
+.recommended-product:hover {
+  transform: translateY(-5px); /* Lifts the product slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Increases shadow on hover */
+  background-color: #f0f0f0; /* Light background shade change */
+}
+
+/* Image styling inside product cards */
+.recommended-product img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+/* Slight zoom effect on the image when hovering over the product */
+.recommended-product:hover img {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.recommended-product h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+/* Color change on hover for product title */
+.recommended-product:hover h4 {
+  color: #007bff; /* Change to a blue shade on hover */
+}
+
+.recommended-product p {
+  font-size: 0.9rem;
+  margin: 5px 0;
+  transition: color 0.3s ease;
+}
+
+/* Pricing section */
+.product-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.product-original-price {
+  text-decoration: line-through;
+  color: red;
+  font-size: 0.8rem;
+}
+
+.product-discount-price {
+  color: green;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.in-stock {
+  color: green;
+  font-weight: bold;
+}
+
+.out-of-stock {
+  color: red;
+  font-weight: bold;
+}
+
+/* Hover effect for product price */
+.recommended-product:hover .product-original-price,
+.recommended-product:hover .product-discount-price {
+  color: #0056b3; /* Darker shade of blue for the price on hover */
+}
+
+/* Responsive Styles for Mobile and Tablet */
+
+/* Tablet Devices (Portrait and Landscape) */
+@media (max-width: 1024px) {
   .recommended-product {
-    width: 150px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
   }
-  
-  .recommended-product img {
+
+  .recommended-product h4 {
+    font-size: 1.2rem;
+  }
+
+  .product-original-price, .product-discount-price {
+    font-size: 0.9rem;
+  }
+
+  .recommendations-section h3 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Mobile Devices (Portrait and Landscape) */
+@media (max-width: 768px) {
+  .recommended-products {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .recommended-product {
     width: 100%;
-    height: auto;
-    margin-bottom: 10px;
   }
-  
+
+  .recommended-product h4 {
+    font-size: 1.1rem;
+  }
+
+  .product-original-price, .product-discount-price {
+    font-size: 0.85rem;
+  }
+
+  .recommendations-section h3 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Small Mobile Devices (Portrait) */
+@media (max-width: 480px) {
+  .recommended-products {
+    gap: 10px;
+  }
+
+  .recommended-product {
+    width: 100%;
+    padding: 8px;
+  }
+
   .recommended-product h4 {
     font-size: 1rem;
-    margin-bottom: 5px;
   }
-  
-  .recommended-product p {
-    font-size: 0.9rem;
-    margin: 5px 0;
+
+  .product-original-price, .product-discount-price {
+    font-size: 0.8rem;
   }
-  
-  .in-stock {
-    color: green;
-    font-weight: bold;
+
+  .recommendations-section h3 {
+    font-size: 1.4rem;
   }
-  
-  .out-of-stock {
-    color: red;
-    font-weight: bold;
+
+  .no-recommendations-message {
+    font-size: 1.1rem;
   }
-  
+}

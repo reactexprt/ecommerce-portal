@@ -1,60 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
 import './Recommendations.css';
 
 const Recommendations = ({ cartItems }) => {
   const [recommendedProducts, setRecommendedProducts] = useState([]);
 
   useEffect(() => {
-    // Assuming you have a function to fetch recommendations based on cart items
-    fetchRecommendations(cartItems);
+    // Fetch recommended products based on cart items
+    if (cartItems.length > 0) {
+      fetchRecommendations(cartItems);
+    }
   }, [cartItems]);
 
-  // Fetch recommended products based on cart items
+  // Fetch recommended products from the API
   const fetchRecommendations = async (cartItems) => {
     try {
-      // Mock API call to get recommendations (Replace with your real API)
-      const response = await mockFetchRecommendedProducts(cartItems);
-      setRecommendedProducts(response);
+      const productIds = cartItems.map((item) => item.productId._id); // Extract product IDs from cart items
+
+      // Make an API call to get related products
+      const response = await api.post('/products/related', { productIds });
+      const data = response.data;
+
+      // Prepend the hardcoded product to the fetched related products
+      setRecommendedProducts(data.products);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }
   };
 
-  // Mock function to simulate fetching recommended products
-  const mockFetchRecommendedProducts = (cartItems) => {
-    // You can replace this logic with real API data
-    const exampleRecommendations = [
-      {
-        _id: 'product1',
-        name: 'Recommended Product 1',
-        price: 499,
-        image: '/images/recommended1.jpg',
-        stock: 10,
-      },
-      {
-        _id: 'product2',
-        name: 'Recommended Product 2',
-        price: 599,
-        image: '/images/recommended2.jpg',
-        stock: 5,
-      },
-      {
-        _id: 'product3',
-        name: 'Recommended Product 3',
-        price: 799,
-        image: '/images/recommended3.jpg',
-        stock: 0, // Out of stock
-      },
-    ];
-
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(exampleRecommendations), 1000); // Simulate network delay
-    });
-  };
-
   if (!recommendedProducts.length) {
-    return <p>No recommendations at the moment. Check back later!</p>;
+    return (
+      <div className="no-recommendations-section">
+        <p className="no-recommendations-message">No recommendations at the moment. Please, Check back later!</p>
+      </div>
+    );
   }
 
   return (
@@ -64,10 +44,27 @@ const Recommendations = ({ cartItems }) => {
         {recommendedProducts.map((product) => (
           <div className="recommended-product" key={product._id}>
             <Link to={`/products/product/${product._id}`} className="link-decoration-common">
-              <img src={product.image} alt={product.name} className="recommended-product-image" />
+              {/* Accessing the first image from the images array */}
+              <img
+                src={product.images && product.images.length > 0 ? product.images[0] : '/images/default.jpg'}
+                alt={product.name}
+                className="recommended-product-image"
+              />
               <h4>{product.name}</h4>
             </Link>
-            <p>₹{product.price}</p>
+
+            {/* Show discount price with original price */}
+            <p className="product-price">
+              {product.discountPrice ? (
+                <>
+                  <span className="product-original-price">₹{product.price}</span>
+                  <span className="product-discount-price">₹{product.discountPrice}</span>
+                </>
+              ) : (
+                `₹${product.price}`
+              )}
+            </p>
+
             {product.stock > 0 ? (
               <p className="in-stock">In stock: {product.stock}</p>
             ) : (

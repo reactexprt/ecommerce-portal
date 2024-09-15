@@ -91,13 +91,13 @@ body {
 .stock-status {
   font-size: 14px;
   padding: 10px;
-  font-weight: 500;
   border-radius: 5px;
   margin-top: 10px;
 }
 
 .stock-status.in-stock {
-  color: #28a745; /* Green for in-stock */
+  color: #28a745;
+  font-weight: bold;
 }
 
 .stock-status.low-stock {
@@ -111,11 +111,14 @@ body {
 }
 
 .stock-status::before {
-  content: '🛒 '; /* Add a shopping cart icon */
+  content: '🛒 ';
+  font-size: 18px;
+  margin-right: 5px;
 }
 
 .low-stock::before {
   content: '⚠️ '; /* Add a warning icon for low stock */
+  font-size: 20px;
 }
 
 .out-of-stock::before {

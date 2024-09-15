@@ -130,7 +130,7 @@ const AdminProductUpload = () => {
             const response = await api.post('/products', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setPopupMessage(`Yayyy!! Product ${response.data.name} uploaded successfully!`);
+            setPopupMessage(`Yayyy!! Product ${response.data.product.name} uploaded successfully!`);
             setShowPopup(true);
         } catch (error) {
             setPopupMessage('Ooops!! Error uploading product, please try again later');
@@ -371,7 +371,7 @@ const AdminProductUpload = () => {
                     type="text"
                     name="synonyms"
                     placeholder="Synonyms (comma-separated)"
-                    value={singleProduct.synonyms}
+                    value={singleProduct.synonyms || ''}
                     onChange={handleInputChange} // Capture synonym input
                     className="admin-input"
                 />

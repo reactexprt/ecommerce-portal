@@ -260,7 +260,7 @@ const ProductDetails = () => {
                     )}
                 </p>
 
-                <p className={`stock-status ${product.stock === 0 ? 'out-of-stock' : ''} ${product.stock < 5 && product.stock > 0 ? 'low-stock' : ''}`}>
+                <p className={`stock-status ${product.stock > 5 ? 'in-stock' : ''} ${product.stock === 0 ? 'out-of-stock' : ''} ${product.stock < 5 && product.stock > 0 ? 'low-stock' : ''}`}>
                     {product.stock > 0
                         ? product.stock < 5
                             ? `Only ${product.stock} left!`

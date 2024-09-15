@@ -146,16 +146,19 @@ const Cart = () => {
                             <span className="cart-product-discount-percentage">
                               ({Math.round(((item.productId.price - item.productId.discountPrice) / item.productId.price) * 100)}% off)
                             </span>
-                            <span className="cart-product-savings">
-                              💰 Jackpot! You will save a whopping ₹{Math.round(item.productId.price - item.productId.discountPrice)} on this product. Treat yourself!
-                            </span>
                           </>
                         ) : (
                           `₹${item.productId.price}`
                         )}
                       </p>
 
-                      <p className={`stock-status ${item.productId.stock === 0 ? 'out-of-stock' : ''} ${item.productId.stock < 5 && item.productId.stock > 0 ? 'low-stock' : ''}`}>
+                      <p>
+                        <span className="cart-product-savings">
+                          💰 Jackpot! You will save a whopping ₹{Math.round(item.productId.price - item.productId.discountPrice)} on this product. Treat yourself!
+                        </span>
+                      </p>
+
+                      <p className={`stock-status ${item.productId.stock > 5 ? 'in-stock' : ''} ${item.productId.stock === 0 ? 'out-of-stock' : ''} ${item.productId.stock < 5 && item.productId.stock > 0 ? 'low-stock' : ''}`}>
                         {item.productId.stock > 0 
                           ? item.productId.stock < 5 
                             ? `Only ${item.productId.stock} left!` 
@@ -197,19 +200,19 @@ const Cart = () => {
         {/* Total amount and savings */}
         <div className="cart-total">
           <p className="total-discount-details">
-            🎉 Boom! You just pocketed ₹{totalSavings.toFixed(2)} in savings! That's a massive {totalDiscountPercentage}% off on your entire cart! Time to celebrate!
+            🎉 Yayy! You just pocketed ₹{totalSavings.toFixed(2)} in savings! That's a massive {totalDiscountPercentage}% off on your entire cart! Time to celebrate!
           </p>
           <h3 id='cart-total-amount'>TOTAL AMOUNT: ₹{(totalAmount).toFixed(2)}</h3>
         </div>
+
+        <button className="buy-button" onClick={handleProceedToAddress}>
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> Proceed to Address
+        </button>
 
         {/* Product Recommendations */}
         <Suspense fallback={<div>Loading product recommendations...</div>}>
           <Recommendations cartItems={cartItems} />
         </Suspense>
-
-        <button className="buy-button" onClick={handleProceedToAddress}>
-          <FontAwesomeIcon icon={faMapMarkerAlt} /> Proceed to Address
-        </button>
       </div>
 
       {/* Popup for alert messages */}

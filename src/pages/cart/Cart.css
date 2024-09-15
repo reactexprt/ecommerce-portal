@@ -73,13 +73,13 @@
 
 .cart-product-savings {
   color: green;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  /* margin-left: 10px; */
+  margin-top: 10px;
   background-color: rgba(0, 255, 0, 0.1);
   padding: 5px 8px;
   border-radius: 5px;
-  max-width: 80%;
+  width: auto;
   display: inline-block;
 }
 
@@ -243,51 +243,11 @@
 .total-discount-details {
   font-size: 0.9rem;
   color: green;
-  font-weight: 500;
+  font-weight: bold;
   background-color: rgba(0, 255, 0, 0.1);
   padding: 10px;
   max-width: 70%;
   border-radius: 8px;
-}
-
-/* "Saved for Later" Section */
-.saved-for-later {
-  margin-top: 30px;
-  background-color: var(--secondary-bg-color);
-  padding: 15px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-}
-
-.saved-for-later h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-}
-
-.saved-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.saved-item h4 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.saved-item button {
-  background-color: var(--button-bg-color);
-  color: white;
-  border: none;
-  padding: 5px 15px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.saved-item button:hover {
-  background-color: var(--button-hover-bg-color);
 }
 
 /* Buy Button */
