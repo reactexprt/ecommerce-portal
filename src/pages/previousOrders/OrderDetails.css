@@ -60,7 +60,7 @@
     align-items: center;
     margin: 40px 0;
     position: relative;
-    width: 100%; 
+    width: 100%;
     padding: 0 0; /* No additional padding */
 }
 
@@ -183,26 +183,76 @@
     color: var(--secondary-text-color);
 }
 
-/* Related products */
-.od-related-products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
+/* Related products section */
+.od-related-products {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.od-related-product-card {
+/* Heading for related products */
+.od-related-products h4 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #333;
     text-align: center;
 }
 
+/* Related products grid layout */
+.od-related-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    /* Adjust card size */
+    gap: 20px;
+}
+
+/* Product card styling */
+.od-related-product-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover effect for product card */
+.od-related-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Product image styling */
 .od-related-product-image {
     width: 100%;
-    border-radius: var(--border-radius);
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
     margin-bottom: 10px;
 }
 
+/* Image zoom effect on hover */
+.od-related-product-card:hover .od-related-product-image {
+    transform: scale(1.05);
+}
+
+/* Product name styling */
 .od-related-product-name {
     font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #333;
+    transition: color 0.3s ease;
 }
+
+/* Hover effect for product name */
+.od-related-product-card:hover .od-related-product-name {
+    color: #007bff;
+    /* Changes to blue on hover */
+}
+
 
 .od-link {
     text-decoration: none;
@@ -221,7 +271,8 @@
     margin-top: 30px;
 }
 
-.od-support-link, .od-back-link {
+.od-support-link,
+.od-back-link {
     background-color: var(--button-bg-color);
     color: var(--button-text-color);
     padding: 12px 20px;
@@ -233,7 +284,8 @@
     box-shadow: var(--box-shadow);
 }
 
-.od-support-link:hover, .od-back-link:hover {
+.od-support-link:hover,
+.od-back-link:hover {
     background-color: var(--button-hover-bg-color);
     transform: translateY(-2px);
 }
@@ -332,13 +384,28 @@
         margin-top: 20px;
     }
 
-    .od-support-link, .od-back-link {
+    .od-support-link,
+    .od-back-link {
         width: 90%;
         margin-bottom: 15px;
         padding: 15px 0;
     }
 
-    .od-support-link, .od-back-link {
+    .od-support-link,
+    .od-back-link {
         font-size: 1rem;
+    }
+
+    .od-related-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        /* Smaller card size on mobile */
+    }
+
+    .od-related-product-name {
+        font-size: 1rem;
+    }
+
+    .od-related-products h4 {
+        font-size: 1.4rem;
     }
 }

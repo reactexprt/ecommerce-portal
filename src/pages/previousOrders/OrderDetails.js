@@ -133,19 +133,19 @@ const OrderDetails = () => {
 
                 {/* Related Products */}
                 {relatedProducts.length > 0 && (
-                    <div className="od-related-products">
-                        <h4>You Might Also Like</h4>
-                        <div className="od-related-products-grid">
-                            {relatedProducts.map(product => (
-                                <div key={product._id} className="od-related-product-card">
-                                    <Link to={`/products/product/${product._id}`}>
-                                        <img src={product.images[0]} alt={product.name} className="od-related-product-image" />
-                                        <p className="od-related-product-name">{product.name}</p>
-                                    </Link>
-                                </div>
-                            ))}
+                <div className="od-related-products">
+                    <h4>You Might Also Like</h4>
+                    <div className="od-related-products-grid">
+                    {relatedProducts.map(product => (
+                        <div key={product._id} className="od-related-product-card">
+                        <Link to={`/products/product/${product._id}`} className='od-link'>
+                            <img src={product.images[0]} alt={product.name} className="od-related-product-image" />
+                            <p className="od-related-product-name">{product.name}</p>
+                        </Link>
                         </div>
+                    ))}
                     </div>
+                </div>
                 )}
 
                 <div className="od-actions">
