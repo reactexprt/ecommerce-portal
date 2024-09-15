@@ -164,7 +164,7 @@
 }
 
 .custom-add-to-cart-button {
-    padding: 12px 51.5px;
+    padding: 13px 38px;
     background-color: var(--button-bg-color);
     color: var(--button-text-color);
     border: none;
@@ -173,6 +173,10 @@
     font-family: var(--font-family-secondary);
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-add-to-cart-button svg {
+    margin-right: 5px;
 }
 
 .custom-add-to-cart-button:hover {
@@ -480,7 +484,7 @@
     }
 
     .custom-add-to-cart-button {
-        padding: 11.5px 40px;
+        padding: 11.5px 30px;
         font-size: 0.8rem;
     }
 

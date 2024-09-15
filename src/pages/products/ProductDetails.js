@@ -2,7 +2,7 @@ import React, { useState, useEffect, lazy } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faHeart, faSpinner, faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import { addToCart } from '../../redux/actions/cartActions';
 const Popup = lazy(() => import('../../utils/alert/Popup')); // Import Popup component
@@ -271,7 +271,7 @@ const ProductDetails = () => {
                 {/* Buttons */}
                 <div className="modal-button-div">
                     <button className="custom-add-to-cart-button" onClick={handleAddToCart}>
-                        Add to Cart
+                        <FontAwesomeIcon icon={faCartArrowDown} />  Add to Cart
                     </button>
                     <button className="custom-wishlist-button" onClick={toggleWishlist}>
                         <FontAwesomeIcon icon={faHeart} style={{ color: inWishlist ? 'red' : 'orange' }} />
