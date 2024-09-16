@@ -262,7 +262,7 @@
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 50px;
+  margin-top: 30px;
   border-radius: var(--border-radius);
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   text-align: center;
@@ -350,7 +350,7 @@
   .buy-button {
     font-size: 1rem;
     text-align: center;
-    width: 90%;
+    width: 100%;
     padding: 10px 15px;
   }
 
@@ -361,7 +361,8 @@
   .cart-total {
     align-items: flex-start;
     font-size: 1rem;
-    width: 100%;
+    width: 95%;
+    margin-left: 10px;
   }
 
   .total-discount-details {

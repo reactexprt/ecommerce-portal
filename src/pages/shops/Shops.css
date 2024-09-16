@@ -5,13 +5,13 @@
   max-width: 1350px;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(to bottom, var(--button-bg-color), var(--primary-bg-color));
+  background: linear-gradient(to bottom, var(--navbar-bg-color), var(--primary-bg-color));
 }
 
 .shops-title {
   font-family: var(--font-family-primary);
   font-size: 2.5rem;
-  color: var(--primary-text-color);
+  color: var(--primary-bg-color);
   text-align: center;
   margin-bottom: 30px;
   letter-spacing: 1px;

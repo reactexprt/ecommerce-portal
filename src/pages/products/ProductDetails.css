@@ -367,6 +367,7 @@
 }
 
 .lightbox-content {
+    display: contents;
     position: relative;
 }
 
@@ -439,7 +440,7 @@
 @media (max-width: 768px) {
     .product-details-page {
         flex-direction: column;
-        padding: 10px;
+        padding: 35px 10px 10px 10px;
         align-items: center; /* Ensure content centers on mobile */
     }
 

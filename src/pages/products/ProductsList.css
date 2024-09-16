@@ -4,7 +4,7 @@
 .products-list {
   font-family: var(--font-family-primary);
   padding: 20px 0 40px 0;
-  background: linear-gradient(to bottom, var(--primary-bg-color), var(--button-bg-color));
+  background: linear-gradient(to bottom, var(--navbar-bg-color), var(--primary-bg-color));
   color: var(--primary-text-color);
 }
 
@@ -12,7 +12,7 @@
   text-align: center;
   font-size: 3rem;
   margin-bottom: 40px;
-  color: var(--primary-text-color);
+  color: var(--primary-bg-color);
 }
 
 /* Grid system for products */

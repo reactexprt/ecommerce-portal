@@ -8,11 +8,11 @@ body {
   /* background-color: #666; */
 }
 
-@media (max-width: 540px) {
+/* @media (max-width: 540px) {
   body {
   padding-top: 0px;
   }
-}
+} */
 
 .loading, .error {
   text-align: center;
