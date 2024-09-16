@@ -8,6 +8,12 @@ body {
   /* background-color: #666; */
 }
 
+@media (max-width: 540px) {
+  body {
+  padding-top: 0px;
+  }
+}
+
 .loading, .error {
   text-align: center;
   font-size: 1.5rem;
@@ -124,4 +130,11 @@ body {
 .out-of-stock::before {
   content: '❌ '; /* Add a cross icon for out-of-stock */
 }
+
+@media (max-width: 540px) {
+  body {
+  padding-top: 40px;
+  }
+}
+
 

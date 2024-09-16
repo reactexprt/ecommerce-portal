@@ -2,10 +2,10 @@
 
 /* Container and Title */
 .shops-container {
-  max-width: 1200px;
+  max-width: 1350px;
   margin: 0 auto;
   padding: 20px;
-  background-color: var(--primary-bg-color);
+  background: linear-gradient(to bottom, var(--button-bg-color), var(--primary-bg-color));
 }
 
 .shops-title {
