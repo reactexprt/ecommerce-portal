@@ -15,22 +15,42 @@
 
 /* Cart Empty State */
 .cart-empty {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-size: 1.2rem;
   color: var(--primary-text-color);
   padding: 20px;
+  height: 60vh;
   border: 2px dashed #ddd;
   background-color: var(--secondary-bg-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   width: 80%;
-  margin: 180px auto;
+  margin: 70px auto;
+}
+
+.empty-cart-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
 }
 
 .cart-empty h2 {
+  text-align: center;
   margin-top: 0;
   font-size: 2rem;
   color: var(--primary-text-color);
+}
+
+.cart-empty p {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: var(--primary-text-color);
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 /* Product Price & Discount */
@@ -81,15 +101,6 @@
   border-radius: 5px;
   width: auto;
   display: inline-block;
-}
-
-.cart-empty p {
-  margin: 10px 0;
-  font-size: 1.2rem;
-  color: var(--primary-text-color);
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-top: 10px;
 }
 
 
@@ -159,6 +170,26 @@
 .cart-item-info p {
   margin: 5px 0 0;
   color: var(--secondary-text-color);
+}
+
+.delivery-time {
+  font-size: 0.8rem; /* Consistent font size */
+  color: var(--primary-text-color); /* Use your primary text color */
+  font-weight: 500; /* Semi-bold for emphasis */
+  margin: 15px 0 !important;  /* Space above */
+  padding: 12px 20px; /* Balanced padding for a clean look */
+  background-color: var(--secondary-bg-color); /* Match with the cart items background */
+  border-radius: var(--border-radius); /* Consistent border radius */
+  box-shadow: var(--box-shadow); /* Consistent shadow */
+  display: inline-block; /* Ensure padding wraps the text */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+/* Hover effect to make it interactive */
+.delivery-time:hover {
+  background-color: var(--primary-bg-color); /* Change background on hover */
+  transform: translateY(-3px); /* Slight hover lift */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
 }
 
 .link-decoration-common {

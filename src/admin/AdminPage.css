@@ -1,5 +1,88 @@
 @import '../styles/variables.css';
 
+/* Modern Admin Page Styles */
+.admin-dashboard {
+  background: linear-gradient(to bottom, var(--primary-bg-color), var(--button-bg-color));
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.admin-title {
+  font-size: 36px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.admin-buttons-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* Button styling */
+.admin-nav-button {
+  background-color: #008080;
+  /* Teal color for the buttons */
+  color: #fff;
+  border: none;
+  padding: 15px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.admin-nav-button:hover {
+  background-color: #006666;
+  /* Darker teal on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.admin-nav-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.4);
+}
+
+.admin-nav-button:active {
+  transform: translateY(1px);
+}
+
+.admin-page-button-divs {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .admin-buttons-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .admin-nav-button {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .admin-page-button-divs {
+    margin-top: 15px;
+    gap: 7px;
+  }
+}
+
+
 .admin-upload-page {
   width: var(--max-width);
   margin: 0 auto;
@@ -21,6 +104,7 @@
 .admin-form {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin-bottom: 40px;
   background-color: var(--primary-bg-color);
   padding: 20px;
@@ -34,14 +118,24 @@
   font-family: var(--font-family-secondary);
 }
 
-.admin-input, .admin-textarea, .admin-file-input, .admin-select {
+.admin-label {
+  align-self: flex-start;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.admin-input,
+.admin-textarea,
+.admin-file-input,
+.admin-select {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
   font-family: var(--font-family-primary);
-  font-size: 16px;
+  font-size: 13px;
   background-color: var(--input-bg-color);
   color: var(--primary-text-color);
 }
@@ -114,7 +208,9 @@
     margin-bottom: 15px;
   }
 
-  .admin-input, .admin-textarea, .admin-file-input {
+  .admin-input,
+  .admin-textarea,
+  .admin-file-input {
     font-size: 14px;
     padding: 8px;
   }
@@ -157,7 +253,9 @@
     margin-bottom: 10px;
   }
 
-  .admin-input, .admin-textarea, .admin-file-input {
+  .admin-input,
+  .admin-textarea,
+  .admin-file-input {
     font-size: 12px;
     padding: 6px;
   }

@@ -24,12 +24,12 @@ const DropdownMenu = ({ onNavigate, onLogout, unreadCount, dropdownRef, isBottom
       </div>
       <div onClick={() => onNavigate('/previousOrders')}>
         <FontAwesomeIcon icon={faHistory} className="dropdown-icon" />
-        <span>Previous Orders</span>
+        <span>Order History</span>
       </div>
-      <div onClick={() => onNavigate('/addressBook')}>
+      {/* <div onClick={() => onNavigate('/addressBook')}>
         <FontAwesomeIcon icon={faAddressBook} className="dropdown-icon" />
         <span>Address Book</span>
-      </div>
+      </div> */}
       <div onClick={() => onNavigate('/orderTracking')}>
         <FontAwesomeIcon icon={faTruck} className="dropdown-icon" />
         <span>Track My Orders</span>
@@ -45,14 +45,10 @@ const DropdownMenu = ({ onNavigate, onLogout, unreadCount, dropdownRef, isBottom
           <span className="notification-count">{unreadCount}</span>
         )}
       </div>
-      <div onClick={() => onNavigate('/accountSettings')}>
+      {/* <div onClick={() => onNavigate('/accountSettings')}>
         <FontAwesomeIcon icon={faCog} className="dropdown-icon" />
         <span>Account Settings</span>
-      </div>
-      <div onClick={() => onNavigate('/paymentMethods')}>
-        <FontAwesomeIcon icon={faCreditCard} className="dropdown-icon" />
-        <span>Payment Methods</span>
-      </div>
+      </div> */}
       <div onClick={() => onNavigate('/support')}>
         <FontAwesomeIcon icon={faLifeRing} className="dropdown-icon" />
         <span>Help & Support</span>

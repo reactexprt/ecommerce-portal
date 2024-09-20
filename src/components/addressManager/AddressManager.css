@@ -182,59 +182,74 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.address-list {
-  list-style: none;
-  padding: 0;
+/* Modern and responsive layout for the address list */
+.address-list-modern {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Center align the cards */
 }
 
-.address-list li {
+/* Address card styling */
+.address-card {
   background-color: var(--secondary-bg-color);
-  border: 1px solid var(--secondary-text-color);
+  border-radius: 10px;
   padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  flex: 1 1 300px; /* Make it flexible for responsiveness */
+  max-width: 350px;
+  min-width: 280px; /* Minimum width to ensure consistency */
+  margin-bottom: 20px;
+}
+
+/* Styling when the card is selected */
+.address-card.selected {
+  border: 2px solid var(--button-bg-color);
+  box-shadow: 0 6px 14px rgba(0, 123, 255, 0.2);
+}
+
+/* Styling for address details text */
+.address-card .address-details {
+  font-size: 1rem;
   margin-bottom: 15px;
-  border-radius: var(--border-radius);
+}
+
+/* Flexbox layout for action buttons */
+.address-card .address-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.address-list li:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.address-list li.selected {
-  border-color: #007bff;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
-}
-
-.address-actions {
-  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap when needed */
   gap: 10px;
+  justify-content: space-between;
 }
 
+/* Buttons for address actions */
 .address-actions button {
   display: inline-flex;
-  align-items: center; /* Ensure icon and text are aligned */
+  align-items: center;
   justify-content: center;
-  padding: 8px 15px;
+  padding: 10px 15px;
   background-color: #6c757d;
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  flex: 1 1 45%; /* Flexible layout, adjust based on available space */
+  max-width: 150px; /* Ensure max width for readability */
 }
 
+/* Icons inside buttons with some spacing */
 .address-actions button svg {
   margin-right: 5px;
 }
 
+/* Hover effects for the buttons */
 .address-actions button:hover {
   background-color: #5a6268;
 }
 
+/* Specific button colors for different actions */
 .address-actions button:nth-child(1) {
   background-color: var(--home-button-bg-color);
 }
@@ -351,10 +366,6 @@
     max-width: 100%;
   }
 
-  .address-actions {
-    flex-direction: column;
-  }
-
   .address-manager h2 {
     font-size: 1.5rem;
   }
@@ -388,7 +399,15 @@
     padding: 12px;
   }
 
-  .address-list li {
-    padding: 10px;
+  .address-card {
+    flex: 1 1 100%; /* Ensure full width for smaller screens */
+  }
+
+  .address-actions {
+    flex: wrap;
+  }
+
+  .address-actions button {
+    max-width: 50%; /* Ensure buttons take full width */
   }
 }

@@ -111,10 +111,16 @@ const SearchBar = () => {
           type="text"
           value={query}
           onChange={(e) => {
-            setQuery(e.target.value);
-            setLoading(true);
-            setPage(1); // Reset page when new query is entered
-            setResults({ products: [], shops: [] }); // Clear results on new query
+            const newValue = e.target.value
+            setQuery(newValue);
+            if (newValue.length >=2) {
+              setLoading(true);
+              setPage(1); // Reset page when new query is entered
+              setResults({ products: [], shops: [] }); // Clear results on new query
+            } else {
+              setLoading(false); // Stop loading if query is less than 2 characters
+              setResults({ products: [], shops: [] }); // Clear results if query is too short
+            }
           }}
           placeholder="Search for products or shops..."
           className="search-input"

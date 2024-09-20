@@ -25,7 +25,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setPopupMessage('Passwords do not match');
+      setPopupMessage('🔐 Passwords do not match! Please try again. 🔑');
       setShowPopUp(true);
       return;
     }
@@ -39,7 +39,7 @@ const Register = () => {
       setShowConfirm(true); // Show confirmation for enabling biometric login
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Failed to register. Please try again.';
-      setPopupMessage(errorMessage);
+      setPopupMessage(`❌ ${errorMessage}`);
       setShowPopUp(true); // Display error popup
     } finally {
       setIsLoading(false);
@@ -54,10 +54,10 @@ const Register = () => {
       const attestationResponse = await startRegistration(optionsResponse.data);
       await api.post('/webauthn/register', { identifier: email || username, credential: attestationResponse });
 
-      setPopupMessage('Biometric registration successful, redirecting to Login page');
+      setPopupMessage('👍 Biometric registration successful, redirecting to the Login page.');
       setShowPopUp(true); // Show success message
     } catch (error) {
-      setPopupMessage('Biometric registration failed. Please try again later.');
+      setPopupMessage('❌ Biometric registration failed. Please try again later.');
       setShowPopUp(true); // Show failure message
     } finally {
       setShowConfirm(false); // Close confirmation popup

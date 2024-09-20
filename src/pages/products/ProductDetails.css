@@ -212,6 +212,105 @@
     transition: color 0.3s ease;
 }
 
+/* Pinocode and Shipping details styling */
+.shipping-check {
+    margin-top: 20px;
+}
+
+.pincode-input {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 180px;
+}
+
+.check-shipping-button {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.check-shipping-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.error-text {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Shipping details container styling */
+/* Shipping details container styling */
+.shipping-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    text-align: left;
+    transition: box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Hover effect for better user interaction */
+.shipping-details-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Courier name styling */
+.courier-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Courier detail styling */
+.courier-delivery,
+.courier-performance,
+.courier-cod,
+.courier-tracking {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Highlight important details */
+.courier-freight {
+    color: #FF5722;
+    font-weight: bold;
+}
+
+.courier-performance {
+    color: #28A745;
+    font-weight: bold;
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 768px) {
+    .shipping-details-container {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 540) {
+    .shipping-details-container {
+        max-width: 100%;
+        margin-top: 15px;
+    }
+}
+
+
 /* Star Rating */
 .product-details-star-rating {
     display: flex;

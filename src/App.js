@@ -86,7 +86,10 @@ const Notifications = loadable(() => import('./pages/notifications/Notifications
 const AccountSettings = loadable(() => import('./pages/accountSettings/AccountSettings'));
 const Shops = loadable(() => import('./pages/shops/Shops'));
 const OrderDetails = loadable(() => import('./pages/previousOrders/OrderDetails'));
-const AdminProductUpload = loadable(() => import('./admin/AdminProductUpload'));
+const AdminPage = loadable(() => import('./admin/AdminPage'));
+const AddShop = loadable(() => import('./admin/AddShop'));
+const AddProduct = loadable(() => import('./admin/AddProduct'));
+const SendNotifications = loadable(() => import('./admin/SendNotifications'));
 
 const useAuth = () => {
   const authToken = localStorage.getItem('token');
@@ -194,7 +197,7 @@ function App() {
       <div className="App">
         {isOffline && (
           <Popup
-            message='No Internet Connection. You are currently offline. Please check your internet connection and try again.'
+            message='⚠️ 📶 No Internet Connection. You are currently offline. Please check your internet connection and try again.'
             onClose={() => setIsOffline(false)}
           />
         )}
@@ -284,17 +287,49 @@ function App() {
                 }
               />
 
-              <Route 
-                path="/admin" 
+              {/* Admin Routes */}
+              <Route
+                path="/admin"
                 element={
                   <PrivateRoute>
                     <ErrorBoundaryWrapper>
-                      <AdminProductUpload />
+                      <AdminPage />
                     </ErrorBoundaryWrapper>
                   </PrivateRoute>
-                } 
+                }
+              />
+              <Route
+                path="/admin/add-shop"
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <AddShop />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/add-product"
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <AddProduct />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/send-notifications"
+                element={
+                  <PrivateRoute>
+                    <ErrorBoundaryWrapper>
+                      <SendNotifications />
+                    </ErrorBoundaryWrapper>
+                  </PrivateRoute>
+                }
               />
 
+              {/* DropdownMenu Routes */}
               <Route
                 path="/previousOrders"
                 element={

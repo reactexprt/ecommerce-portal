@@ -105,8 +105,8 @@ const Login = () => {
       }
 
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Invalid email/username or password. Please try again.';
-      setPopupMessage(errorMessage);
+      const errorMessage = err.response?.data?.message || 'Invalid email/username or password. Please try again. 🔑';
+      setPopupMessage(`❌ ${errorMessage}`);
       setShowPopUp(true); // Show error popup
     } finally {
       setLoading(false);
@@ -116,7 +116,7 @@ const Login = () => {
   const handleBiometricLogin = async () => {
     try {
       if (!identifier) {
-        setPopupMessage('Email or Username is required for biometric login. Please log in using your password first.');
+        setPopupMessage('🔒 Whoops! You need to enter your Email or Username for biometric login. Try logging in with your password first! 🔑');
         setShowPopUp(true); // Show popup for missing identifier
         return;
       }
@@ -146,8 +146,8 @@ const Login = () => {
       navigate('/cart');
       
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Biometric authentication failed. Please try again.';
-      setPopupMessage(errorMessage); // Display error in the popup
+      const errorMessage = err.response?.data?.message || 'Biometric authentication failed. Please try again. 🔒';
+      setPopupMessage(`😕 ${errorMessage}`);
       setShowPopUp(true);
     }
   };
@@ -165,11 +165,11 @@ const Login = () => {
       const optionsResponse = await api.post('/webauthn/registration-options', { identifier });
       const attestationResponse = await startRegistration(optionsResponse.data);
       await api.post('/webauthn/register', { identifier, credential: attestationResponse });
-      setPopupMessage('Biometric registration successful!'); // Show success message
+      setPopupMessage('🎉 Biometric registration successful! 👤🔒 You’re all set for Face ID or Thumbprint login! 👍✨'); // Show success message
 
       setShowPopUp(true); // Display success popup
     } catch (error) {
-      setPopupMessage('Biometric registration failed. Please try again later.');
+      setPopupMessage('😕 Biometric registration failed. Please try again later. 🔄');
       setShowPopUp(true); // Show failure popup
     } finally {
       setShowConfirm(false); // Close confirmation popup

@@ -28,6 +28,8 @@ const AddressBook = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');  // For displaying the popup message
+  const [showPopup, setShowPopup] = useState(false);
   const inputRefs = useRef({});
 
   const fetchAddresses = async () => {
@@ -36,7 +38,7 @@ const AddressBook = () => {
       const response = await api.get('/users/addresses');
       setAddresses(response.data);
     } catch (error) {
-      setPopupMessage('Error fetching addresses.');
+      setPopupMessage('⚠️ Uh-oh! We had trouble fetching your addresses. Please try again. 🏠🔄');
       setShowPopup(true);  // Show the popup when an error occurs
       console.error('Error fetching addresses:', error);
     } finally {
@@ -137,10 +139,10 @@ const AddressBook = () => {
       const submitData = { ...form, phoneNumber: fullPhoneNumber };
       if (form._id) {
         await api.put(`/users/addresses/${form._id}`, submitData);
-        setPopupMessage('Address updated successfully!');
+        setPopupMessage('🎉 Woohoo! Your address was updated successfully! 🏡✨');
       } else {
         await api.post('/users/addresses', submitData);
-        setPopupMessage('Address added successfully!');
+        setPopupMessage('🏡 Hooray! Your new address has been added successfully! 📍🎉');
       }
       setShowPopup(true);  // Show success popup
       setForm({
@@ -160,7 +162,7 @@ const AddressBook = () => {
       setErrors({});
       fetchAddresses();
     } catch (error) {
-      setPopupMessage('Error adding or updating address.');
+      setPopupMessage('⚠️ Uh-oh! Something went wrong while adding or updating the address. Please try again! 🏡');
       setShowPopup(true);
       console.error('Error adding or updating address', error);
     } finally {
@@ -172,10 +174,10 @@ const AddressBook = () => {
     try {
       await api.delete(`/users/addresses/${id}`);
       setAddresses(addresses.filter((addr) => addr._id !== id));
-      setPopupMessage('Address deleted successfully.');
+      setPopupMessage('🏡✨ Poof! Address deleted successfully! It’s gone like magic! 🎩');
       setShowPopup(true);  // Show success popup
     } catch (error) {
-      setPopupMessage('Error deleting address.');
+      setPopupMessage('🚫 Oops! Couldn’t delete the address. Something went wrong, try again! 🙁');
       setShowPopup(true);
       console.error('Error deleting address:', error);
     }
@@ -206,10 +208,10 @@ const AddressBook = () => {
               phoneNumber: form.phoneNumber,
               isDefault: false
             });
-            setPopupMessage('Current location fetched successfully!');
+            setPopupMessage('📍 Got it! Your current location has been fetched successfully! 🌍');
             setShowPopup(true);  // Show success popup
           } catch (error) {
-            setPopupMessage('Error fetching current location.');
+            setPopupMessage('⚠️ Oops! We couldn’t fetch your current location. Please try again. 🌐');
             setShowPopup(true);
             console.error('Error fetching address from API:', error);
           } finally {
@@ -217,14 +219,14 @@ const AddressBook = () => {
           }
         },
         (error) => {
-          setPopupMessage('Geolocation error. Please try again.');
+          setPopupMessage('🚫 Geolocation error! Unable to pinpoint your location. Please try again. 🌍');
           setShowPopup(true);
           console.error('Geolocation error:', error);
           setLoadingCurrentLocation(false); // Make sure to stop the loading even on error
         }
       );
     } else {
-      setPopupMessage('Geolocation is not supported by this browser.');
+      setPopupMessage('🚫 Oops! Geolocation isn’t supported by this browser. Time for an upgrade? 🌍✨');
       setShowPopup(true);
       setLoadingCurrentLocation(false);  // Make sure to stop loading if geolocation isn't supported
     }

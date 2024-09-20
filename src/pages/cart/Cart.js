@@ -70,7 +70,7 @@ const Cart = () => {
   // Handle moving to the address page
   const handleProceedToAddress = () => {
     if (cartItems.length === 0) {
-      setPopupMessage("Your cart is empty! Please add some items before proceeding.");
+      setPopupMessage('🛒 Uh-oh! Your cart is missing something fun. Add some treats before you proceed! 🎁');
       setShowPopUp(true);
     } else {
       navigate('/addresses');
@@ -92,10 +92,10 @@ const Cart = () => {
     dispatch(actions.saveForLater(productId));
   };
 
-  // const calculateEstimatedDelivery = (address) => {
-  //   // Dummy logic for estimated delivery calculation (can be API-driven)
-  //   return address ? `3-5 business days` : `Select address for delivery estimate`;
-  // };
+  const calculateEstimatedDelivery = () => {
+    // Dummy logic for estimated delivery calculation (can be API-driven)
+    return `3-5 business days`;
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -104,6 +104,9 @@ const Cart = () => {
           <title>Çart - Ħimalayan R̥asa</title>
         </Helmet>
         <div className="cart-empty">
+          <div className="empty-cart-icon">
+            <span role="img" aria-label="sad-emoji">😔</span>
+          </div>
           <h2>YOUR CART IS EMPTY</h2>
           <p>Looks like you haven't added anything to your cart yet.</p>
           <Link to="/shops" className="btn btn-shop">Go Shopping</Link>
@@ -165,10 +168,11 @@ const Cart = () => {
                             : `In stock: ${item.productId.stock}` 
                           : 'Out of stock'}
                       </p>
-                      {/* 
-                          <p className="delivery-time">
-                            Estimated Delivery: {calculateEstimatedDelivery(selectedAddress)}
-                          </p> */}
+
+                      <p className="delivery-time">
+                        Estimated Delivery: {calculateEstimatedDelivery(selectedAddress)}
+                      </p>
+
                     </div>
 
                     <div className='cart-item-all-buttons'>

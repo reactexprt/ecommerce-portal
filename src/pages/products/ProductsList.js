@@ -44,7 +44,7 @@ const ProductsList = () => {
 
         setHasMore(hasMore);
       } catch (err) {
-        setPopupMessage('Error fetching products. Please try again later.');
+        setPopupMessage('⚠️ Oops! Error fetching products. Please try again later. 🛒');
         setShowPopUp(true);
         navigate('/shops');
       }

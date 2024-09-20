@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom'; // For navigation
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faMapMarkerAlt, faEdit, faTrash, faCheckCircle, faCircle, faSpinner, faShoppingCart, faCreditCard } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faMapMarkerAlt, faEdit, faTrash, faCheckCircle, faCircle, faSpinner, faShoppingCart, faCreditCard, faHome } from '@fortawesome/free-solid-svg-icons';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import CheckoutProgress from '../../utils/progressbar/CheckoutProgress';
@@ -30,7 +30,8 @@ const AddressManager = () => {
     phoneNumber: '',
     isDefault: false
   });
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedShippingAddress, setSelectedShippingAddress] = useState(null);
+  const [selectedBillingAddress, setSelectedBillingAddress] = useState(null);
   const [errors, setErrors] = useState({});
   const [popupMessage, setPopupMessage] = useState('');  // For displaying the popup message
   const [showPopup, setShowPopup] = useState(false);     // For controlling popup visibility
@@ -95,7 +96,7 @@ const AddressManager = () => {
       const response = await api.get('/users/addresses');
       setAddresses(response.data);
     } catch (error) {
-      setPopupMessage('Error fetching addresses.');
+      setPopupMessage('⚠️ Uh-oh! We had trouble fetching your addresses. Please try again. 🏠🔄');
       setShowPopup(true);  // Show the popup when an error occurs
       console.error('Error fetching addresses:', error);
     }
@@ -134,10 +135,10 @@ const AddressManager = () => {
       const submitData = { ...form, phoneNumber: fullPhoneNumber };
       if (form._id) {
         await api.put(`/users/addresses/${form._id}`, submitData);
-        setPopupMessage('Address updated successfully!');
+        setPopupMessage('🎉 Woohoo! Your address was updated successfully! 🏡✨');
       } else {
         await api.post('/users/addresses', submitData);
-        setPopupMessage('Address added successfully!');
+        setPopupMessage('🏡 Hooray! Your new address has been added successfully! 📍🎉');
       }
       setShowPopup(true);  // Show success popup
       setForm({
@@ -157,7 +158,7 @@ const AddressManager = () => {
       setErrors({});
       fetchAddresses();
     } catch (error) {
-      setPopupMessage('Error adding or updating address.');
+      setPopupMessage('⚠️ Uh-oh! Something went wrong while adding or updating the address. Please try again! 🏡');
       setShowPopup(true);
       console.error('Error adding or updating address', error);
     } finally {
@@ -172,10 +173,10 @@ const AddressManager = () => {
       if (selectedAddress?._id === id) {
         setSelectedAddress(null);
       }
-      setPopupMessage('Address deleted successfully.');
+      setPopupMessage('🏡✨ Poof! Address deleted successfully! It’s gone like magic! 🎩');
       setShowPopup(true);  // Show success popup
     } catch (error) {
-      setPopupMessage('Error deleting address.');
+      setPopupMessage('🚫 Oops! Couldn’t delete the address. Something went wrong, try again! 🙁');
       setShowPopup(true);
       console.error('Error deleting address:', error);
     }
@@ -206,10 +207,10 @@ const AddressManager = () => {
               phoneNumber: form.phoneNumber,
               isDefault: false
             });
-            setPopupMessage('Current location fetched successfully!');
+            setPopupMessage('📍 Got it! Your current location has been fetched successfully! 🌍');
             setShowPopup(true);  // Show success popup
           } catch (error) {
-            setPopupMessage('Error fetching current location.');
+            setPopupMessage('⚠️ Oops! We couldn’t fetch your current location. Please try again. 🌐');
             setShowPopup(true);
             console.error('Error fetching address from API:', error);
           } finally {
@@ -217,14 +218,14 @@ const AddressManager = () => {
           }
         },
         (error) => {
-          setPopupMessage('Geolocation error. Please try again.');
+          setPopupMessage('🚫 Geolocation error! Unable to pinpoint your location. Please try again. 🌍');
           setShowPopup(true);
           console.error('Geolocation error:', error);
           setLoadingCurrentLocation(false); // Make sure to stop the loading even on error
         }
       );
     } else {
-      setPopupMessage('Geolocation is not supported by this browser.');
+      setPopupMessage('🚫 Oops! Geolocation isn’t supported by this browser. Time for an upgrade? 🌍✨');
       setShowPopup(true);
       setLoadingCurrentLocation(false);  // Make sure to stop loading if geolocation isn't supported
     }
@@ -239,13 +240,21 @@ const AddressManager = () => {
     });
   };
 
-  const handleSelectAddress = (addr) => {
-    if (selectedAddress?._id === addr._id) {
-      setSelectedAddress(null);
-    } else {
-      setSelectedAddress(addr);
+  const handleSelectAddress = (addr, type) => {
+    if (type === 'shipping') {
+      if (selectedShippingAddress?._id === addr._id) {
+        setSelectedShippingAddress(null);
+      } else {
+        setSelectedShippingAddress(addr);
+      }
+    } else if (type === 'billing') {
+      if (selectedBillingAddress?._id === addr._id) {
+        setSelectedBillingAddress(null);
+      } else {
+        setSelectedBillingAddress(addr);
+      }
     }
-  };
+  };  
 
   // Calculate total amount, savings, and discount percentage
   const totalAmount = cartItems.reduce((sum, item) => {
@@ -256,19 +265,26 @@ const AddressManager = () => {
   }, 0);
 
   const handleProceedToPayment = () => {
-    if (!selectedAddress) {
-      setPopupMessage("Please select an address to proceed.");
+    if (!selectedShippingAddress && !selectedBillingAddress) {
+      setPopupMessage('📍 Hold on! You need to pick both a shipping and billing address before we move ahead! 🏠✨');
+      setShowPopup(true);
+    } else if (!selectedShippingAddress) {
+      setPopupMessage('📦 Please select a shipping address to proceed. 🚚✨');
+      setShowPopup(true);
+    } else if (!selectedBillingAddress) {
+      setPopupMessage('🧾 Please select a billing address to proceed. 💳✨');
       setShowPopup(true);
     } else {
       navigate('/checkout', {
         state: {
-          selectedAddress,
+          selectedShippingAddress,
+          selectedBillingAddress,
           totalAmount,
           cartItems
         }
       });
     }
-  };
+  };  
 
   const handleBackToCart = () => {
     navigate('/cart'); // Navigate back to the cart
@@ -474,13 +490,17 @@ const AddressManager = () => {
 
         </form>
 
-        {/* Address List */}
-        <ul className="address-list">
+        {/* Modern Card-Style Address List */}
+        <div className="address-list-modern">
           {addresses.map((addr) => (
-            <li key={addr._id} className={selectedAddress?._id === addr._id ? 'selected' : ''}>
-              <span>
-                <strong>{addr.label}</strong>: {addr.firstName} {addr.lastName}, {addr.flat}, {addr.street}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}, {addr.phoneNumber}
-              </span>
+            <div key={addr._id} className={`address-card ${selectedShippingAddress?._id === addr._id || selectedBillingAddress?._id === addr._id ? 'selected' : ''}`}>
+              <div className="address-details">
+                <strong>{addr.label}</strong>
+                <p>{addr.firstName} {addr.lastName}, {addr.flat}, {addr.street}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}</p>
+                <p>Phone: {addr.phoneNumber}</p>
+                {selectedBillingAddress?._id === addr._id && <p><FontAwesomeIcon icon={faCreditCard} /> Billing Address</p>}
+                {selectedShippingAddress?._id === addr._id && <p><FontAwesomeIcon icon={faHome} /> Shipping Address</p>}
+              </div>
               <div className="address-actions">
                 <button onClick={() => handleEdit(addr)}>
                   <FontAwesomeIcon icon={faEdit} className="icon-margin" /> Edit
@@ -488,16 +508,27 @@ const AddressManager = () => {
                 <button onClick={() => handleDeleteAddress(addr._id)}>
                   <FontAwesomeIcon icon={faTrash} className="icon-margin" /> Delete
                 </button>
-                <button onClick={() => handleSelectAddress(addr)}>
+                <button
+                  onClick={() => handleSelectAddress(addr, 'shipping')}
+                  className={selectedShippingAddress?._id === addr._id ? 'selected' : ''}
+                >
                   <FontAwesomeIcon
-                    icon={selectedAddress?._id === addr._id ? faCheckCircle : faCircle}
-                    className="icon-margin"
-                  /> {selectedAddress?._id === addr._id ? 'Selected' : 'Select'}
+                    icon={selectedShippingAddress?._id === addr._id ? faCheckCircle : faCircle}
+                  /> Shipping
+                </button>
+
+                <button
+                  onClick={() => handleSelectAddress(addr, 'billing')}
+                  className={selectedBillingAddress?._id === addr._id ? 'selected' : ''}
+                >
+                  <FontAwesomeIcon
+                    icon={selectedBillingAddress?._id === addr._id ? faCheckCircle : faCircle}
+                  /> Billing
                 </button>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
 
         {/* Navigation Buttons */}
         <div className="address-navigation-buttons">

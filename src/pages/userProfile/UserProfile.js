@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faAddressBook, faCreditCard, faHeart, faCog } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
 import './UserProfile.css'; // Import the CSS file for styling
 
@@ -31,7 +31,7 @@ const UserProfile = () => {
     return (
       <div className="loading">
         <FontAwesomeIcon icon={faSpinner} spin size="3x" className="common-loading-spinner" />
-        <p>We’re getting your profile ready in no time!</p>
+        <p>Loading your profile...</p>
       </div>
     );
   }
@@ -39,28 +39,54 @@ const UserProfile = () => {
   return (
     <>
       <Helmet>
-        <title>Ÿour Profile - Ħimalayan R̥asa</title>
+        <title>Your Profile - Himalayan Rasa</title>
       </Helmet>
-      <div className="up-user-profile-container">
-        <h2 className="up-heading">Your Profile</h2>
-        {user && (
-          <div className="up-user-details">
+      <div className="up-profile-container">
+        <h2 className="up-heading">Welcome, {user?.username}</h2>
+
+        <div className="up-grid">
+          {/* Profile Details Card */}
+          <div className="up-card up-profile-card">
+            <h3>Profile Details</h3>
             <p><strong>Username:</strong> {user.username}</p>
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Biometric Enabled:</strong> {user.biometricEnabled ? 'Yes' : 'No'}</p>
-            <h3 className="up-address-heading">Addresses:</h3>
-            <ul className="up-address-list">
-              {user.addresses.map((address, index) => (
-                <li key={index} className="up-address-item">
-                  <p><strong>{address.label}:</strong> {address.firstName} {address.lastName}</p>
-                  <p>{address.flat}, {address.street}, {address.city}, {address.state}, {address.zip}, {address.country}</p>
-                  <p><strong>Phone:</strong> {address.phoneNumber}</p>
-                  <p><strong>Default:</strong> {address.isDefault ? 'Yes' : 'No'}</p>
-                </li>
-              ))}
-            </ul>
           </div>
-        )}
+
+          {/* Quick Links to Other Features */}
+          <div className="up-card up-quick-links">
+            <h3>Quick Links</h3>
+            <div className="up-link" onClick={() => window.location.href = '/paymentMethods'}>
+              <FontAwesomeIcon icon={faCreditCard} className="up-link-icon" /> Payment Methods
+            </div>
+            <div className="up-link" onClick={() => window.location.href = '/wishlist'}>
+              <FontAwesomeIcon icon={faHeart} className="up-link-icon" /> Wishlist
+            </div>
+            <div className="up-link" onClick={() => window.location.href = '/accountSettings'}>
+              <FontAwesomeIcon icon={faCog} className="up-link-icon" /> Account Settings
+            </div>
+            <div className="up-link" onClick={() => window.location.href = '/addressBook'}>
+              <FontAwesomeIcon icon={faAddressBook} className="up-link-icon" /> Manage Addresses
+            </div>
+          </div>
+
+          {/* Address Card */}
+          <div className="up-card up-address-card">
+            <h3>Addresses</h3>
+            {user.addresses.length > 0 ? (
+              <ul className="up-address-list">
+                {user.addresses.map((address, index) => (
+                  <li key={index} className="up-address-item">
+                    <p><strong>{address.label}:</strong> {address.firstName} {address.lastName}</p>
+                    <p>{address.flat}, {address.street}, {address.city}, {address.state}, {address.zip}, {address.country}</p>
+                    <p><strong>Phone:</strong> {address.phoneNumber}</p>
+                    <p><strong>Default:</strong> {address.isDefault ? 'Yes' : 'No'}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : <p>No addresses available.</p>}
+          </div>
+        </div>
       </div>
     </>
   );

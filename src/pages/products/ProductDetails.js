@@ -23,6 +23,12 @@ const ProductDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    // For Shipping State
+    const [pincode, setPincode] = useState('');
+    const [shippingDetails, setShippingDetails] = useState([]); // To store shipping info
+    const [shippingError, setShippingError] = useState(''); // To store any error related to shipping
+    const [loadingShipping, setLoadingShipping] = useState(false); // To show loading state while fetching data
+
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -38,7 +44,7 @@ const ProductDetails = () => {
                     setInWishlist(wishlistResponse.data.some(item => item._id === productId));
                 }
             } catch (err) {
-                setPopupMessage('Error fetching product. Please try again.');
+                setPopupMessage('🚨 Uh-oh! Something went wrong fetching the product. Don’t worry, it’s not you, it’s us! 😅 Please give it another go! 🔄');
                 setShowPopUp(true);
                 navigate('/shops');
             }
@@ -49,7 +55,7 @@ const ProductDetails = () => {
 
     const handleAddToCart = async () => {
         await dispatch(addToCart(product));
-        setPopupMessage('Product added to cart successfully!');
+        setPopupMessage('🛒 Woohoo! Your product just hopped into the cart! 🎉 Keep shopping or check it out now! 😎');
         setShowPopUp(true); // Show success popup
     };
 
@@ -59,19 +65,19 @@ const ProductDetails = () => {
                 if (inWishlist) {
                     await api.post('/wishlist/remove', { productId });
                     setInWishlist(false);
-                    setPopupMessage('Product removed from wishlist.');
+                    setPopupMessage('💔 Oh no! The product has been removed from your wishlist. But don’t worry, there’s plenty more to love! 💫');
                 } else {
                     await api.post('/wishlist/add', { productId });
                     setInWishlist(true);
-                    setPopupMessage('Product added to wishlist.');
+                    setPopupMessage('💖 Added to wishlist! Your favorites just got even better! 🌟');
                 }
                 setShowPopUp(true); // Show wishlist update popup
             } catch (err) {
-                setPopupMessage('Error updating wishlist. Please try again.');
+                setPopupMessage('😓 Oops! Wishlist update failed. Please try again and don’t give up! 💪');
                 setShowPopUp(true);
             }
         } else {
-            setPopupMessage('Please login to manage your wishlist.');
+            setPopupMessage('🔐 Hold up! Please log in to unlock your wishlist magic! ✨');
             setShowPopUp(true); // Show login required popup
         }
     };
@@ -99,14 +105,14 @@ const ProductDetails = () => {
                 setProduct(response.data.product);
                 setNewComment('');
                 setNewRating(0);
-                setPopupMessage('Comment added successfully!');
+                setPopupMessage('💬 Woohoo! Your comment was added successfully! 🎉');
                 setShowPopUp(true); // Show success popup
             } catch (err) {
-                setPopupMessage('Failed to add comment. Please try again.');
+                setPopupMessage('😕 Oops! Something went wrong while adding your comment. Please try again! 🔄');
                 setShowPopUp(true);
             }
         } else {
-            setPopupMessage('Please login to add a review.');
+            setPopupMessage('🔐 Hold up! You need to login first to leave a review. 📝');
             setShowPopUp(true); // Show login required popup
         }
     };
@@ -186,6 +192,33 @@ const ProductDetails = () => {
             );
         });
     };
+
+    const checkShippingDetails = async () => {
+        setLoadingShipping(true);
+        setShippingError('');
+        setShippingDetails(null);
+    
+        try {
+            const response = await api.get('/orders/shiprocket/serviceability', {
+                params: {
+                    pickupPostcode: '201318', // Replace with your warehouse/store's pincode
+                    deliveryPostcode: pincode,
+                    weight: product.weight || 1, // Adjust the product weight dynamically
+                    cod: 0 // Set to 1 for cash on delivery
+                }
+            });
+            const courierData = response.data?.best5Couriers; // Assume you use the first courier option
+            if (courierData) {
+                setShippingDetails(courierData); // Set shipping details in state
+            } else {
+                setShippingError('No available couriers for this pincode.');
+            }
+        } catch (error) {
+            setShippingError('Failed to fetch shipping details. Please try again.');
+        } finally {
+            setLoadingShipping(false);
+        }
+    };    
 
     if (loading || !product) {
         return (
@@ -279,6 +312,63 @@ const ProductDetails = () => {
                     </button>
                 </div>
 
+                {/* Shipping Details */}
+                <div className="shipping-check">
+                    <h4>Check Shipping Availability</h4>
+                    <input
+                        type="text"
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
+                        placeholder="Enter your pincode"
+                        className="pincode-input"
+                        maxLength={6}
+                    />
+                    <button
+                        onClick={checkShippingDetails}
+                        disabled={loadingShipping || pincode.length !== 6}
+                        className="check-shipping-button"
+                    >
+                        {loadingShipping ? 'Checking...' : 'Check'}
+                    </button>
+                    
+                    {shippingError && <p className="error-text">{shippingError}</p>}
+                    {shippingDetails && shippingDetails.length > 0 && (
+                        shippingDetails
+                            .filter(courier => courier.isRecommended)
+                            .map((courier, index) => (
+                                <div key={index} className="shipping-details-container">
+                                    {/* <p className="courier-name">
+                                        <strong>Courier:</strong> {courier.courier_name}
+                                    </p> */}
+                                    <p className="courier-delivery">
+                                        <strong>Estimated Delivery:</strong> {courier.estimated_delivery_days} days
+                                    </p>
+                                    {/* <p className="courier-freight">
+                                        <strong>Shipping Charges:</strong> ₹{courier.freight_charge || "Not Available"}
+                                    </p> */}
+                                    {courier.delivery_performance && (
+                                        <p className="courier-performance">
+                                            <strong>Delivery Performance:</strong> {courier.delivery_performance} / 5
+                                        </p>
+                                    )}
+                                    <p className="courier-cod">
+                                        <strong>Cash on Delivery (COD):</strong> {courier.cod === 1 ? 'Available' : 'Not Available'}
+                                    </p>
+                                    <p className="courier-tracking">
+                                        <strong>Real-Time Tracking:</strong> {courier.realtime_tracking === "Real Time" ? 'Available' : 'Not Available'}
+                                    </p>
+                                    {/* {courier.delivery_boy_contact && (
+                                        <p className="courier-contact">
+                                            <strong>Delivery Contact:</strong> {courier.delivery_boy_contact}
+                                        </p>
+                                    )} */}
+                                </div>
+                            )
+                        )
+                    )}
+                </div>
+
+                {/* Product Description */}
                 <div id='product-description'>
                     <h3>Product Details</h3>
                     <p>{product.description}</p>

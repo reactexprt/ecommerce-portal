@@ -70,7 +70,7 @@ function renderPopUp(showPopUp) {
   if (showPopUp) {
     root.render(
       <Popup
-        message="Your session has expired. Please log in again."
+        message="⏳ Your session has expired. Please log in again. 🔒"
         onClose={closePopup}
       />
     );
