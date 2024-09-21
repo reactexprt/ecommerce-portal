@@ -401,6 +401,7 @@ const ProductDetails = () => {
                         required
                     />
 
+                    <h4>Help us out! 🌟 How many stars does {product.name} deserve?</h4>
                     <div className="product-details-star-rating">
                         {renderStars()}
                     </div>

@@ -102,7 +102,7 @@
 }
 
 #product-description h3 {
-    font-size: .9rem;
+    font-size: 1rem;
     color: var(--primary-text-color);
     margin-bottom: 10px;
 }
@@ -315,7 +315,7 @@
 .product-details-star-rating {
     display: flex;
     justify-content: flex-start;
-    margin: 30px 0;
+    margin: 0px 0 30px 0;
 }
 
 /* Average Rating Section */
@@ -372,9 +372,14 @@
 }
 
 .product-details-comments h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: var(--primary-text-color);
     margin-bottom: 20px;
+}
+
+.product-details-comment-form h4 {
+    font-size: .9rem;
+    color: var(--primary-text-color);
 }
 
 .product-details-comment {
@@ -525,8 +530,9 @@
 
     .product-details-info p,
     .product-details-comments h3,
-    .product-details-comment-form h3 {
-        font-size: 0.9rem; /* Adjust text sizes for readability */
+    .product-details-comment-form h3,
+    #product-description h3 {
+        font-size: 1rem; /* Adjust text sizes for readability */
     }
 
     .custom-add-to-cart-button, 
@@ -575,7 +581,7 @@
     .product-details-comments h3,
     .product-details-comment-form h3,
     #product-description h3 {
-        font-size: 0.8rem; /* Slightly smaller for compact view */
+        font-size: 1rem; /* Slightly smaller for compact view */
     }
 
     .custom-wishlist-button {

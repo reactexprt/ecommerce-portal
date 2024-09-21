@@ -78,22 +78,20 @@ const PaymentForm = () => {
               pickupPostcode: '201318', // Your warehouse postcode
               deliveryPostcode: shippingAddressPinCode, // Use the selected address's pincode
               weight: totalWeight, // Use memoized total weight
-              cod: 0 // Adjust based on your COD setting
+              cod: paymentMode === 'online' ? 0 : 1
             }
           });
 
           const courierData = response.data?.best5Couriers;
-          if (courierData) {
-            const recommendedCourier = courierData.find(courier => courier.isRecommended);
-            setRecommendedCourierId(recommendedCourier.courier_company_id);
-          }
+          const recommendedCourier = courierData?.find(courier => courier.isRecommended);
+          setRecommendedCourierId(recommendedCourier?.courier_company_id);
         } catch (error) {
           console.error('Failed to fetch shipping details:', error);
         } finally {
           setLoading(false);
         }
       }, 500), // Debounce for 500ms
-    [shippingAddressPinCode, totalWeight] // Dependencies for memoized function
+    [shippingAddressPinCode, totalWeight, paymentMode] // Dependencies for memoized function
   );
 
   // Fetch user profile when the component mounts if the user is authenticated.
@@ -122,7 +120,7 @@ const PaymentForm = () => {
     return () => {
       fetchShippingDetails.cancel();
     };
-  }, [shippingAddressPinCode, totalWeight, fetchShippingDetails]);
+  }, [shippingAddressPinCode, totalWeight, fetchShippingDetails, paymentMode]);
 
   // Set selected address when location.state changes.
   useEffect(() => {
