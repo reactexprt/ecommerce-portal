@@ -7,7 +7,8 @@ const { DefinePlugin, HotModuleReplacementPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // Ensures clean builds
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // Minifies CSS files
-const { GenerateSW } = require('workbox-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin'); 
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 require('dotenv').config();
 
@@ -58,7 +59,13 @@ module.exports = {
     },
     minimize: isProduction, // Minimize the output in production mode
     minimizer: [
-      '...', // Extend existing minimizers (e.g., `terser-webpack-plugin`)
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: isProduction, // Remove console logs in production
+          },
+        },
+      }),
       new CssMinimizerPlugin(), // Minify CSS files in production
     ],
   },
@@ -101,7 +108,7 @@ module.exports = {
         type: 'asset/resource',
         generator: {
           filename: 'assets/images/[name].[hash][ext]', // Cache-busting for images
-        },
+        }
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i, // Asset handling for fonts
@@ -129,15 +136,15 @@ module.exports = {
           openAnalyzer: true, // Automatically open the report after build
           reportFilename: 'bundle-report.html', // Output filename for the report
         }),
+        // Compress assets in production using gzip
+        new CompressionPlugin({
+          algorithm: 'gzip', // Use gzip compression
+          test: /\.js$|\.css$|\.html$/, // Match JavaScript, CSS, and HTML files
+          threshold: 10240, // Only compress files above 10KB
+          minRatio: 0.8, // Compress files with a compression ratio above 0.8
+        }),
       ]
       : [new HotModuleReplacementPlugin()]), // Only add HMR in development mode
-    // Compress assets in production using gzip
-    new CompressionPlugin({
-      algorithm: 'gzip', // Use gzip compression
-      test: /\.js$|\.css$|\.html$/, // Match JavaScript, CSS, and HTML files
-      threshold: 10240, // Only compress files above 10KB
-      minRatio: 0.8, // Compress files with a compression ratio above 0.8
-    }),
     // Copy static files from the public folder to the output directory
     new CopyWebpackPlugin({
       patterns: [
@@ -169,30 +176,10 @@ module.exports = {
       ]
       : []),
     ...(isProduction ? [
-      new GenerateSW({
-        clientsClaim: true,
-        skipWaiting: true,
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB limit for catching
-        runtimeCaching: [
-          {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/, // Cache images
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 Days
-              },
-            },
-          },
-          {
-            urlPattern: /\.(?:js|css)$/, // Cache JS and CSS
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'static-resources',
-            },
-          },
-        ],
+      new InjectManifest({
+        swSrc: './src/service-worker.js',
+        swDest: 'service-worker.js', // The output service worker filename
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB cache limit for files
       }),
     ] : [])
   ],

@@ -14,7 +14,9 @@ import ScrollToTop from './utils/ScrollToTop';
 import history from './services/history';
 import './App.css';
 
-if (process.env.NODE_ENV === 'production') {
+const isProduction = process.env.NODE_ENV === 'production';
+
+if (isProduction) {
   // Initialize LogRocket with custom settings
   LogRocket.init('65vbkg/rasa', {
     release: 'v2.0.0',       // Set release version for tracking
@@ -111,6 +113,7 @@ const Spinner = () => (
 
 function App() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [newUpdate, setNewUpdate] = useState(false);
   const TIME_LIMIT = 30 * 60 * 1000; // 30 minutes
   let lastInactiveTime = new Date().getTime();
 
@@ -178,6 +181,40 @@ function App() {
     };
   }, []);
 
+  // Check if there is a new service worker update and prompt the user
+  useEffect(() => {
+    if (isProduction && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.onupdatefound = () => {
+          const installingWorker = registration.installing;
+          if (installingWorker) {
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  // New update available, show prompt
+                  setNewUpdate(true);
+                }
+              }
+            };
+          }
+        };
+      });
+    }
+  }, []);
+
+  // Prompt user to refresh for a new update
+  const handleUpdatePrompt = () => {
+    if (newUpdate) {
+      return (
+        <Popup
+          message="A new update is available! Please refresh the page."
+          onClose={() => window.location.reload()}
+        />
+      );
+    }
+    return null;
+  };
+
   useEffect(() => {
     if (isOffline) {
       const retryInterval = setInterval(() => {
@@ -201,6 +238,7 @@ function App() {
             onClose={() => setIsOffline(false)}
           />
         )}
+        {handleUpdatePrompt()}
         <ErrorBoundaryWrapper>
           <Navbar />
           <Suspense fallback={<Spinner />}>
