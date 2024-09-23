@@ -10,14 +10,11 @@ export const logout = () => async (dispatch, getState) => {
   const { auth } = getState();
   const { token, userId } = auth;
   // Attempt to notify the server about the logout
-  api.post('/users/logout', { userId }, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-  }).catch(error => {
-    console.error('Logout error:', error);
-    // This catch is just to log the error; the logout proceeds regardless
-  }).finally(() => {
+  api.post('/users/logout', { userId })
+    .catch(error => {
+      console.error('Logout error:', error);
+      // This catch is just to log the error; the logout proceeds regardless
+    }).finally(() => {
     // Always clear the client state, regardless of server response
     localStorage.removeItem('token');
     dispatch({ type: CLEAR_CART });
