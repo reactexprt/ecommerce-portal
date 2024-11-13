@@ -1,6 +1,6 @@
 import history from '../services/history';
 import store from '../redux/store'; // Make sure this path is correct for your Redux store
-import { logout } from '../redux/actions/authActions'; // Adjust the path according to your project structure
+import { logout } from '../redux/slices/authSlice'; // Adjust the path according to your project structure
 
 const TOKEN_TIMEOUT = 45 * 60 * 1000; // 45 minutes
 let timeout;

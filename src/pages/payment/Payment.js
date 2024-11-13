@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faCheckCircle, faLock, faShieldAlt, faUserSecret, faUniversity, faMoneyCheckAlt, faWallet, faCreditCard, faEnvelope, faPhone, faShoppingCart, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faCcVisa, faCcMastercard, faGooglePay } from '@fortawesome/free-brands-svg-icons';
 import api from '../../services/api';
-import { clearCart } from '../../redux/actions/cartActions';
+import { clearCart } from '../../redux/slices/cartSlice';
 import CheckoutProgress from '../../utils/progressbar/CheckoutProgress';
 import './Payment.css';
 

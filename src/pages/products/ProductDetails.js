@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faSpinner, faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 import api from '../../services/api';
-import { addToCart } from '../../redux/actions/cartActions';
+import { addToCart } from '../../redux/slices/cartSlice';
 const Popup = lazy(() => import('../../utils/alert/Popup')); // Import Popup component
 import './ProductDetails.css';
 

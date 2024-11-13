@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers'; // Import combined reducers
+import authReducer from './slices/authSlice';
+import cartReducer from './slices/cartSlice';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Create the Redux store with middleware and DevTools enabled only in development
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    auth: authReducer,
+    cart: cartReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(), // Optional: Add custom middlewares here
   devTools: !isProduction,

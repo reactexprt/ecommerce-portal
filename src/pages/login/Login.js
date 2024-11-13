@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import LogRocket from 'logrocket';
 import api from '../../services/api';
 import ForgotPasswordModal from '../../components/forgotPassword/ForgotPasswordModal';
-import { login } from '../../redux/actions/authActions';
+import { login } from '../../redux/slices/authSlice';
 import GoogleSignIn from '../../components/GoogleSignIn';
 import FacebookSignin from '../../components/FacebookSignin';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';

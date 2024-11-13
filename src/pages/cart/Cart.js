@@ -23,7 +23,7 @@ const Cart = () => {
 
   // Lazy-load Redux actions
   const lazyLoadActions = async () => {
-    const { fetchCart, removeFromCart, updateCartItem } = await import('../../redux/actions/cartActions');
+    const { fetchCart, removeFromCart, updateCartItem } = await import('../../redux/slices/cartSlice');
     return { fetchCart, removeFromCart, updateCartItem };
   };
 

@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import DropdownMenu from './DropdownMenu';
-import { logout } from '../../redux/actions/authActions';
+import { logout } from '../../redux/slices/authSlice';
 import api from '../../services/api';
 
 // Lazy load the DropdownMenu and SearchBar components
@@ -34,7 +34,7 @@ const Navbar = () => {
     if (isAuthenticated) {
       // Lazy load the fetchCart and mergeCart actions
       const loadActions = async () => {
-        const { fetchCart, mergeCart } = await import('../../redux/actions/cartActions');
+        const { fetchCart, mergeCart } = await import('../../redux/slices/cartSlice');
         dispatch(fetchCart());
         dispatch(mergeCart());
       };

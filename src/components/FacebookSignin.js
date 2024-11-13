@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import LogRocket from 'logrocket';
-import { login } from '../redux/actions/authActions';
+import { login } from '../redux/slices/authSlice';
 import api from '../services/api';
 import '../pages/login/Login.css';
 

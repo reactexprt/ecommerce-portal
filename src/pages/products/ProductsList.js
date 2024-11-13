@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faCartPlus, faCheck, faMinus, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; // Use dispatch to add to cart and get cart state
-import { addToCart, removeFromCart, updateCartItem } from '../../redux/actions/cartActions'; // Add necessary cart actions
+import { addToCart, removeFromCart, updateCartItem } from '../../redux/slices/cartSlice'; // Add necessary cart actions
 import api from '../../services/api';
 import ImageSlider from '../../components/imageSlider/ImageSlider';
 const Popup = lazy(() => import('../../utils/alert/Popup')); // Importing Popup component

@@ -3,7 +3,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LogRocket from 'logrocket';
-import { login } from '../redux/actions/authActions';
+import { login } from '../redux/slices/authSlice';
 import api from '../services/api';
 
 const GoogleSignIn = ({ setLoading }) => {

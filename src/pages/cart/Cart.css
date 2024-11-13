@@ -110,7 +110,7 @@
   margin-top: 20px;
   padding: 10px 20px;
   background-color: var(--button-bg-color);
-  color: var(--button-text-color);
+  color: var(--primary-bg-color) !important;
   text-decoration: none;
   border-radius: var(--border-radius);
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;

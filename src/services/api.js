@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import history from './history';
 import store from '../redux/store';
-import { logout, loginSuccess } from '../redux/actions/authActions';
+import { logout, loginSuccess } from '../redux/slices/authSlice';
 import Popup from '../utils/alert/Popup';
 
 const API_URL = process.env.REACT_APP_API_URL;

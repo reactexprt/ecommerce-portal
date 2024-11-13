@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faShoppingCart, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { addToCart } from '../../redux/actions/cartActions';
+import { addToCart } from '../../redux/slices/cartSlice';
 import api from '../../services/api';
 import './Wishlist.css';
 
